@@ -4,11 +4,31 @@
       "route": "dashboard",
       "name": "dashboard",
       "type": "link",
-      "icon": "dashboard",
-      "badge": {
-        "color": "red-50",
-        "value": "5"
-      }
+      "icon": "dashboard"
+    },
+    {
+      "route": "festival/lieux",
+      "name": "festival.lieux",
+      "type": "link",
+      "icon": "place"
+    },
+    {
+      "route": "festival/utilisateurs",
+      "name": "festival.utilisateurs",
+      "type": "link",
+      "icon": "people"
+    },
+    {
+      "route": "festival/artistes",
+      "name": "festival.artistes",
+      "type": "link",
+      "icon": "music_note"
+    },
+    {
+      "route": "#",
+      "name": "demo_reference",
+      "type": "extLink",
+      "icon": "menu_book"
     },
     {
       "route": "design",

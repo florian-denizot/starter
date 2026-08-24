@@ -1,0 +1,10 @@
+.artist-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  color: var(--mat-sys-on-primary-container, #1e3a8a);
+  background-color: var(--mat-sys-primary-container, #e0e7ff);
+  border-radius: 8px;
+}

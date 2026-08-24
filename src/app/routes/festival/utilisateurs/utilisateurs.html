@@ -1,0 +1,100 @@
+<page-header title="{{ 'festival.utilisateurs_title' | translate }}" subtitle="{{ 'festival.utilisateurs_subtitle' | translate }}" />
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-header class="d-flex justify-content-between align-items-center mb-16">
+        <mat-card-title>
+          <div class="d-flex align-items-center gap-8">
+            <mat-icon color="primary">people</mat-icon>
+            <span>{{ 'festival.utilisateurs_title' | translate }}</span>
+          </div>
+        </mat-card-title>
+        <button mat-flat-button color="primary" (click)="openAddDialog()">
+          <mat-icon>person_add</mat-icon>
+          {{ 'festival.add_user' | translate }}
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="d-flex flex-wrap gap-16 align-items-center mb-16">
+          <mat-form-field appearance="outline" class="w-240" subscriptSizing="dynamic">
+            <mat-icon matPrefix class="mr-8">search</mat-icon>
+            <input
+              matInput
+              [(ngModel)]="searchQuery"
+              (ngModelChange)="filterList()"
+              placeholder="{{ 'please_enter' | translate }}..."
+            />
+            @if (searchQuery) {
+              <button matSuffix mat-icon-button aria-label="Clear" (click)="searchQuery = ''; filterList()">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-280" subscriptSizing="dynamic">
+            <mat-icon matPrefix class="mr-8">filter_list</mat-icon>
+            <mat-label>{{ 'festival.filter_by_role' | translate }}</mat-label>
+            <mat-select [(ngModel)]="selectedRole" (ngModelChange)="filterList()">
+              <mat-option value="">{{ 'festival.all_roles' | translate }}</mat-option>
+              @for (r of allRoles; track r) {
+                <mat-option [value]="r">
+                  {{ 'festival.roles_list.' + r | translate }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <mtx-grid
+          [data]="filteredList"
+          [columns]="columns"
+          [loading]="isLoading"
+          [columnSortable]="true"
+          [columnPinnable]="true"
+          [showPaginator]="true"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+          [cellTemplate]="{ user_info: userInfoTpl, roles: rolesTpl, actions: actionsTpl }"
+        />
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #userInfoTpl let-row>
+  <div class="d-flex align-items-center gap-12 py-8">
+    <div class="user-avatar bg-primary-subtle text-primary">
+      {{ row.prenom?.charAt(0) }}{{ row.nom?.charAt(0) }}
+    </div>
+    <div class="user-details-stacked">
+      <div class="user-fullname font-weight-bold">{{ row.prenom }} {{ row.nom }}</div>
+      <div class="user-email text-muted">{{ row.email }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #rolesTpl let-row>
+  <div class="d-flex flex-wrap gap-4 py-4">
+    @for (role of row.roles; track role) {
+      <mat-chip [color]="getRoleColor(role)" highlighted class="role-chip">
+        {{ 'festival.roles_list.' + role | translate }}
+      </mat-chip>
+    }
+    @if (!row.roles || row.roles.length === 0) {
+      <span class="text-muted font-italic">-</span>
+    }
+  </div>
+</ng-template>
+
+<ng-template #actionsTpl let-row>
+  <div class="d-flex align-items-center gap-4">
+    <button mat-icon-button color="primary" (click)="openEditDialog(row)" [matTooltip]="'edit' | translate">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="deleteUser(row)" [matTooltip]="'delete' | translate">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</ng-template>

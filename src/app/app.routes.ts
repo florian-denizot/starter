@@ -18,6 +18,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: Dashboard },
+      {
+        path: 'festival',
+        loadChildren: () => import('./routes/festival/festival.routes').then(m => m.routes),
+      },
       { path: '403', component: Error403 },
       { path: '404', component: Error404 },
       { path: '500', component: Error500 },

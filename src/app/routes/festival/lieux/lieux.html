@@ -1,0 +1,94 @@
+<page-header title="{{ 'festival.lieux_title' | translate }}" subtitle="{{ 'festival.lieux_subtitle' | translate }}" />
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-header class="d-flex justify-content-between align-items-center mb-16">
+        <mat-card-title>
+          <div class="d-flex align-items-center gap-8">
+            <mat-icon color="primary">place</mat-icon>
+            <span>{{ 'festival.lieux_title' | translate }}</span>
+          </div>
+        </mat-card-title>
+        <button mat-flat-button color="primary" (click)="openAddDialog()">
+          <mat-icon>add</mat-icon>
+          {{ 'festival.add_lieu' | translate }}
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="d-flex flex-wrap gap-16 align-items-center mb-16">
+          <mat-form-field appearance="outline" class="w-240" subscriptSizing="dynamic">
+            <mat-icon matPrefix class="mr-8">search</mat-icon>
+            <input
+              matInput
+              [(ngModel)]="searchQuery"
+              (ngModelChange)="filterList()"
+              placeholder="{{ 'please_enter' | translate }}..."
+            />
+            @if (searchQuery) {
+              <button matSuffix mat-icon-button aria-label="Clear" (click)="searchQuery = ''; filterList()">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-240" subscriptSizing="dynamic">
+            <mat-icon matPrefix class="mr-8">filter_list</mat-icon>
+            <mat-label>{{ 'festival.filter_by_type' | translate }}</mat-label>
+            <mat-select [(ngModel)]="selectedType" (ngModelChange)="filterList()">
+              <mat-option value="">{{ 'festival.all_types' | translate }}</mat-option>
+              @for (t of lieuTypes; track t) {
+                <mat-option [value]="t">
+                  {{ 'festival.lieu_types.' + t | translate }}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <mtx-grid
+          [data]="filteredList"
+          [columns]="columns"
+          [loading]="isLoading"
+          [columnSortable]="true"
+          [columnPinnable]="true"
+          [showPaginator]="true"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+          [cellTemplate]="{ type: typeTpl, gmap_lien: mapTpl, actions: actionsTpl }"
+        />
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #typeTpl let-row>
+  <mat-chip-set>
+    <mat-chip [color]="getTypeColor(row.type)" highlighted>
+      {{ 'festival.lieu_types.' + row.type | translate }}
+    </mat-chip>
+  </mat-chip-set>
+</ng-template>
+
+<ng-template #mapTpl let-row>
+  @if (row.gmap_lien) {
+    <a [href]="row.gmap_lien" target="_blank" class="d-inline-flex align-items-center gap-4 text-primary">
+      <mat-icon style="font-size: 18px; width: 18px; height: 18px">open_in_new</mat-icon>
+      <span>Google Maps</span>
+    </a>
+  } @else {
+    <span class="text-muted">-</span>
+  }
+</ng-template>
+
+<ng-template #actionsTpl let-row>
+  <div class="d-flex align-items-center gap-4">
+    <button mat-icon-button color="primary" (click)="openEditDialog(row)" [matTooltip]="'edit' | translate">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="deleteLieu(row)" [matTooltip]="'delete' | translate">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</ng-template>

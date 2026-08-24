@@ -21,5 +21,5 @@ export const defaults: AppSettings = {
   showUserPanel: true,
   sidenavOpened: true,
   sidenavCollapsed: false,
-  language: 'auto',
+  language: 'fr-FR',
 };

@@ -1,0 +1,73 @@
+<page-header title="{{ 'festival.artistes_title' | translate }}" subtitle="{{ 'festival.artistes_subtitle' | translate }}" />
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-header class="d-flex justify-content-between align-items-center mb-16">
+        <mat-card-title>
+          <div class="d-flex align-items-center gap-8">
+            <mat-icon color="primary">music_note</mat-icon>
+            <span>{{ 'festival.artistes_title' | translate }}</span>
+          </div>
+        </mat-card-title>
+        <button mat-flat-button color="primary" (click)="openAddDialog()">
+          <mat-icon>add</mat-icon>
+          {{ 'festival.add_artist' | translate }}
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="d-flex justify-content-between align-items-center mb-16">
+          <mat-form-field appearance="outline" class="w-240" subscriptSizing="dynamic">
+            <mat-icon matPrefix class="mr-8">search</mat-icon>
+            <input
+              matInput
+              [(ngModel)]="searchQuery"
+              (ngModelChange)="filterList()"
+              placeholder="{{ 'please_enter' | translate }}..."
+            />
+            @if (searchQuery) {
+              <button matSuffix mat-icon-button aria-label="Clear" (click)="searchQuery = ''; filterList()">
+                <mat-icon>close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+        </div>
+
+        <mtx-grid
+          [data]="filteredList"
+          [columns]="columns"
+          [loading]="isLoading"
+          [columnSortable]="true"
+          [columnPinnable]="true"
+          [showPaginator]="true"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+          [cellTemplate]="{ name: nameTpl, actions: actionsTpl }"
+        />
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #nameTpl let-row>
+  <div class="d-flex align-items-center gap-12 py-8">
+    <div class="artist-icon-box bg-primary-subtle text-primary">
+      <mat-icon>theater_comedy</mat-icon>
+    </div>
+    <div class="d-flex flex-column">
+      <span class="font-weight-bold" style="font-size: 15px">{{ row.name }}</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #actionsTpl let-row>
+  <div class="d-flex align-items-center gap-4">
+    <button mat-icon-button color="primary" (click)="openEditDialog(row)" [matTooltip]="'edit' | translate">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="deleteArtist(row)" [matTooltip]="'delete' | translate">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</ng-template>
