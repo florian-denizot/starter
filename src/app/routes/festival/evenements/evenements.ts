@@ -15,7 +15,7 @@ import { FestivalDataService, HydratedEvenement } from '@core/services/festival-
 import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { MtxGridColumn, MtxGridModule } from '@ng-matero/extensions/grid';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { PageHeader } from '@shared';
+import { PageHeader, SafeHtmlPipe } from '@shared';
 import { EvenementEditDialog } from './edit-dialog';
 
 @Component({
@@ -35,6 +35,7 @@ import { EvenementEditDialog } from './edit-dialog';
     MatTooltipModule,
     MtxGridModule,
     PageHeader,
+    SafeHtmlPipe,
     TranslatePipe,
   ],
 })

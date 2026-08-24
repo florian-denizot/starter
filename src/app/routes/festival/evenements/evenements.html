@@ -195,7 +195,7 @@
 <ng-template #commentairesTpl let-row>
   <div class="py-4 rich-content-cell">
     @if (row.commentaires) {
-      <div [innerHTML]="row.commentaires"></div>
+      <div [innerHTML]="row.commentaires | safeHtml"></div>
     } @else {
       <span class="text-muted">-</span>
     }
@@ -204,9 +204,9 @@
 
 <!-- Separate Prod Notes Column with full Rich Text rendering -->
 <ng-template #commentairesProdTpl let-row>
-  <div class="py-4 rich-content-cell text-primary">
+  <div class="py-4 rich-content-cell">
     @if (row.commentaires_prod) {
-      <div [innerHTML]="row.commentaires_prod"></div>
+      <div [innerHTML]="row.commentaires_prod | safeHtml"></div>
     } @else {
       <span class="text-muted">-</span>
     }
