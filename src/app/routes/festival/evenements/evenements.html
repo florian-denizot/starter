@@ -1,0 +1,236 @@
+<page-header
+  title="{{ 'festival.evenements_title' | translate }}"
+  subtitle="{{ 'festival.evenements_subtitle' | translate }}"
+/>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-header class="d-flex justify-content-between align-items-center mb-16">
+        <mat-card-title>
+          <div class="d-flex align-items-center gap-8">
+            <mat-icon color="primary">event</mat-icon>
+            <span>{{ 'festival.evenements_title' | translate }}</span>
+            <mat-chip highlighted color="accent" class="ml-8">
+              {{ filteredList.length }} / {{ list.length }}
+            </mat-chip>
+          </div>
+        </mat-card-title>
+        <button mat-flat-button color="primary" (click)="openAddDialog()">
+          <mat-icon>add</mat-icon>
+          {{ 'festival.add_evenement' | translate }}
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Filter Bar -->
+        <div class="filter-panel p-16 mb-16 rounded bg-surface-container-low border">
+          <div class="d-flex flex-wrap gap-12 align-items-center">
+            <!-- Search Text -->
+            <mat-form-field
+              appearance="outline"
+              class="filter-item-search"
+              subscriptSizing="dynamic"
+            >
+              <mat-icon matPrefix class="mr-8">search</mat-icon>
+              <input
+                matInput
+                [(ngModel)]="searchQuery"
+                (ngModelChange)="filterList()"
+                placeholder="{{ 'please_enter' | translate }}..."
+              />
+              @if (searchQuery) {
+              <button
+                matSuffix
+                mat-icon-button
+                aria-label="Clear"
+                (click)="searchQuery = ''; filterList()"
+              >
+                <mat-icon>close</mat-icon>
+              </button>
+              }
+            </mat-form-field>
+
+            <!-- Event Type Filter -->
+            <mat-form-field appearance="outline" class="filter-item" subscriptSizing="dynamic">
+              <mat-icon matPrefix class="mr-8">category</mat-icon>
+              <mat-label>{{ 'festival.filter_by_event_type' | translate }}</mat-label>
+              <mat-select [(ngModel)]="selectedType" (ngModelChange)="filterList()">
+                <mat-option value="">{{ 'festival.all_event_types' | translate }}</mat-option>
+                @for (t of eventTypes; track t) {
+                <mat-option [value]="t"> {{ 'festival.event_types.' + t | translate }} </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- User Filter -->
+            <mat-form-field appearance="outline" class="filter-item" subscriptSizing="dynamic">
+              <mat-icon matPrefix class="mr-8">person</mat-icon>
+              <mat-label>{{ 'festival.filter_by_user' | translate }}</mat-label>
+              <mat-select [(ngModel)]="selectedUserId" (ngModelChange)="filterList()">
+                <mat-option [value]="null">{{ 'festival.all_users' | translate }}</mat-option>
+                @for (u of users; track u.id) {
+                <mat-option [value]="u.id">{{ u.prenom }} {{ u.nom }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Date From -->
+            <mat-form-field appearance="outline" class="filter-item-date" subscriptSizing="dynamic">
+              <mat-icon matPrefix class="mr-8">calendar_today</mat-icon>
+              <mat-label>{{ 'festival.date_from' | translate }}</mat-label>
+              <input matInput type="date" [(ngModel)]="dateFrom" (ngModelChange)="filterList()" />
+            </mat-form-field>
+
+            <!-- Date To -->
+            <mat-form-field appearance="outline" class="filter-item-date" subscriptSizing="dynamic">
+              <mat-icon matPrefix class="mr-8">event</mat-icon>
+              <mat-label>{{ 'festival.date_to' | translate }}</mat-label>
+              <input matInput type="date" [(ngModel)]="dateTo" (ngModelChange)="filterList()" />
+            </mat-form-field>
+
+            <!-- Reset Button -->
+            @if (hasActiveFilters()) {
+            <button mat-stroked-button color="warn" (click)="resetFilters()">
+              <mat-icon>filter_alt_off</mat-icon>
+              {{ 'festival.reset_filters' | translate }}
+            </button>
+            }
+          </div>
+        </div>
+
+        <!-- MtxGrid Table -->
+        <mtx-grid
+          [data]="filteredList"
+          [columns]="columns"
+          [loading]="isLoading"
+          [columnSortable]="true"
+          [columnPinnable]="true"
+          [showPaginator]="true"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20, 50]"
+          [cellTemplate]="{
+            type: typeTpl,
+            date_debut: horairesTpl,
+            lieu: lieuTpl,
+            managers: managersTpl,
+            participants: participantsTpl,
+            commentaires: commentairesTpl,
+            commentaires_prod: commentairesProdTpl,
+            actions: actionsTpl
+          }"
+        />
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #typeTpl let-row>
+  <div class="d-flex flex-column gap-2 py-4">
+    <mat-chip [color]="getEventTypeColor(row.type)" highlighted class="event-type-chip">
+      {{ 'festival.event_types.' + row.type | translate }}
+    </mat-chip>
+  </div>
+</ng-template>
+
+<!-- Horaire: stacked time cleanly under date -->
+<ng-template #horairesTpl let-row>
+  <div class="stacked-cell py-4">
+    <span class="font-weight-bold" style="font-size: 13px; line-height: 1.2">
+      {{ row.date_debut | date: 'dd/MM/yyyy' }}
+    </span>
+    <span class="text-muted" style="font-size: 12px; line-height: 1.2">
+      {{ row.date_debut | date: 'HH:mm' }}@if (row.date_fin) { - {{ row.date_fin | date: 'HH:mm' }}}
+    </span>
+  </div>
+</ng-template>
+
+<!-- Lieu: destination stacked under origin for transport -->
+<ng-template #lieuTpl let-row>
+  <div class="stacked-cell py-4">
+    <div class="d-flex align-items-center gap-4">
+      <mat-icon style="font-size: 16px; width: 16px; height: 16px" color="primary">place</mat-icon>
+      <span class="font-weight-medium">{{ row.lieu?.nom || '-' }}</span>
+    </div>
+    @if (row.type === 'transport' && row.transfert?.destination) {
+      <div class="d-flex align-items-center gap-4 text-primary font-weight-medium" style="font-size: 12px; padding-left: 2px;">
+        <mat-icon style="font-size: 15px; width: 15px; height: 15px">subdirectory_arrow_right</mat-icon>
+        <span>{{ row.transfert.destination.nom }}</span>
+        @if (row.transfert.duree) {
+          <span class="badge bg-primary-subtle text-primary ml-4">({{ row.transfert.duree }})</span>
+        }
+      </div>
+    }
+  </div>
+</ng-template>
+
+<!-- Separate Managers Column -->
+<ng-template #managersTpl let-row>
+  <div class="d-flex flex-wrap gap-4 py-4">
+    @for (p of getManagers(row); track p.id_utilisateur) {
+    <div class="manager-badge">
+      <mat-icon class="manager-icon">star</mat-icon>
+      <span>{{ p.user?.prenom }} {{ p.user?.nom }}</span>
+    </div>
+    } @if (getManagers(row).length === 0) {
+    <span class="text-muted font-italic">-</span>
+    }
+  </div>
+</ng-template>
+
+<!-- Non-manager Participants Column -->
+<ng-template #participantsTpl let-row>
+  <div class="d-flex flex-wrap gap-4 py-4">
+    @for (p of getNonManagers(row); track p.id_utilisateur) {
+    <div class="participant-badge">
+      <span>{{ p.user?.prenom }} {{ p.user?.nom }}</span>
+    </div>
+    } @if (getNonManagers(row).length === 0) {
+    <span class="text-muted font-italic">-</span>
+    }
+  </div>
+</ng-template>
+
+<!-- Separate Commentaires Column with full Rich Text rendering -->
+<ng-template #commentairesTpl let-row>
+  <div class="py-4 rich-content-cell">
+    @if (row.commentaires) {
+      <div [innerHTML]="row.commentaires"></div>
+    } @else {
+      <span class="text-muted">-</span>
+    }
+  </div>
+</ng-template>
+
+<!-- Separate Prod Notes Column with full Rich Text rendering -->
+<ng-template #commentairesProdTpl let-row>
+  <div class="py-4 rich-content-cell text-primary">
+    @if (row.commentaires_prod) {
+      <div [innerHTML]="row.commentaires_prod"></div>
+    } @else {
+      <span class="text-muted">-</span>
+    }
+  </div>
+</ng-template>
+
+<!-- Actions Column -->
+<ng-template #actionsTpl let-row>
+  <div class="d-flex align-items-center gap-4">
+    <button
+      mat-icon-button
+      color="primary"
+      (click)="openEditDialog(row)"
+      [matTooltip]="'edit' | translate"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      color="warn"
+      (click)="deleteEvenement(row)"
+      [matTooltip]="'delete' | translate"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</ng-template>

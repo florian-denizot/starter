@@ -89,7 +89,7 @@ export class UtilisateursComponent implements OnInit {
       minWidth: 320,
     },
     {
-      header: this.translate.stream('festival.actions'),
+      header: this.translate.stream('actions'),
       field: 'actions',
       pinned: 'right',
       width: '120px',

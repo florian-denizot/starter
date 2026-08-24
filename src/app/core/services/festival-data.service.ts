@@ -269,11 +269,151 @@ export class FestivalDataService {
   }
 
   // ==========================================
-  // MASTER TIMELINE & CONCERTS
+  // MASTER TIMELINE & CONCERTS CRUD
   // ==========================================
 
   getEvenements(): Observable<Evenement[]> {
     return this.getDataset().pipe(map(d => d.evenements));
+  }
+
+  addEvenement(
+    evenement: Omit<Evenement, 'id'>,
+    transfert?: { id_lieu_destination: number; duree: string },
+    participants?: { id_utilisateur: number; manager: boolean }[]
+  ): Observable<HydratedEvenement> {
+    return this.getDataset().pipe(
+      map(data => {
+        const nextId = Math.max(0, ...data.evenements.map(e => e.id)) + 1;
+        const newEvt: Evenement = { ...evenement, id: nextId };
+
+        const newTransferts =
+          transfert && evenement.type === 'transport'
+            ? [
+                ...data.evenement_transferts,
+                {
+                  id_evenement: nextId,
+                  id_lieu_destination: transfert.id_lieu_destination,
+                  duree: transfert.duree,
+                },
+              ]
+            : data.evenement_transferts;
+
+        const newParts: Participant[] = participants
+          ? [
+              ...data.participants,
+              ...participants.map(p => ({
+                id_evenement: nextId,
+                id_utilisateur: p.id_utilisateur,
+                manager: p.manager,
+              })),
+            ]
+          : data.participants;
+
+        this.updateState(curr => ({
+          ...curr,
+          evenements: [...curr.evenements, newEvt],
+          evenement_transferts: newTransferts,
+          participants: newParts,
+        }));
+
+        const userMap = new Map(data.users.map(u => [u.id, u]));
+        const lieuMap = new Map(data.lieux.map(l => [l.id, l]));
+
+        return {
+          ...newEvt,
+          lieu: lieuMap.get(newEvt.id_lieu),
+          transfert:
+            transfert && evenement.type === 'transport'
+              ? {
+                  id_evenement: nextId,
+                  id_lieu_destination: transfert.id_lieu_destination,
+                  duree: transfert.duree,
+                  destination: lieuMap.get(transfert.id_lieu_destination),
+                }
+              : undefined,
+          participantsList: (participants || []).map(p => ({
+            ...p,
+            id_evenement: nextId,
+            user: userMap.get(p.id_utilisateur),
+          })),
+        };
+      })
+    );
+  }
+
+  updateEvenement(
+    evenement: Evenement,
+    transfert?: { id_lieu_destination: number; duree: string },
+    participants?: { id_utilisateur: number; manager: boolean }[]
+  ): Observable<HydratedEvenement> {
+    return this.getDataset().pipe(
+      map(data => {
+        const updatedTransferts = data.evenement_transferts.filter(
+          t => t.id_evenement !== evenement.id
+        );
+        if (transfert && evenement.type === 'transport') {
+          updatedTransferts.push({
+            id_evenement: evenement.id,
+            id_lieu_destination: transfert.id_lieu_destination,
+            duree: transfert.duree,
+          });
+        }
+
+        const updatedParticipants = data.participants.filter(p => p.id_evenement !== evenement.id);
+        if (participants) {
+          updatedParticipants.push(
+            ...participants.map(p => ({
+              id_evenement: evenement.id,
+              id_utilisateur: p.id_utilisateur,
+              manager: p.manager,
+            }))
+          );
+        }
+
+        this.updateState(curr => ({
+          ...curr,
+          evenements: curr.evenements.map(e => (e.id === evenement.id ? { ...evenement } : e)),
+          evenement_transferts: updatedTransferts,
+          participants: updatedParticipants,
+        }));
+
+        const userMap = new Map(data.users.map(u => [u.id, u]));
+        const lieuMap = new Map(data.lieux.map(l => [l.id, l]));
+
+        return {
+          ...evenement,
+          lieu: lieuMap.get(evenement.id_lieu),
+          transfert:
+            transfert && evenement.type === 'transport'
+              ? {
+                  id_evenement: evenement.id,
+                  id_lieu_destination: transfert.id_lieu_destination,
+                  duree: transfert.duree,
+                  destination: lieuMap.get(transfert.id_lieu_destination),
+                }
+              : undefined,
+          participantsList: (participants || []).map(p => ({
+            ...p,
+            id_evenement: evenement.id,
+            user: userMap.get(p.id_utilisateur),
+          })),
+        };
+      })
+    );
+  }
+
+  deleteEvenement(id: number): Observable<boolean> {
+    return this.getDataset().pipe(
+      map(() => {
+        this.updateState(curr => ({
+          ...curr,
+          evenements: curr.evenements.filter(e => e.id !== id),
+          evenement_transferts: curr.evenement_transferts.filter(t => t.id_evenement !== id),
+          participants: curr.participants.filter(p => p.id_evenement !== id),
+        }));
+        return true;
+      })
+    );
   }
 
   getHydratedEvenements(): Observable<HydratedEvenement[]> {

@@ -25,6 +25,12 @@
       "icon": "music_note"
     },
     {
+      "route": "festival/evenements",
+      "name": "festival.evenements",
+      "type": "link",
+      "icon": "event"
+    },
+    {
       "route": "#",
       "name": "demo_reference",
       "type": "extLink",
