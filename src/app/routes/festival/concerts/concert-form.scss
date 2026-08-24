@@ -67,3 +67,109 @@ mat-form-field {
     border-top-right-radius: 6px;
   }
 }
+
+.event-slot-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 20px;
+
+  .event-slot-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface, #1e293b);
+  }
+
+  .event-card-insert {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 16px;
+    background-color: var(--mat-sys-surface-container-lowest, #fff);
+    border: 1px solid var(--mat-sys-outline-variant, #cbd5e1);
+    border-left: 4px solid var(--mat-sys-primary, #1e40af);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    .event-card-top {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .event-card-details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .detail-row {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      font-size: 13px;
+    }
+
+    .detail-icon {
+      width: 16px;
+      height: 16px;
+      margin-top: 2px;
+      font-size: 16px;
+      color: var(--mat-sys-primary, #1e40af);
+    }
+
+    .event-comments-box {
+      padding: 8px 12px;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+      white-space: normal;
+      background-color: var(--mat-sys-surface-container-low, #f8fafc);
+      border-radius: 6px;
+    }
+  }
+
+  .no-event-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px 16px;
+    background-color: var(--mat-sys-surface-container-lowest, #fff);
+    border: 1px dashed var(--mat-sys-outline-variant, #cbd5e1);
+    border-radius: 8px;
+  }
+}
+
+.manager-badge {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--mat-sys-primary, #1e40af);
+  background-color: var(--mat-sys-primary-container, #dbeafe);
+  border-radius: 12px;
+
+  .manager-icon {
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+  }
+}
+
+.participant-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 12px;
+  color: var(--mat-sys-on-surface-variant, #475569);
+  background-color: var(--mat-sys-surface-container-high, #f1f5f9);
+  border-radius: 12px;
+}

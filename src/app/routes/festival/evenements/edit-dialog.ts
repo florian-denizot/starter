@@ -13,6 +13,12 @@ import { QuillEditorComponent } from 'ngx-quill';
 
 export interface EvenementEditDialogData {
   evenement?: HydratedEvenement;
+  presetType?: EvenementType;
+  fixedType?: boolean;
+  defaultIdFestival?: number;
+  defaultIdLieu?: number;
+  defaultSummary?: string;
+  defaultDateDebut?: string;
 }
 
 @Component({
@@ -273,26 +279,46 @@ export class EvenementEditDialog implements OnInit {
   ];
 
   form = this.fb.group({
-    summary: [this.data.evenement?.summary || '', [Validators.required]],
-    id_festival: [this.data.evenement?.id_festival || 1, [Validators.required]],
-    type: [this.data.evenement?.type || 'scene_montage', [Validators.required]],
+    summary: [
+      this.data.evenement?.summary || this.data.defaultSummary || '',
+      [Validators.required],
+    ],
+    id_festival: [
+      this.data.evenement?.id_festival || this.data.defaultIdFestival || 1,
+      [Validators.required],
+    ],
+    type: [
+      {
+        value: this.data.evenement?.type || this.data.presetType || 'scene_montage',
+        disabled: !!this.data.fixedType,
+      },
+      [Validators.required],
+    ],
     date_debut: [
-      this.formatDateForInput(this.data.evenement?.date_debut || new Date().toISOString()),
+      this.formatDateForInput(
+        this.data.evenement?.date_debut || this.data.defaultDateDebut || new Date().toISOString()
+      ),
       [Validators.required],
     ],
     no_end_date: [!this.data.evenement?.date_fin && this.data.evenement?.id ? true : false],
     date_fin: [
-      this.formatDateForInput(this.data.evenement?.date_fin || new Date().toISOString()),
+      this.formatDateForInput(
+        this.data.evenement?.date_fin || this.data.defaultDateDebut || new Date().toISOString()
+      ),
       [Validators.required],
     ],
-    id_lieu: [this.data.evenement?.id_lieu || null, [Validators.required]],
+    id_lieu: [
+      this.data.evenement?.id_lieu || this.data.defaultIdLieu || null,
+      [Validators.required],
+    ],
     id_lieu_destination: [this.data.evenement?.transfert?.id_lieu_destination || null],
     duree_transfert: [this.data.evenement?.transfert?.duree || '00:30:00'],
     manager_ids: [
-      this.data.evenement?.participantsList.filter(p => p.manager).map(p => p.id_utilisateur) || [],
+      this.data.evenement?.participantsList?.filter(p => p.manager).map(p => p.id_utilisateur) ||
+        [],
     ],
     participant_ids: [
-      this.data.evenement?.participantsList.filter(p => !p.manager).map(p => p.id_utilisateur) ||
+      this.data.evenement?.participantsList?.filter(p => !p.manager).map(p => p.id_utilisateur) ||
         [],
     ],
     commentaires: [this.data.evenement?.commentaires || ''],

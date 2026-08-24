@@ -3,6 +3,8 @@ import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -10,11 +12,24 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { Artist, Evenement, Festival, Lieu } from '@core/models/festival.model';
-import { FestivalDataService, HydratedConcert } from '@core/services/festival-data.service';
+import {
+  Artist,
+  EvenementType,
+  Festival,
+  Lieu,
+  Participant,
+  User,
+} from '@core/models/festival.model';
+import {
+  FestivalDataService,
+  HydratedConcert,
+  HydratedEvenement,
+} from '@core/services/festival-data.service';
+import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { PageHeader } from '@shared';
+import { PageHeader, SafeHtmlPipe } from '@shared';
 import { QuillEditorComponent } from 'ngx-quill';
+import { EvenementEditDialog } from '../evenements/edit-dialog';
 
 @Component({
   selector: 'app-concert-form',
@@ -26,6 +41,7 @@ import { QuillEditorComponent } from 'ngx-quill';
     RouterLink,
     MatCardModule,
     MatButtonModule,
+    MatChipsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -33,6 +49,7 @@ import { QuillEditorComponent } from 'ngx-quill';
     MatIconModule,
     MatTooltipModule,
     PageHeader,
+    SafeHtmlPipe,
     TranslatePipe,
     QuillEditorComponent,
   ],
@@ -40,6 +57,8 @@ import { QuillEditorComponent } from 'ngx-quill';
 export class ConcertFormComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly festivalSrv = inject(FestivalDataService);
+  private readonly dialog = inject(MatDialog);
+  private readonly mtxDialog = inject(MtxDialog);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
@@ -53,8 +72,7 @@ export class ConcertFormComponent implements OnInit {
   festivals: Festival[] = [];
   lieux: Lieu[] = [];
   artists: Artist[] = [];
-  events: Evenement[] = [];
-  transportEvents: Evenement[] = [];
+  eventsMap = new Map<number, HydratedEvenement>();
 
   quillModules = {
     toolbar: [
@@ -119,10 +137,7 @@ export class ConcertFormComponent implements OnInit {
 
     this.festivalSrv.getLieux().subscribe(l => (this.lieux = l));
     this.festivalSrv.getArtists().subscribe(a => (this.artists = a));
-    this.festivalSrv.getEvenements().subscribe(evts => {
-      this.events = evts;
-      this.transportEvents = evts.filter(e => e.type === 'transport');
-    });
+    this.loadEvents();
 
     const idParam = this.route.snapshot.paramMap.get('id');
     if (idParam) {
@@ -134,6 +149,253 @@ export class ConcertFormComponent implements OnInit {
         date: this.formatDateForInput(new Date().toISOString()),
       });
     }
+  }
+
+  loadEvents() {
+    this.festivalSrv.getHydratedEvenements().subscribe(evts => {
+      this.eventsMap.clear();
+      evts.forEach(e => this.eventsMap.set(e.id, e));
+    });
+  }
+
+  getEvent(id?: number | null): HydratedEvenement | undefined {
+    if (!id) return undefined;
+    return this.eventsMap.get(id);
+  }
+
+  createEventForSlot(controlName: string, type: EvenementType, defaultSummary: string) {
+    const concertNom = this.form.value.nom?.trim();
+    const summary = concertNom ? `${defaultSummary} - ${concertNom}` : defaultSummary;
+
+    const dialogRef = this.dialog.open(EvenementEditDialog, {
+      width: '680px',
+      data: {
+        presetType: type,
+        fixedType: true,
+        defaultSummary: summary,
+        defaultIdFestival: this.form.value.id_festival || 1,
+        defaultIdLieu: this.form.value.id_lieu || undefined,
+        defaultDateDebut: this.form.value.date || undefined,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.festivalSrv
+          .addEvenement(res.evenement, res.transfert, res.participants)
+          .subscribe(newEvent => {
+            this.eventsMap.set(newEvent.id, newEvent as HydratedEvenement);
+            this.form.patchValue({ [controlName]: newEvent.id });
+            this.loadEvents();
+          });
+      }
+    });
+  }
+
+  editEvent(id: number) {
+    const evt = this.getEvent(id);
+    const dialogRef = this.dialog.open(EvenementEditDialog, {
+      width: '680px',
+      data: {
+        evenement: evt,
+        fixedType: true,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.festivalSrv
+          .updateEvenement({ ...res.evenement, id }, res.transfert, res.participants)
+          .subscribe(() => {
+            this.loadEvents();
+          });
+      }
+    });
+  }
+
+  unlinkEvent(controlName: string) {
+    this.form.patchValue({ [controlName]: null });
+  }
+
+  deleteEvent(id: number, controlName?: string) {
+    const evt = this.getEvent(id);
+    const title = evt?.summary || `#${id}`;
+    this.mtxDialog.confirm(this.translate.instant('confirm_delete'), title, () => {
+      this.festivalSrv.deleteEvenement(id).subscribe(() => {
+        if (controlName) {
+          this.form.patchValue({ [controlName]: null });
+        }
+        this.eventsMap.delete(id);
+        this.loadEvents();
+      });
+    });
+  }
+
+  createEventForInstrument(
+    instIndex: number,
+    field: string,
+    type: EvenementType,
+    instName: string
+  ) {
+    const concertNom = this.form.value.nom?.trim();
+    const typeLabel = this.translate.instant('festival.event_types.' + type);
+    const summary = `${typeLabel} ${instName}${concertNom ? ' - ' + concertNom : ''}`;
+
+    const dialogRef = this.dialog.open(EvenementEditDialog, {
+      width: '680px',
+      data: {
+        presetType: type,
+        fixedType: true,
+        defaultSummary: summary,
+        defaultIdFestival: this.form.value.id_festival || 1,
+        defaultIdLieu: this.form.value.id_lieu || undefined,
+        defaultDateDebut: this.form.value.date || undefined,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.festivalSrv
+          .addEvenement(res.evenement, res.transfert, res.participants)
+          .subscribe(newEvent => {
+            this.eventsMap.set(newEvent.id, newEvent as HydratedEvenement);
+            this.instrumentsArray.at(instIndex).patchValue({ [field]: newEvent.id });
+            this.loadEvents();
+          });
+      }
+    });
+  }
+
+  unlinkEventFromInstrument(instIndex: number, field: string) {
+    this.instrumentsArray.at(instIndex).patchValue({ [field]: null });
+  }
+
+  deleteEventFromInstrument(instIndex: number, field: string, id: number) {
+    const evt = this.getEvent(id);
+    const title = evt?.summary || `#${id}`;
+    this.mtxDialog.confirm(this.translate.instant('confirm_delete'), title, () => {
+      this.festivalSrv.deleteEvenement(id).subscribe(() => {
+        this.instrumentsArray.at(instIndex).patchValue({ [field]: null });
+        this.eventsMap.delete(id);
+        this.loadEvents();
+      });
+    });
+  }
+
+  createEventForLoge(logeIndex: number, field: string, type: EvenementType, logeName: string) {
+    const concertNom = this.form.value.nom?.trim();
+    const typeLabel = this.translate.instant('festival.event_types.' + type);
+    const summary = `${typeLabel} ${logeName}${concertNom ? ' - ' + concertNom : ''}`;
+
+    const dialogRef = this.dialog.open(EvenementEditDialog, {
+      width: '680px',
+      data: {
+        presetType: type,
+        fixedType: true,
+        defaultSummary: summary,
+        defaultIdFestival: this.form.value.id_festival || 1,
+        defaultIdLieu: this.form.value.id_lieu || undefined,
+        defaultDateDebut: this.form.value.date || undefined,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.festivalSrv
+          .addEvenement(res.evenement, res.transfert, res.participants)
+          .subscribe(newEvent => {
+            this.eventsMap.set(newEvent.id, newEvent as HydratedEvenement);
+            this.logesArray.at(logeIndex).patchValue({ [field]: newEvent.id });
+            this.loadEvents();
+          });
+      }
+    });
+  }
+
+  unlinkEventFromLoge(logeIndex: number, field: string) {
+    this.logesArray.at(logeIndex).patchValue({ [field]: null });
+  }
+
+  deleteEventFromLoge(logeIndex: number, field: string, id: number) {
+    const evt = this.getEvent(id);
+    const title = evt?.summary || `#${id}`;
+    this.mtxDialog.confirm(this.translate.instant('confirm_delete'), title, () => {
+      this.festivalSrv.deleteEvenement(id).subscribe(() => {
+        this.logesArray.at(logeIndex).patchValue({ [field]: null });
+        this.eventsMap.delete(id);
+        this.loadEvents();
+      });
+    });
+  }
+
+  createTransportEvent() {
+    const concertNom = this.form.value.nom?.trim();
+    const summary = `Transfert / Navette${concertNom ? ' - ' + concertNom : ''}`;
+
+    const dialogRef = this.dialog.open(EvenementEditDialog, {
+      width: '680px',
+      data: {
+        presetType: 'transport',
+        fixedType: true,
+        defaultSummary: summary,
+        defaultIdFestival: this.form.value.id_festival || 1,
+        defaultIdLieu: this.form.value.id_lieu || undefined,
+        defaultDateDebut: this.form.value.date || undefined,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.festivalSrv
+          .addEvenement(res.evenement, res.transfert, res.participants)
+          .subscribe(newEvent => {
+            this.eventsMap.set(newEvent.id, newEvent as HydratedEvenement);
+            const currentIds = (this.form.value.transport_event_ids || []) as number[];
+            this.form.patchValue({ transport_event_ids: [...currentIds, newEvent.id] });
+            this.loadEvents();
+          });
+      }
+    });
+  }
+
+  unlinkTransportEvent(id: number) {
+    const currentIds = (this.form.value.transport_event_ids || []) as number[];
+    this.form.patchValue({
+      transport_event_ids: currentIds.filter(i => i !== id),
+    });
+  }
+
+  deleteTransportEvent(id: number) {
+    const evt = this.getEvent(id);
+    const title = evt?.summary || `#${id}`;
+    this.mtxDialog.confirm(this.translate.instant('confirm_delete'), title, () => {
+      this.festivalSrv.deleteEvenement(id).subscribe(() => {
+        this.unlinkTransportEvent(id);
+        this.eventsMap.delete(id);
+        this.loadEvents();
+      });
+    });
+  }
+
+  getManagers(evt: HydratedEvenement): (Participant & { user?: User })[] {
+    return evt.participantsList?.filter(p => p.manager) || [];
+  }
+
+  getNonManagers(evt: HydratedEvenement): (Participant & { user?: User })[] {
+    return evt.participantsList?.filter(p => !p.manager) || [];
+  }
+
+  getEventTypeColor(type: EvenementType): 'primary' | 'accent' | 'warn' | undefined {
+    if (type.includes('montage') || type.includes('demontage') || type.includes('verification')) {
+      return 'primary';
+    }
+    if (type.includes('instrument') || type.includes('loge')) {
+      return 'accent';
+    }
+    if (type.includes('portes') || type.includes('bistro') || type.includes('cocktail')) {
+      return 'warn';
+    }
+    return undefined;
   }
 
   private loadConcert(id: number) {

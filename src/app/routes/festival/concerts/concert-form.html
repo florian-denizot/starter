@@ -32,7 +32,7 @@
 
       <mat-card-content class="p-0">
         <mat-tab-group animationDuration="200ms">
-          <!-- TAB 1: GENERAL & ARTISTES -->
+          <!-- TAB 1: INFORMATIONS GÉNÉRALES -->
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon class="mr-8">info</mat-icon>
@@ -106,7 +106,7 @@
           <!-- TAB 2: SCÈNE & SON -->
           <mat-tab>
             <ng-template mat-tab-label>
-              <mat-icon class="mr-8">handyman</mat-icon>
+              <mat-icon class="mr-8">mic</mat-icon>
               {{ 'festival.tab_scene' | translate }}
             </ng-template>
             <div class="tab-content">
@@ -144,38 +144,40 @@
               </div>
 
               <div class="section-box p-16 mb-16">
-                <strong class="d-block mb-12 text-primary font-weight-bold">
-                  <mat-icon style="font-size: 16px; vertical-align: middle;">schedule</mat-icon> Événements de régie scène & son associés
-                </strong>
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Montage scène</mat-label>
-                  <mat-select formControlName="id_scene_montage">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <h4 class="mb-16 text-primary font-weight-bold d-flex align-items-center gap-8">
+                  <mat-icon>schedule</mat-icon>
+                  <span>Événements de régie scène & son associés</span>
+                </h4>
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Démontage scène</mat-label>
-                  <mat-select formControlName="id_scene_demontage">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Montage scène -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Montage scène',
+                    controlName: 'id_scene_montage',
+                    type: 'scene_montage',
+                    defaultSummary: 'Montage Scène'
+                  }"
+                />
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Balances son (Soundcheck)</mat-label>
-                  <mat-select formControlName="id_son_verification">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Démontage scène -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Démontage scène',
+                    controlName: 'id_scene_demontage',
+                    type: 'scene_demontage',
+                    defaultSummary: 'Démontage Scène'
+                  }"
+                />
+
+                <!-- SLOT: Balances son -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Balances son (Soundcheck)',
+                    controlName: 'id_son_verification',
+                    type: 'son_verification',
+                    defaultSummary: 'Balances son'
+                  }"
+                />
               </div>
             </div>
           </mat-tab>
@@ -210,38 +212,40 @@
               </div>
 
               <div class="section-box p-16 mb-16">
-                <strong class="d-block mb-12 text-primary font-weight-bold">
-                  <mat-icon style="font-size: 16px; vertical-align: middle;">schedule</mat-icon> Événements d'éclairage associés
-                </strong>
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Montage éclairage</mat-label>
-                  <mat-select formControlName="id_eclairage_montage">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <h4 class="mb-16 text-primary font-weight-bold d-flex align-items-center gap-8">
+                  <mat-icon>schedule</mat-icon>
+                  <span>Événements d'éclairage associés</span>
+                </h4>
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Démontage éclairage</mat-label>
-                  <mat-select formControlName="id_eclairage_demontage">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Montage éclairage -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Montage éclairage',
+                    controlName: 'id_eclairage_montage',
+                    type: 'eclairage_montage',
+                    defaultSummary: 'Montage Éclairage'
+                  }"
+                />
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Calage éclairage</mat-label>
-                  <mat-select formControlName="id_eclairage_verification">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Démontage éclairage -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Démontage éclairage',
+                    controlName: 'id_eclairage_demontage',
+                    type: 'eclairage_demontage',
+                    defaultSummary: 'Démontage Éclairage'
+                  }"
+                />
+
+                <!-- SLOT: Calage éclairage -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Calage éclairage',
+                    controlName: 'id_eclairage_verification',
+                    type: 'eclairage_verification',
+                    defaultSummary: 'Calage Éclairage'
+                  }"
+                />
               </div>
             </div>
           </mat-tab>
@@ -265,83 +269,107 @@
               </div>
 
               <div class="section-box p-16 mb-16">
-                <strong class="d-block mb-12 text-primary font-weight-bold">
-                  <mat-icon style="font-size: 16px; vertical-align: middle;">door_front</mat-icon> Répétitions & Gestion des Portes
-                </strong>
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Répétition générale</mat-label>
-                  <mat-select formControlName="id_repetition">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <h4 class="mb-16 text-primary font-weight-bold d-flex align-items-center gap-8">
+                  <mat-icon>door_front</mat-icon>
+                  <span>Répétitions & Gestion des Portes</span>
+                </h4>
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Ouverture des portes</mat-label>
-                  <mat-select formControlName="id_porte_ouverture">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Répétition générale -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Répétition générale',
+                    controlName: 'id_repetition',
+                    type: 'repetition',
+                    defaultSummary: 'Répétition Générale'
+                  }"
+                />
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Fermeture des portes</mat-label>
-                  <mat-select formControlName="id_porte_fermeture">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Ouverture des portes -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Ouverture des portes',
+                    controlName: 'id_porte_ouverture',
+                    type: 'portes_ouverture',
+                    defaultSummary: 'Ouverture des Portes'
+                  }"
+                />
+
+                <!-- SLOT: Fermeture des portes -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Fermeture des portes',
+                    controlName: 'id_porte_fermeture',
+                    type: 'portes_fermeture',
+                    defaultSummary: 'Fermeture des Portes'
+                  }"
+                />
               </div>
 
               <div class="section-box p-16 mb-16">
-                <strong class="d-block mb-12 text-primary font-weight-bold">
-                  <mat-icon style="font-size: 16px; vertical-align: middle;">local_bar</mat-icon> Cocktail VIP & Marchandise
-                </strong>
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Installation Cocktail VIP</mat-label>
-                  <mat-select formControlName="id_cocktail_installation">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <h4 class="mb-16 text-primary font-weight-bold d-flex align-items-center gap-8">
+                  <mat-icon>local_bar</mat-icon>
+                  <span>Cocktail VIP, Bistro & Marchandise</span>
+                </h4>
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Rangement Cocktail VIP</mat-label>
-                  <mat-select formControlName="id_cocktail_rangement">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Installation Cocktail VIP -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Installation Cocktail VIP',
+                    controlName: 'id_cocktail_installation',
+                    type: 'cocktail_installation',
+                    defaultSummary: 'Installation Cocktail VIP'
+                  }"
+                />
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Montage Stand / Disques</mat-label>
-                  <mat-select formControlName="id_marchandise_montage">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Rangement Cocktail VIP -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Rangement Cocktail VIP',
+                    controlName: 'id_cocktail_rangement',
+                    type: 'cocktail_rangement',
+                    defaultSummary: 'Rangement Cocktail VIP'
+                  }"
+                />
 
-                <mat-form-field appearance="outline" class="w-100 mb-16">
-                  <mat-label>Démontage Stand / Disques</mat-label>
-                  <mat-select formControlName="id_marchandise_demontage">
-                    <mat-option [value]="null">Aucun</mat-option>
-                    @for (e of events; track e.id) {
-                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                    }
-                  </mat-select>
-                </mat-form-field>
+                <!-- SLOT: Montage Bistro -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Montage Bistro',
+                    controlName: 'id_bistro_montage',
+                    type: 'bistro_montage',
+                    defaultSummary: 'Montage Bistro'
+                  }"
+                />
+
+                <!-- SLOT: Démontage Bistro -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Démontage Bistro',
+                    controlName: 'id_bistro_demontage',
+                    type: 'bistro_demontage',
+                    defaultSummary: 'Démontage Bistro'
+                  }"
+                />
+
+                <!-- SLOT: Montage Stand / Disques -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Montage Stand / Disques',
+                    controlName: 'id_marchandise_montage',
+                    type: 'inventaire_ventes',
+                    defaultSummary: 'Montage Stand Disques'
+                  }"
+                />
+
+                <!-- SLOT: Démontage Stand / Disques -->
+                <ng-container
+                  *ngTemplateOutlet="eventSlotTpl; context: {
+                    label: 'Démontage Stand / Disques',
+                    controlName: 'id_marchandise_demontage',
+                    type: 'inventaire_ventes',
+                    defaultSummary: 'Démontage Stand Disques'
+                  }"
+                />
               </div>
             </div>
           </mat-tab>
@@ -349,7 +377,7 @@
           <!-- TAB 5: INSTRUMENTS -->
           <mat-tab>
             <ng-template mat-tab-label>
-              <mat-icon class="mr-8">piano</mat-icon>
+              <mat-icon class="mr-8">music_note</mat-icon>
               {{ 'festival.tab_instruments' | translate }}
             </ng-template>
             <div class="tab-content">
@@ -365,13 +393,13 @@
 
               <div formArrayName="instruments">
                 @for (inst of instrumentsArray.controls; track $index) {
-                  <div [formGroupName]="$index" class="p-16 mb-16 section-box">
+                  <div [formGroupName]="$index" class="p-16 mb-20 section-box">
                     <div class="d-flex justify-content-between align-items-center mb-12">
                       <div class="d-flex align-items-center gap-8">
-                        <mat-icon color="primary">piano</mat-icon>
-                        <strong class="text-primary">Instrument #{{ $index + 1 }}</strong>
+                        <mat-icon color="primary">music_note</mat-icon>
+                        <strong class="text-primary" style="font-size: 15px">Instrument #{{ $index + 1 }}</strong>
                       </div>
-                      <button type="button" mat-icon-button color="warn" (click)="removeInstrument($index)">
+                      <button type="button" mat-icon-button color="warn" (click)="removeInstrument($index)" [matTooltip]="'Supprimer l\'instrument'">
                         <mat-icon>delete</mat-icon>
                       </button>
                     </div>
@@ -381,35 +409,41 @@
                       <input matInput formControlName="name" placeholder="Ex: Clavecin flamand double clavier" />
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="w-100 mb-16">
-                      <mat-label>Livraison instrument</mat-label>
-                      <mat-select formControlName="id_instrument_livraison">
-                        <mat-option [value]="null">Aucun</mat-option>
-                        @for (e of events; track e.id) {
-                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                        }
-                      </mat-select>
-                    </mat-form-field>
+                    <!-- Instrument Event Slot: Livraison -->
+                    <ng-container
+                      *ngTemplateOutlet="itemEventSlotTpl; context: {
+                        label: 'Livraison instrument',
+                        eventId: inst.get('id_instrument_livraison')?.value,
+                        type: 'instrument_livraison',
+                        onCreate: createEventForInstrument.bind(this, $index, 'id_instrument_livraison', 'instrument_livraison', inst.get('name')?.value || 'Instrument #' + ($index + 1)),
+                        onUnlink: unlinkEventFromInstrument.bind(this, $index, 'id_instrument_livraison'),
+                        onDelete: deleteEventFromInstrument.bind(this, $index, 'id_instrument_livraison', inst.get('id_instrument_livraison')?.value)
+                      }"
+                    />
 
-                    <mat-form-field appearance="outline" class="w-100 mb-16">
-                      <mat-label>Accordage instrument</mat-label>
-                      <mat-select formControlName="id_instrument_accordage">
-                        <mat-option [value]="null">Aucun</mat-option>
-                        @for (e of events; track e.id) {
-                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                        }
-                      </mat-select>
-                    </mat-form-field>
+                    <!-- Instrument Event Slot: Accordage -->
+                    <ng-container
+                      *ngTemplateOutlet="itemEventSlotTpl; context: {
+                        label: 'Accordage instrument',
+                        eventId: inst.get('id_instrument_accordage')?.value,
+                        type: 'instrument_accordage',
+                        onCreate: createEventForInstrument.bind(this, $index, 'id_instrument_accordage', 'instrument_accordage', inst.get('name')?.value || 'Instrument #' + ($index + 1)),
+                        onUnlink: unlinkEventFromInstrument.bind(this, $index, 'id_instrument_accordage'),
+                        onDelete: deleteEventFromInstrument.bind(this, $index, 'id_instrument_accordage', inst.get('id_instrument_accordage')?.value)
+                      }"
+                    />
 
-                    <mat-form-field appearance="outline" class="w-100 mb-16">
-                      <mat-label>Ramassage instrument</mat-label>
-                      <mat-select formControlName="id_instrument_ramassage">
-                        <mat-option [value]="null">Aucun</mat-option>
-                        @for (e of events; track e.id) {
-                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                        }
-                      </mat-select>
-                    </mat-form-field>
+                    <!-- Instrument Event Slot: Ramassage -->
+                    <ng-container
+                      *ngTemplateOutlet="itemEventSlotTpl; context: {
+                        label: 'Ramassage instrument',
+                        eventId: inst.get('id_instrument_ramassage')?.value,
+                        type: 'instrument_ramassage',
+                        onCreate: createEventForInstrument.bind(this, $index, 'id_instrument_ramassage', 'instrument_ramassage', inst.get('name')?.value || 'Instrument #' + ($index + 1)),
+                        onUnlink: unlinkEventFromInstrument.bind(this, $index, 'id_instrument_ramassage'),
+                        onDelete: deleteEventFromInstrument.bind(this, $index, 'id_instrument_ramassage', inst.get('id_instrument_ramassage')?.value)
+                      }"
+                    />
                   </div>
                 }
                 @if (instrumentsArray.length === 0) {
@@ -421,14 +455,13 @@
             </div>
           </mat-tab>
 
-          <!-- TAB 6: LOGES & TRANSPORTS -->
+          <!-- TAB 6: LOGES (SEPARATE TAB) -->
           <mat-tab>
             <ng-template mat-tab-label>
               <mat-icon class="mr-8">meeting_room</mat-icon>
-              {{ 'festival.tab_dressing_rooms' | translate }} & Transports
+              {{ 'festival.tab_dressing_rooms' | translate }}
             </ng-template>
             <div class="tab-content">
-              <!-- Loges -->
               <div class="d-flex justify-content-between align-items-center mb-16">
                 <div>
                   <h4 class="m-0 font-weight-bold">Loges réservées aux artistes</h4>
@@ -441,13 +474,13 @@
 
               <div formArrayName="loges">
                 @for (loge of logesArray.controls; track $index) {
-                  <div [formGroupName]="$index" class="p-16 mb-16 section-box">
+                  <div [formGroupName]="$index" class="p-16 mb-20 section-box">
                     <div class="d-flex justify-content-between align-items-center mb-12">
                       <div class="d-flex align-items-center gap-8">
                         <mat-icon color="primary">meeting_room</mat-icon>
-                        <strong class="text-primary">Loge #{{ $index + 1 }}</strong>
+                        <strong class="text-primary" style="font-size: 15px">Loge #{{ $index + 1 }}</strong>
                       </div>
-                      <button type="button" mat-icon-button color="warn" (click)="removeLoge($index)">
+                      <button type="button" mat-icon-button color="warn" (click)="removeLoge($index)" [matTooltip]="'Supprimer la loge'">
                         <mat-icon>delete</mat-icon>
                       </button>
                     </div>
@@ -466,25 +499,29 @@
                       </mat-select>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" class="w-100 mb-16">
-                      <mat-label>Installation loge</mat-label>
-                      <mat-select formControlName="id_loge_installation">
-                        <mat-option [value]="null">Aucun</mat-option>
-                        @for (e of events; track e.id) {
-                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                        }
-                      </mat-select>
-                    </mat-form-field>
+                    <!-- Loge Event Slot: Installation -->
+                    <ng-container
+                      *ngTemplateOutlet="itemEventSlotTpl; context: {
+                        label: 'Installation loge',
+                        eventId: loge.get('id_loge_installation')?.value,
+                        type: 'loge_installation',
+                        onCreate: createEventForLoge.bind(this, $index, 'id_loge_installation', 'loge_installation', loge.get('nom')?.value || 'Loge #' + ($index + 1)),
+                        onUnlink: unlinkEventFromLoge.bind(this, $index, 'id_loge_installation'),
+                        onDelete: deleteEventFromLoge.bind(this, $index, 'id_loge_installation', loge.get('id_loge_installation')?.value)
+                      }"
+                    />
 
-                    <mat-form-field appearance="outline" class="w-100 mb-16">
-                      <mat-label>Rangement loge</mat-label>
-                      <mat-select formControlName="id_loge_rangement">
-                        <mat-option [value]="null">Aucun</mat-option>
-                        @for (e of events; track e.id) {
-                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
-                        }
-                      </mat-select>
-                    </mat-form-field>
+                    <!-- Loge Event Slot: Rangement -->
+                    <ng-container
+                      *ngTemplateOutlet="itemEventSlotTpl; context: {
+                        label: 'Rangement loge',
+                        eventId: loge.get('id_loge_rangement')?.value,
+                        type: 'loge_rangement',
+                        onCreate: createEventForLoge.bind(this, $index, 'id_loge_rangement', 'loge_rangement', loge.get('nom')?.value || 'Loge #' + ($index + 1)),
+                        onUnlink: unlinkEventFromLoge.bind(this, $index, 'id_loge_rangement'),
+                        onDelete: deleteEventFromLoge.bind(this, $index, 'id_loge_rangement', loge.get('id_loge_rangement')?.value)
+                      }"
+                    />
                   </div>
                 }
                 @if (logesArray.length === 0) {
@@ -493,40 +530,344 @@
                   </div>
                 }
               </div>
+            </div>
+          </mat-tab>
 
-              <hr class="my-24" />
-
-              <!-- Transports -->
-              <div class="mb-12">
-                <h4 class="m-0 font-weight-bold">Navettes et transferts associés au concert</h4>
-                <p class="text-muted m-0" style="font-size: 13px">Liaisons hôtel, aéroport, gare et salle de concert</p>
+          <!-- TAB 7: TRANSPORTS (SEPARATE TAB) -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr-8">directions_car</mat-icon>
+              {{ 'festival.tab_transfers' | translate }}
+            </ng-template>
+            <div class="tab-content">
+              <div class="d-flex justify-content-between align-items-center mb-16">
+                <div>
+                  <h4 class="m-0 font-weight-bold">Navettes et transferts associés au concert</h4>
+                  <p class="text-muted m-0" style="font-size: 13px">Liaisons hôtel, aéroport, gare et salle de concert</p>
+                </div>
+                <button type="button" mat-flat-button color="primary" (click)="createTransportEvent()">
+                  <mat-icon>add</mat-icon> Ajouter une navette / transfert
+                </button>
               </div>
 
-              <mat-form-field appearance="outline" class="w-100 mb-16">
-                <mat-label>Événements de transport / navettes</mat-label>
-                <mat-select formControlName="transport_event_ids" multiple>
-                  @for (e of transportEvents; track e.id) {
-                    <mat-option [value]="e.id">
-                      #{{ e.id }} - {{ e.summary || e.type }} ({{ e.date_debut | date: 'dd/MM HH:mm' }})
-                    </mat-option>
+              <div class="d-flex flex-column gap-12 mb-16">
+                @for (tId of form.get('transport_event_ids')?.value; track tId) {
+                  @if (getEvent(tId); as transEvt) {
+                    <div class="event-card-insert">
+                      <div class="event-card-top">
+                        <div class="d-flex align-items-center gap-8 flex-wrap">
+                          <mat-chip color="primary" highlighted class="event-type-chip">
+                            Transfert
+                          </mat-chip>
+                          <strong style="font-size: 14px">{{ transEvt.summary }}</strong>
+                        </div>
+                        <div class="d-flex align-items-center gap-4">
+                          <button type="button" mat-icon-button color="primary" (click)="editEvent(transEvt.id)" [matTooltip]="'edit' | translate">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button type="button" mat-icon-button color="accent" (click)="unlinkTransportEvent(transEvt.id)" [matTooltip]="'Détacher ce transport du concert'">
+                            <mat-icon>link_off</mat-icon>
+                          </button>
+                          <button type="button" mat-icon-button color="warn" (click)="deleteTransportEvent(transEvt.id)" [matTooltip]="'Supprimer définitivement l\'événement'">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="event-card-details">
+                        <div class="detail-row">
+                          <mat-icon class="detail-icon">schedule</mat-icon>
+                          <span><strong>Départ :</strong> {{ transEvt.date_debut | date: 'dd/MM/yyyy HH:mm' }}</span>
+                        </div>
+                        <div class="detail-row">
+                          <mat-icon class="detail-icon">place</mat-icon>
+                          <span>
+                            <strong>Trajet :</strong> {{ transEvt.lieu?.nom || 'Départ' }}
+                            @if (transEvt.transfert?.destination) {
+                              <span class="text-primary font-weight-bold ml-4">➜ {{ transEvt.transfert?.destination?.nom }}</span>
+                              @if (transEvt.transfert?.duree) { <span class="text-muted ml-4">({{ transEvt.transfert?.duree }})</span> }
+                            }
+                          </span>
+                        </div>
+                        @if (getManagers(transEvt).length > 0) {
+                          <div class="detail-row">
+                            <mat-icon class="detail-icon">star</mat-icon>
+                            <div class="d-flex flex-wrap gap-4 align-items-center">
+                              <strong>Chauffeurs / Leads :</strong>
+                              @for (p of getManagers(transEvt); track p.id_utilisateur) {
+                                <span class="manager-badge">
+                                  <mat-icon class="manager-icon">star</mat-icon>
+                                  {{ p.user?.prenom }} {{ p.user?.nom }}
+                                </span>
+                              }
+                            </div>
+                          </div>
+                        }
+                        @if (getNonManagers(transEvt).length > 0) {
+                          <div class="detail-row">
+                            <mat-icon class="detail-icon">people</mat-icon>
+                            <div class="d-flex flex-wrap gap-4 align-items-center">
+                              <strong>Passagers :</strong>
+                              @for (p of getNonManagers(transEvt); track p.id_utilisateur) {
+                                <span class="participant-badge">
+                                  {{ p.user?.prenom }} {{ p.user?.nom }}
+                                </span>
+                              }
+                            </div>
+                          </div>
+                        }
+                        @if (transEvt.commentaires) {
+                          <div class="detail-row mt-4">
+                            <mat-icon class="detail-icon">chat</mat-icon>
+                            <div class="w-100">
+                              <strong>Notes :</strong>
+                              <div class="event-comments-box mt-2" [innerHTML]="transEvt.commentaires | safeHtml"></div>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
                   }
-                </mat-select>
-              </mat-form-field>
+                }
+                @if (!form.get('transport_event_ids')?.value?.length) {
+                  <div class="p-24 text-center text-muted border rounded bg-surface-container-low">
+                    Aucune navette ou transport associé à ce concert.
+                  </div>
+                }
+              </div>
             </div>
           </mat-tab>
         </mat-tab-group>
       </mat-card-content>
-
-      <mat-card-actions class="actions-bar p-16 d-flex justify-content-between align-items-center">
-        <button type="button" mat-stroked-button routerLink="/festival/concerts">
-          <mat-icon>arrow_back</mat-icon>
-          {{ 'cancel' | translate }}
-        </button>
-        <button type="submit" mat-flat-button color="primary" [disabled]="form.invalid || isSaving">
-          <mat-icon>save</mat-icon>
-          {{ 'save' | translate }}
-        </button>
-      </mat-card-actions>
     </mat-card>
   </form>
 </div>
+
+<!-- Reusable Template for Fixed Slot Events -->
+<ng-template #eventSlotTpl let-label="label" let-controlName="controlName" let-type="type" let-defaultSummary="defaultSummary">
+  <div class="event-slot-container">
+    <div class="event-slot-header">
+      <span>{{ label }}</span>
+    </div>
+
+    @if (getEvent(form.get(controlName)?.value); as evt) {
+      <!-- Associated Event Insert Card -->
+      <div class="event-card-insert">
+        <div class="event-card-top">
+          <div class="d-flex align-items-center gap-8 flex-wrap">
+            <mat-chip [color]="getEventTypeColor(evt.type)" highlighted class="event-type-chip">
+              {{ 'festival.event_types.' + evt.type | translate }}
+            </mat-chip>
+            <strong style="font-size: 14px">{{ evt.summary }}</strong>
+          </div>
+          <div class="d-flex align-items-center gap-4">
+            <button type="button" mat-icon-button color="primary" (click)="editEvent(evt.id)" [matTooltip]="'edit' | translate">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button type="button" mat-icon-button color="accent" (click)="unlinkEvent(controlName)" [matTooltip]="'Détacher l\'événement du concert'">
+              <mat-icon>link_off</mat-icon>
+            </button>
+            <button type="button" mat-icon-button color="warn" (click)="deleteEvent(evt.id, controlName)" [matTooltip]="'Supprimer définitivement l\'événement'">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="event-card-details">
+          <!-- Schedule -->
+          <div class="detail-row">
+            <mat-icon class="detail-icon">schedule</mat-icon>
+            <span>
+              <strong>Horaires :</strong> {{ evt.date_debut | date: 'dd/MM/yyyy HH:mm' }}
+              @if (evt.date_fin) { - {{ evt.date_fin | date: 'HH:mm' }} }
+            </span>
+          </div>
+
+          <!-- Lieu -->
+          <div class="detail-row">
+            <mat-icon class="detail-icon">place</mat-icon>
+            <span>
+              <strong>Lieu :</strong> {{ evt.lieu?.nom || '-' }}
+              @if (evt.type === 'transport' && evt.transfert?.destination) {
+                <span class="text-primary ml-4">➜ Destination : {{ evt.transfert?.destination?.nom }}</span>
+                @if (evt.transfert?.duree) { <span class="text-muted ml-4">({{ evt.transfert?.duree }})</span> }
+              }
+            </span>
+          </div>
+
+          <!-- Managers -->
+          @if (getManagers(evt).length > 0) {
+            <div class="detail-row">
+              <mat-icon class="detail-icon">star</mat-icon>
+              <div class="d-flex flex-wrap gap-4 align-items-center">
+                <strong>Responsables :</strong>
+                @for (p of getManagers(evt); track p.id_utilisateur) {
+                  <span class="manager-badge">
+                    <mat-icon class="manager-icon">star</mat-icon>
+                    {{ p.user?.prenom }} {{ p.user?.nom }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Participants -->
+          @if (getNonManagers(evt).length > 0) {
+            <div class="detail-row">
+              <mat-icon class="detail-icon">people</mat-icon>
+              <div class="d-flex flex-wrap gap-4 align-items-center">
+                <strong>Participants :</strong>
+                @for (p of getNonManagers(evt); track p.id_utilisateur) {
+                  <span class="participant-badge">
+                    {{ p.user?.prenom }} {{ p.user?.nom }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Commentaires publics -->
+          @if (evt.commentaires) {
+            <div class="detail-row mt-4">
+              <mat-icon class="detail-icon">chat</mat-icon>
+              <div class="w-100">
+                <strong>Commentaires publics :</strong>
+                <div class="event-comments-box mt-2" [innerHTML]="evt.commentaires | safeHtml"></div>
+              </div>
+            </div>
+          }
+
+          <!-- Notes de production -->
+          @if (evt.commentaires_prod) {
+            <div class="detail-row mt-4">
+              <mat-icon class="detail-icon" color="primary">description</mat-icon>
+              <div class="w-100">
+                <strong class="text-primary">Notes de production :</strong>
+                <div class="event-comments-box mt-2" [innerHTML]="evt.commentaires_prod | safeHtml"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <!-- Empty Slot with Create Event Button -->
+      <div class="no-event-box">
+        <span class="text-muted" style="font-size: 13px;">Aucun événement associé</span>
+        <button
+          type="button"
+          mat-stroked-button
+          color="primary"
+          (click)="createEventForSlot(controlName, type, defaultSummary)"
+        >
+          <mat-icon>add_circle_outline</mat-icon>
+          Créer l'événement {{ label }}
+        </button>
+      </div>
+    }
+  </div>
+</ng-template>
+
+<!-- Reusable Template for Dynamic Array Item Events (Instruments & Loges) -->
+<ng-template #itemEventSlotTpl let-label="label" let-eventId="eventId" let-type="type" let-onCreate="onCreate" let-onUnlink="onUnlink" let-onDelete="onDelete">
+  <div class="event-slot-container mb-12">
+    <div class="event-slot-header">
+      <span>{{ label }}</span>
+    </div>
+
+    @if (getEvent(eventId); as evt) {
+      <div class="event-card-insert">
+        <div class="event-card-top">
+          <div class="d-flex align-items-center gap-8 flex-wrap">
+            <mat-chip [color]="getEventTypeColor(evt.type)" highlighted class="event-type-chip">
+              {{ 'festival.event_types.' + evt.type | translate }}
+            </mat-chip>
+            <strong style="font-size: 14px">{{ evt.summary }}</strong>
+          </div>
+          <div class="d-flex align-items-center gap-4">
+            <button type="button" mat-icon-button color="primary" (click)="editEvent(evt.id)" [matTooltip]="'edit' | translate">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button type="button" mat-icon-button color="accent" (click)="onUnlink()" [matTooltip]="'Détacher l\'événement du concert'">
+              <mat-icon>link_off</mat-icon>
+            </button>
+            <button type="button" mat-icon-button color="warn" (click)="onDelete()" [matTooltip]="'Supprimer définitivement l\'événement'">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="event-card-details">
+          <div class="detail-row">
+            <mat-icon class="detail-icon">schedule</mat-icon>
+            <span>
+              <strong>Horaires :</strong> {{ evt.date_debut | date: 'dd/MM/yyyy HH:mm' }}
+              @if (evt.date_fin) { - {{ evt.date_fin | date: 'HH:mm' }} }
+            </span>
+          </div>
+          <div class="detail-row">
+            <mat-icon class="detail-icon">place</mat-icon>
+            <span><strong>Lieu :</strong> {{ evt.lieu?.nom || '-' }}</span>
+          </div>
+          @if (getManagers(evt).length > 0) {
+            <div class="detail-row">
+              <mat-icon class="detail-icon">star</mat-icon>
+              <div class="d-flex flex-wrap gap-4 align-items-center">
+                <strong>Responsables :</strong>
+                @for (p of getManagers(evt); track p.id_utilisateur) {
+                  <span class="manager-badge">
+                    <mat-icon class="manager-icon">star</mat-icon>
+                    {{ p.user?.prenom }} {{ p.user?.nom }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+          @if (getNonManagers(evt).length > 0) {
+            <div class="detail-row">
+              <mat-icon class="detail-icon">people</mat-icon>
+              <div class="d-flex flex-wrap gap-4 align-items-center">
+                <strong>Participants :</strong>
+                @for (p of getNonManagers(evt); track p.id_utilisateur) {
+                  <span class="participant-badge">
+                    {{ p.user?.prenom }} {{ p.user?.nom }}
+                  </span>
+                }
+              </div>
+            </div>
+          }
+          @if (evt.commentaires) {
+            <div class="detail-row mt-4">
+              <mat-icon class="detail-icon">chat</mat-icon>
+              <div class="w-100">
+                <strong>Commentaires publics :</strong>
+                <div class="event-comments-box mt-2" [innerHTML]="evt.commentaires | safeHtml"></div>
+              </div>
+            </div>
+          }
+          @if (evt.commentaires_prod) {
+            <div class="detail-row mt-4">
+              <mat-icon class="detail-icon" color="primary">description</mat-icon>
+              <div class="w-100">
+                <strong class="text-primary">Notes de production :</strong>
+                <div class="event-comments-box mt-2" [innerHTML]="evt.commentaires_prod | safeHtml"></div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="no-event-box">
+        <span class="text-muted" style="font-size: 13px;">Aucun événement associé</span>
+        <button
+          type="button"
+          mat-stroked-button
+          color="primary"
+          (click)="onCreate()"
+        >
+          <mat-icon>add_circle_outline</mat-icon>
+          Créer l'événement {{ label }}
+        </button>
+      </div>
+    }
+  </div>
+</ng-template>
