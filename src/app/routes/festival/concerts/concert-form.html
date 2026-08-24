@@ -1,0 +1,532 @@
+<page-header
+  [title]="pageTitle"
+  [subtitle]="'festival.concerts_subtitle' | translate"
+  [nav]="['festival.concerts_title', pageTitle]"
+>
+  <button mat-stroked-button routerLink="/festival/concerts" class="mr-8">
+    <mat-icon>arrow_back</mat-icon>
+    {{ 'festival.concerts_title' | translate }}
+  </button>
+</page-header>
+
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="save()" class="form-field-full">
+    <mat-card>
+      <mat-card-header class="d-flex justify-content-between align-items-center mb-16">
+        <mat-card-title>
+          <div class="d-flex align-items-center gap-8">
+            <mat-icon color="primary">queue_music</mat-icon>
+            <span>{{ isEdit ? ('festival.edit_concert' | translate) : ('festival.add_concert' | translate) }}</span>
+          </div>
+        </mat-card-title>
+        <div class="d-flex gap-8">
+          <button type="button" mat-button routerLink="/festival/concerts">
+            {{ 'cancel' | translate }}
+          </button>
+          <button type="submit" mat-flat-button color="primary" [disabled]="form.invalid || isSaving">
+            <mat-icon>save</mat-icon>
+            {{ 'save' | translate }}
+          </button>
+        </div>
+      </mat-card-header>
+
+      <mat-card-content class="p-0">
+        <mat-tab-group animationDuration="200ms">
+          <!-- TAB 1: GENERAL & ARTISTES -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr-8">info</mat-icon>
+              {{ 'festival.tab_general' | translate }}
+            </ng-template>
+            <div class="tab-content">
+              <mat-form-field appearance="outline" class="w-100 mb-16">
+                <mat-label>{{ 'festival.concert_name' | translate }}</mat-label>
+                <input matInput formControlName="nom" placeholder="Ex: Concert d'Ouverture - Messe en si mineur" />
+                @if (form.get('nom')?.hasError('required')) {
+                  <mat-error>{{ 'validation.required' | translate }}</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-100 mb-16">
+                <mat-label>{{ 'festival.festival' | translate }}</mat-label>
+                <mat-select formControlName="id_festival">
+                  @for (f of festivals; track f.id) {
+                    <mat-option [value]="f.id">Édition {{ f.year }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-100 mb-16">
+                <mat-label>{{ 'festival.lieu' | translate }}</mat-label>
+                <mat-select formControlName="id_lieu">
+                  @for (l of lieux; track l.id) {
+                    <mat-option [value]="l.id">{{ l.nom }}</mat-option>
+                  }
+                </mat-select>
+                @if (form.get('id_lieu')?.hasError('required')) {
+                  <mat-error>{{ 'validation.required' | translate }}</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-100 mb-16">
+                <mat-label>{{ 'date' | translate }} & Heure</mat-label>
+                <input matInput type="datetime-local" formControlName="date" />
+                @if (form.get('date')?.hasError('required')) {
+                  <mat-error>{{ 'validation.required' | translate }}</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="w-100 mb-16">
+                <mat-label>{{ 'festival.duree' | translate }}</mat-label>
+                <input matInput formControlName="duree" placeholder="Ex: 02:15:00 ou 2h15" />
+              </mat-form-field>
+
+              <!-- Formation with Quill -->
+              <div class="quill-block mb-20">
+                <div class="quill-label">{{ 'festival.formation' | translate }}</div>
+                <quill-editor
+                  formControlName="formation"
+                  [modules]="quillModules"
+                  placeholder="Distribution, chœur, solistes, orchestre..."
+                  style="display: block; min-height: 120px;"
+                />
+              </div>
+
+              <mat-form-field appearance="outline" class="w-100 mb-16">
+                <mat-label>{{ 'festival.artists' | translate }}</mat-label>
+                <mat-select formControlName="artist_ids" multiple>
+                  @for (a of artists; track a.id) {
+                    <mat-option [value]="a.id">{{ a.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </mat-tab>
+
+          <!-- TAB 2: SCÈNE & SON -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr-8">handyman</mat-icon>
+              {{ 'festival.tab_scene' | translate }}
+            </ng-template>
+            <div class="tab-content">
+              <!-- Besoins scéniques with Quill -->
+              <div class="quill-block mb-20">
+                <div class="quill-label">Besoins scéniques</div>
+                <quill-editor
+                  formControlName="scene_besoin"
+                  [modules]="quillModules"
+                  placeholder="Estrade, pupitres, chaises de continuo, clavecin..."
+                  style="display: block; min-height: 120px;"
+                />
+              </div>
+
+              <!-- Plan de scène with Quill -->
+              <div class="quill-block mb-20">
+                <div class="quill-label">Plan de scène / Disposition du plateau</div>
+                <quill-editor
+                  formControlName="scene_plan"
+                  [modules]="quillModules"
+                  placeholder="Disposition chœur au fond, solistes devant l'orchestre..."
+                  style="display: block; min-height: 120px;"
+                />
+              </div>
+
+              <!-- Commentaires scène with Quill -->
+              <div class="quill-block mb-20">
+                <div class="quill-label">Commentaires & notes scène</div>
+                <quill-editor
+                  formControlName="scene_commentaires"
+                  [modules]="quillModules"
+                  placeholder="Notes logistiques pour le régisseur général et le plateau..."
+                  style="display: block; min-height: 120px;"
+                />
+              </div>
+
+              <div class="section-box p-16 mb-16">
+                <strong class="d-block mb-12 text-primary font-weight-bold">
+                  <mat-icon style="font-size: 16px; vertical-align: middle;">schedule</mat-icon> Événements de régie scène & son associés
+                </strong>
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Montage scène</mat-label>
+                  <mat-select formControlName="id_scene_montage">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Démontage scène</mat-label>
+                  <mat-select formControlName="id_scene_demontage">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Balances son (Soundcheck)</mat-label>
+                  <mat-select formControlName="id_son_verification">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+
+          <!-- TAB 3: ÉCLAIRAGE -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr-8">lightbulb</mat-icon>
+              {{ 'festival.tab_lighting' | translate }}
+            </ng-template>
+            <div class="tab-content">
+              <!-- Besoins éclairage with Quill -->
+              <div class="quill-block mb-20">
+                <div class="quill-label">Besoins éclairage</div>
+                <quill-editor
+                  formControlName="eclairage_besoin"
+                  [modules]="quillModules"
+                  placeholder="Découpes solistes, ambiance chaude, mise en valeur de l'orgue..."
+                  style="display: block; min-height: 120px;"
+                />
+              </div>
+
+              <!-- Commentaires éclairage with Quill -->
+              <div class="quill-block mb-20">
+                <div class="quill-label">Commentaires éclairage</div>
+                <quill-editor
+                  formControlName="eclairage_commentaires"
+                  [modules]="quillModules"
+                  placeholder="Notes pour l'éclairagiste..."
+                  style="display: block; min-height: 120px;"
+                />
+              </div>
+
+              <div class="section-box p-16 mb-16">
+                <strong class="d-block mb-12 text-primary font-weight-bold">
+                  <mat-icon style="font-size: 16px; vertical-align: middle;">schedule</mat-icon> Événements d'éclairage associés
+                </strong>
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Montage éclairage</mat-label>
+                  <mat-select formControlName="id_eclairage_montage">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Démontage éclairage</mat-label>
+                  <mat-select formControlName="id_eclairage_demontage">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Calage éclairage</mat-label>
+                  <mat-select formControlName="id_eclairage_verification">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+
+          <!-- TAB 4: LOGISTIQUE, ACCUEIL & PORTES -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr-8">room_service</mat-icon>
+              {{ 'festival.tab_hospitality' | translate }}
+            </ng-template>
+            <div class="tab-content">
+              <!-- Logistique with Quill -->
+              <div class="quill-block mb-20">
+                <div class="quill-label">Logistique générale & accueil</div>
+                <quill-editor
+                  formControlName="logistique"
+                  [modules]="quillModules"
+                  placeholder="Accueil artistes, eau en scène, accès quai de livraison, badges..."
+                  style="display: block; min-height: 120px;"
+                />
+              </div>
+
+              <div class="section-box p-16 mb-16">
+                <strong class="d-block mb-12 text-primary font-weight-bold">
+                  <mat-icon style="font-size: 16px; vertical-align: middle;">door_front</mat-icon> Répétitions & Gestion des Portes
+                </strong>
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Répétition générale</mat-label>
+                  <mat-select formControlName="id_repetition">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Ouverture des portes</mat-label>
+                  <mat-select formControlName="id_porte_ouverture">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Fermeture des portes</mat-label>
+                  <mat-select formControlName="id_porte_fermeture">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="section-box p-16 mb-16">
+                <strong class="d-block mb-12 text-primary font-weight-bold">
+                  <mat-icon style="font-size: 16px; vertical-align: middle;">local_bar</mat-icon> Cocktail VIP & Marchandise
+                </strong>
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Installation Cocktail VIP</mat-label>
+                  <mat-select formControlName="id_cocktail_installation">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Rangement Cocktail VIP</mat-label>
+                  <mat-select formControlName="id_cocktail_rangement">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Montage Stand / Disques</mat-label>
+                  <mat-select formControlName="id_marchandise_montage">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100 mb-16">
+                  <mat-label>Démontage Stand / Disques</mat-label>
+                  <mat-select formControlName="id_marchandise_demontage">
+                    <mat-option [value]="null">Aucun</mat-option>
+                    @for (e of events; track e.id) {
+                      <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-tab>
+
+          <!-- TAB 5: INSTRUMENTS -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr-8">piano</mat-icon>
+              {{ 'festival.tab_instruments' | translate }}
+            </ng-template>
+            <div class="tab-content">
+              <div class="d-flex justify-content-between align-items-center mb-16">
+                <div>
+                  <h4 class="m-0 font-weight-bold">Instruments spécifiques au concert</h4>
+                  <p class="text-muted m-0" style="font-size: 13px">Clavecins, orgues positifs, percussions et instruments d'époque</p>
+                </div>
+                <button type="button" mat-flat-button color="primary" (click)="addInstrument()">
+                  <mat-icon>add</mat-icon> {{ 'festival.add_instrument' | translate }}
+                </button>
+              </div>
+
+              <div formArrayName="instruments">
+                @for (inst of instrumentsArray.controls; track $index) {
+                  <div [formGroupName]="$index" class="p-16 mb-16 section-box">
+                    <div class="d-flex justify-content-between align-items-center mb-12">
+                      <div class="d-flex align-items-center gap-8">
+                        <mat-icon color="primary">piano</mat-icon>
+                        <strong class="text-primary">Instrument #{{ $index + 1 }}</strong>
+                      </div>
+                      <button type="button" mat-icon-button color="warn" (click)="removeInstrument($index)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-16">
+                      <mat-label>{{ 'festival.instrument_name' | translate }}</mat-label>
+                      <input matInput formControlName="name" placeholder="Ex: Clavecin flamand double clavier" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-16">
+                      <mat-label>Livraison instrument</mat-label>
+                      <mat-select formControlName="id_instrument_livraison">
+                        <mat-option [value]="null">Aucun</mat-option>
+                        @for (e of events; track e.id) {
+                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-16">
+                      <mat-label>Accordage instrument</mat-label>
+                      <mat-select formControlName="id_instrument_accordage">
+                        <mat-option [value]="null">Aucun</mat-option>
+                        @for (e of events; track e.id) {
+                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-16">
+                      <mat-label>Ramassage instrument</mat-label>
+                      <mat-select formControlName="id_instrument_ramassage">
+                        <mat-option [value]="null">Aucun</mat-option>
+                        @for (e of events; track e.id) {
+                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                }
+                @if (instrumentsArray.length === 0) {
+                  <div class="p-24 text-center text-muted border rounded bg-surface-container-low">
+                    Aucun instrument spécifique ajouté pour ce concert.
+                  </div>
+                }
+              </div>
+            </div>
+          </mat-tab>
+
+          <!-- TAB 6: LOGES & TRANSPORTS -->
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon class="mr-8">meeting_room</mat-icon>
+              {{ 'festival.tab_dressing_rooms' | translate }} & Transports
+            </ng-template>
+            <div class="tab-content">
+              <!-- Loges -->
+              <div class="d-flex justify-content-between align-items-center mb-16">
+                <div>
+                  <h4 class="m-0 font-weight-bold">Loges réservées aux artistes</h4>
+                  <p class="text-muted m-0" style="font-size: 13px">Affectations des loges et préparation</p>
+                </div>
+                <button type="button" mat-flat-button color="primary" (click)="addLoge()">
+                  <mat-icon>add</mat-icon> {{ 'festival.add_dressing_room' | translate }}
+                </button>
+              </div>
+
+              <div formArrayName="loges">
+                @for (loge of logesArray.controls; track $index) {
+                  <div [formGroupName]="$index" class="p-16 mb-16 section-box">
+                    <div class="d-flex justify-content-between align-items-center mb-12">
+                      <div class="d-flex align-items-center gap-8">
+                        <mat-icon color="primary">meeting_room</mat-icon>
+                        <strong class="text-primary">Loge #{{ $index + 1 }}</strong>
+                      </div>
+                      <button type="button" mat-icon-button color="warn" (click)="removeLoge($index)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-16">
+                      <mat-label>{{ 'festival.room_name' | translate }}</mat-label>
+                      <input matInput formControlName="nom" placeholder="Ex: Loge d'Honneur des Maîtres" />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-16">
+                      <mat-label>Artiste assigné</mat-label>
+                      <mat-select formControlName="id_artist">
+                        @for (a of artists; track a.id) {
+                          <mat-option [value]="a.id">{{ a.name }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-16">
+                      <mat-label>Installation loge</mat-label>
+                      <mat-select formControlName="id_loge_installation">
+                        <mat-option [value]="null">Aucun</mat-option>
+                        @for (e of events; track e.id) {
+                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="w-100 mb-16">
+                      <mat-label>Rangement loge</mat-label>
+                      <mat-select formControlName="id_loge_rangement">
+                        <mat-option [value]="null">Aucun</mat-option>
+                        @for (e of events; track e.id) {
+                          <mat-option [value]="e.id">#{{ e.id }} - {{ e.summary || e.type }}</mat-option>
+                        }
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                }
+                @if (logesArray.length === 0) {
+                  <div class="p-24 text-center text-muted border rounded bg-surface-container-low mb-16">
+                    Aucune loge spécifique assignée.
+                  </div>
+                }
+              </div>
+
+              <hr class="my-24" />
+
+              <!-- Transports -->
+              <div class="mb-12">
+                <h4 class="m-0 font-weight-bold">Navettes et transferts associés au concert</h4>
+                <p class="text-muted m-0" style="font-size: 13px">Liaisons hôtel, aéroport, gare et salle de concert</p>
+              </div>
+
+              <mat-form-field appearance="outline" class="w-100 mb-16">
+                <mat-label>Événements de transport / navettes</mat-label>
+                <mat-select formControlName="transport_event_ids" multiple>
+                  @for (e of transportEvents; track e.id) {
+                    <mat-option [value]="e.id">
+                      #{{ e.id }} - {{ e.summary || e.type }} ({{ e.date_debut | date: 'dd/MM HH:mm' }})
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-card-content>
+
+      <mat-card-actions class="actions-bar p-16 d-flex justify-content-between align-items-center">
+        <button type="button" mat-stroked-button routerLink="/festival/concerts">
+          <mat-icon>arrow_back</mat-icon>
+          {{ 'cancel' | translate }}
+        </button>
+        <button type="submit" mat-flat-button color="primary" [disabled]="form.invalid || isSaving">
+          <mat-icon>save</mat-icon>
+          {{ 'save' | translate }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

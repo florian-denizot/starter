@@ -37,6 +37,12 @@
       "icon": "event"
     },
     {
+      "route": "festival/concerts",
+      "name": "festival.concerts",
+      "type": "link",
+      "icon": "queue_music"
+    },
+    {
       "route": "#",
       "name": "demo_reference",
       "type": "extLink",

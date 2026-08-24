@@ -1,0 +1,298 @@
+<page-header
+  title="{{ 'festival.concerts_title' | translate }}"
+  subtitle="{{ 'festival.concerts_subtitle' | translate }}"
+/>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-header class="d-flex justify-content-between align-items-center mb-16">
+        <mat-card-title>
+          <div class="d-flex align-items-center gap-8">
+            <mat-icon color="primary">queue_music</mat-icon>
+            <span>{{ 'festival.concerts_title' | translate }}</span>
+            <mat-chip highlighted color="accent" class="ml-8">
+              {{ filteredList.length }} / {{ list.length }}
+            </mat-chip>
+          </div>
+        </mat-card-title>
+        <button mat-flat-button color="primary" routerLink="/festival/concerts/new">
+          <mat-icon>add</mat-icon>
+          {{ 'festival.add_concert' | translate }}
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Filter Bar -->
+        <div class="filter-panel p-16 mb-16 rounded bg-surface-container-low border">
+          <div class="d-flex flex-wrap gap-12 align-items-center">
+            <!-- Search Text -->
+            <mat-form-field
+              appearance="outline"
+              class="filter-item-search"
+              subscriptSizing="dynamic"
+            >
+              <mat-icon matPrefix class="mr-8">search</mat-icon>
+              <input
+                matInput
+                [(ngModel)]="searchQuery"
+                (ngModelChange)="filterList()"
+                placeholder="{{ 'please_enter' | translate }}..."
+              />
+              @if (searchQuery) {
+                <button
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="searchQuery = ''; filterList()"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              }
+            </mat-form-field>
+
+            <!-- Festival Filter -->
+            <mat-form-field appearance="outline" class="filter-item" subscriptSizing="dynamic">
+              <mat-icon matPrefix class="mr-8">celebration</mat-icon>
+              <mat-label>{{ 'festival.filter_by_festival' | translate }}</mat-label>
+              <mat-select [(ngModel)]="selectedFestivalId" (ngModelChange)="filterList()">
+                <mat-option [value]="null">{{ 'festival.all_festivals' | translate }}</mat-option>
+                @for (f of festivals; track f.id) {
+                  <mat-option [value]="f.id">Édition {{ f.year }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Venue Filter -->
+            <mat-form-field appearance="outline" class="filter-item" subscriptSizing="dynamic">
+              <mat-icon matPrefix class="mr-8">place</mat-icon>
+              <mat-label>{{ 'festival.type_lieu' | translate }}</mat-label>
+              <mat-select [(ngModel)]="selectedLieuId" (ngModelChange)="filterList()">
+                <mat-option [value]="null">{{ 'festival.all_event_types' | translate }}</mat-option>
+                @for (l of lieux; track l.id) {
+                  <mat-option [value]="l.id">{{ l.nom }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <!-- Reset Button -->
+            @if (hasActiveFilters()) {
+              <button mat-stroked-button color="warn" (click)="resetFilters()">
+                <mat-icon>filter_alt_off</mat-icon>
+                {{ 'festival.reset_filters' | translate }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <!-- MtxGrid Table -->
+        <mtx-grid
+          [data]="filteredList"
+          [columns]="columns"
+          [loading]="isLoading"
+          [showToolbar]="true"
+          [columnHideable]="true"
+          [columnHideableChecked]="'show'"
+          [columnPinnable]="true"
+          [columnSortable]="true"
+          [columnResizable]="true"
+          [showColumnMenuButton]="true"
+          [expandable]="true"
+          [expansionTemplate]="expansionTpl"
+          [showPaginator]="true"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+          [cellTemplate]="{
+            nom: nomTpl,
+            date: dateTpl,
+            lieu: lieuTpl,
+            artists: artistsTpl,
+            regie: regieTpl,
+            actions: actionsTpl
+          }"
+        />
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Sticky Concert Name -->
+<ng-template #nomTpl let-row>
+  <div class="d-flex flex-column py-4" style="max-width: 280px">
+    <span class="font-weight-bold" style="font-size: 13px">{{ row.nom }}</span>
+    <small class="text-muted">Édition {{ getFestivalYear(row.id_festival) }}</small>
+  </div>
+</ng-template>
+
+<!-- Date & Time -->
+<ng-template #dateTpl let-row>
+  <div class="stacked-cell py-4">
+    <span class="font-weight-bold" style="font-size: 13px">
+      {{ row.date | date: 'dd/MM/yyyy' }}
+    </span>
+    <small class="text-muted">
+      {{ row.date | date: 'HH:mm' }}
+      @if (row.duree) {
+        <span>({{ row.duree }})</span>
+      }
+    </small>
+  </div>
+</ng-template>
+
+<!-- Lieu -->
+<ng-template #lieuTpl let-row>
+  <div class="d-flex align-items-center gap-4 py-4">
+    <mat-icon style="font-size: 16px; width: 16px; height: 16px" color="primary">place</mat-icon>
+    <span class="font-weight-medium">{{ row.lieu?.nom || '-' }}</span>
+  </div>
+</ng-template>
+
+<!-- Artistes -->
+<ng-template #artistsTpl let-row>
+  <div class="d-flex flex-wrap gap-4 py-4">
+    @for (a of row.artists; track a.id) {
+      <mat-chip color="accent" highlighted class="artist-chip">
+        {{ a.name }}
+      </mat-chip>
+    }
+    @if (row.artists?.length === 0) {
+      <span class="text-muted">-</span>
+    }
+  </div>
+</ng-template>
+
+<!-- Régie Summary -->
+<ng-template #regieTpl let-row>
+  <div class="d-flex flex-wrap gap-4 py-4">
+    @if (row.sceneMontage || row.id_scene_montage) {
+      <span class="tech-badge" [matTooltip]="'Montage scène configuré'">
+        <mat-icon style="font-size: 14px; width: 14px; height: 14px">handyman</mat-icon> Scène
+      </span>
+    }
+    @if (row.sonVerification || row.id_son_verification) {
+      <span class="tech-badge" [matTooltip]="'Balances son configurées'">
+        <mat-icon style="font-size: 14px; width: 14px; height: 14px">mic</mat-icon> Son
+      </span>
+    }
+    @if (row.eclairageMontage || row.id_eclairage_montage) {
+      <span class="tech-badge" [matTooltip]="'Éclairage configuré'">
+        <mat-icon style="font-size: 14px; width: 14px; height: 14px">lightbulb</mat-icon> Éclairage
+      </span>
+    }
+    @if (row.instruments?.length > 0) {
+      <span class="tech-badge" [matTooltip]="row.instruments.length + ' instrument(s)'">
+        <mat-icon style="font-size: 14px; width: 14px; height: 14px">piano</mat-icon> {{ row.instruments.length }} inst.
+      </span>
+    }
+    @if (row.loges?.length > 0) {
+      <span class="tech-badge" [matTooltip]="row.loges.length + ' loge(s)'">
+        <mat-icon style="font-size: 14px; width: 14px; height: 14px">meeting_room</mat-icon> {{ row.loges.length }} loge(s)
+      </span>
+    }
+  </div>
+</ng-template>
+
+<!-- Actions Column -->
+<ng-template #actionsTpl let-row>
+  <div class="d-flex align-items-center gap-4">
+    <a
+      mat-icon-button
+      color="primary"
+      [routerLink]="['/festival/concerts/edit', row.id]"
+      [matTooltip]="'edit' | translate"
+    >
+      <mat-icon>edit</mat-icon>
+    </a>
+    <button
+      mat-icon-button
+      color="warn"
+      (click)="deleteConcert(row)"
+      [matTooltip]="'delete' | translate"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</ng-template>
+
+<!-- Expandable Technical Rider & Conducteur Detail View -->
+<ng-template #expansionTpl let-row>
+  <div class="tech-rider-panel my-8">
+    <h3 class="mb-12 d-flex align-items-center gap-8 text-primary font-weight-bold">
+      <mat-icon>receipt_long</mat-icon>
+      <span>Fiche Technique & Conducteur : {{ row.nom }}</span>
+    </h3>
+
+    <div class="row">
+      <!-- Scène & Son -->
+      <div class="col-md-4 mb-16">
+        <div class="p-12 border rounded bg-surface-container-low h-100">
+          <strong class="d-block mb-8 text-primary font-weight-bold">
+            <mat-icon style="font-size: 16px; vertical-align: middle;">handyman</mat-icon> Scène & Plateau
+          </strong>
+          <p class="mb-4" style="font-size: 12px;"><strong>Besoins :</strong> {{ row.scene_besoin || '-' }}</p>
+          <p class="mb-4" style="font-size: 12px;"><strong>Plan :</strong> {{ row.scene_plan || '-' }}</p>
+          <p class="mb-4" style="font-size: 12px;"><strong>Commentaires :</strong> {{ row.scene_commentaires || '-' }}</p>
+        </div>
+      </div>
+
+      <!-- Éclairage -->
+      <div class="col-md-4 mb-16">
+        <div class="p-12 border rounded bg-surface-container-low h-100">
+          <strong class="d-block mb-8 text-primary font-weight-bold">
+            <mat-icon style="font-size: 16px; vertical-align: middle;">lightbulb</mat-icon> Éclairage
+          </strong>
+          <p class="mb-4" style="font-size: 12px;"><strong>Besoins :</strong> {{ row.eclairage_besoin || '-' }}</p>
+          <p class="mb-4" style="font-size: 12px;"><strong>Commentaires :</strong> {{ row.eclairage_commentaires || '-' }}</p>
+        </div>
+      </div>
+
+      <!-- Logistique & Accueil -->
+      <div class="col-md-4 mb-16">
+        <div class="p-12 border rounded bg-surface-container-low h-100">
+          <strong class="d-block mb-8 text-primary font-weight-bold">
+            <mat-icon style="font-size: 16px; vertical-align: middle;">room_service</mat-icon> Logistique & Accueil
+          </strong>
+          <p class="mb-4" style="font-size: 12px;"><strong>Logistique :</strong> {{ row.logistique || '-' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instruments du concert -->
+    @if (row.instruments?.length > 0) {
+      <div class="mt-8 mb-16">
+        <strong class="d-block mb-8">
+          <mat-icon style="font-size: 16px; vertical-align: middle;">piano</mat-icon> Instruments & Continuo ({{ row.instruments.length }})
+        </strong>
+        <div class="d-flex flex-wrap gap-8">
+          @for (inst of row.instruments; track inst.id) {
+            <div class="p-8 border rounded bg-surface-container-low" style="font-size: 12px;">
+              <strong>{{ inst.name }}</strong>
+              <div class="text-muted mt-2">
+                @if (inst.livraison) { <span>Livraison: {{ inst.livraison.date_debut | date: 'dd/MM HH:mm' }} | </span> }
+                @if (inst.accordage) { <span>Accordage: {{ inst.accordage.date_debut | date: 'dd/MM HH:mm' }} | </span> }
+                @if (inst.ramassage) { <span>Ramassage: {{ inst.ramassage.date_debut | date: 'dd/MM HH:mm' }}</span> }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Loges -->
+    @if (row.loges?.length > 0) {
+      <div class="mt-8">
+        <strong class="d-block mb-8">
+          <mat-icon style="font-size: 16px; vertical-align: middle;">meeting_room</mat-icon> Loges Artistes ({{ row.loges.length }})
+        </strong>
+        <div class="d-flex flex-wrap gap-8">
+          @for (loge of row.loges; track loge.id) {
+            <div class="p-8 border rounded bg-surface-container-low" style="font-size: 12px;">
+              <strong>{{ loge.nom }}</strong>
+              <span class="text-primary ml-4">({{ loge.artist?.name || 'Artiste' }})</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</ng-template>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, map, of, shareReplay, tap } from 'rxjs';
 import {
   Artist,
+  ArtistConcert,
   Concert,
   Evenement,
   EvenementTransfert,
@@ -12,6 +13,7 @@ import {
   Lieu,
   LogeConcert,
   Participant,
+  TransportConcert,
   User,
   UserRole,
   UserRoleRecord,
@@ -589,6 +591,165 @@ export class FestivalDataService {
             transports,
           };
         });
+      })
+    );
+  }
+
+  addConcert(
+    concert: Omit<Concert, 'id'>,
+    artistIds: number[] = [],
+    instruments: {
+      name: string;
+      id_instrument_livraison?: number;
+      id_instrument_ramassage?: number;
+      id_instrument_accordage?: number;
+    }[] = [],
+    loges: {
+      id_artist: number;
+      nom: string;
+      id_loge_installation?: number;
+      id_loge_rangement?: number;
+    }[] = [],
+    transportEventIds: number[] = []
+  ): Observable<HydratedConcert> {
+    return this.getDataset().pipe(
+      map(data => {
+        const nextId = Math.max(0, ...data.concerts.map(c => c.id)) + 1;
+        const newConcert: Concert = { ...concert, id: nextId };
+
+        const newArtistConcerts: ArtistConcert[] = artistIds.map(aId => ({
+          id_artist: aId,
+          id_concert: nextId,
+        }));
+
+        let maxInstId = Math.max(0, ...data.instrument_concerts.map(i => i.id));
+        const newInstruments: InstrumentConcert[] = instruments.map(inst => ({
+          id: ++maxInstId,
+          id_concert: nextId,
+          name: inst.name,
+          id_instrument_livraison: inst.id_instrument_livraison || 0,
+          id_instrument_ramassage: inst.id_instrument_ramassage || 0,
+          id_instrument_accordage: inst.id_instrument_accordage || 0,
+        }));
+
+        let maxLogeId = Math.max(0, ...data.loge_concerts.map(l => l.id));
+        const newLoges: LogeConcert[] = loges.map(l => ({
+          id: ++maxLogeId,
+          id_concert: nextId,
+          id_artist: l.id_artist,
+          nom: l.nom,
+          id_loge_installation: l.id_loge_installation || 0,
+          id_loge_rangement: l.id_loge_rangement || 0,
+        }));
+
+        const newTransports: TransportConcert[] = transportEventIds.map(tId => ({
+          id_concert: nextId,
+          id_transport: tId,
+        }));
+
+        this.updateState(curr => ({
+          ...curr,
+          concerts: [...curr.concerts, newConcert],
+          artist_concerts: [...curr.artist_concerts, ...newArtistConcerts],
+          instrument_concerts: [...curr.instrument_concerts, ...newInstruments],
+          loge_concerts: [...curr.loge_concerts, ...newLoges],
+          transport_concerts: [...curr.transport_concerts, ...newTransports],
+        }));
+
+        return newConcert as HydratedConcert;
+      })
+    );
+  }
+
+  updateConcert(
+    concert: Concert,
+    artistIds: number[] = [],
+    instruments: {
+      id?: number;
+      name: string;
+      id_instrument_livraison?: number;
+      id_instrument_ramassage?: number;
+      id_instrument_accordage?: number;
+    }[] = [],
+    loges: {
+      id?: number;
+      id_artist: number;
+      nom: string;
+      id_loge_installation?: number;
+      id_loge_rangement?: number;
+    }[] = [],
+    transportEventIds: number[] = []
+  ): Observable<HydratedConcert> {
+    return this.getDataset().pipe(
+      map(data => {
+        const newArtistConcerts: ArtistConcert[] = artistIds.map(aId => ({
+          id_artist: aId,
+          id_concert: concert.id,
+        }));
+
+        let maxInstId = Math.max(0, ...data.instrument_concerts.map(i => i.id));
+        const updatedInstruments: InstrumentConcert[] = instruments.map(inst => ({
+          id: inst.id || ++maxInstId,
+          id_concert: concert.id,
+          name: inst.name,
+          id_instrument_livraison: inst.id_instrument_livraison || 0,
+          id_instrument_ramassage: inst.id_instrument_ramassage || 0,
+          id_instrument_accordage: inst.id_instrument_accordage || 0,
+        }));
+
+        let maxLogeId = Math.max(0, ...data.loge_concerts.map(l => l.id));
+        const updatedLoges: LogeConcert[] = loges.map(l => ({
+          id: l.id || ++maxLogeId,
+          id_concert: concert.id,
+          id_artist: l.id_artist,
+          nom: l.nom,
+          id_loge_installation: l.id_loge_installation || 0,
+          id_loge_rangement: l.id_loge_rangement || 0,
+        }));
+
+        const updatedTransports: TransportConcert[] = transportEventIds.map(tId => ({
+          id_concert: concert.id,
+          id_transport: tId,
+        }));
+
+        this.updateState(curr => ({
+          ...curr,
+          concerts: curr.concerts.map(c => (c.id === concert.id ? { ...concert } : c)),
+          artist_concerts: [
+            ...curr.artist_concerts.filter(ac => ac.id_concert !== concert.id),
+            ...newArtistConcerts,
+          ],
+          instrument_concerts: [
+            ...curr.instrument_concerts.filter(ic => ic.id_concert !== concert.id),
+            ...updatedInstruments,
+          ],
+          loge_concerts: [
+            ...curr.loge_concerts.filter(lc => lc.id_concert !== concert.id),
+            ...updatedLoges,
+          ],
+          transport_concerts: [
+            ...curr.transport_concerts.filter(tc => tc.id_concert !== concert.id),
+            ...updatedTransports,
+          ],
+        }));
+
+        return concert as HydratedConcert;
+      })
+    );
+  }
+
+  deleteConcert(id: number): Observable<boolean> {
+    return this.getDataset().pipe(
+      map(() => {
+        this.updateState(curr => ({
+          ...curr,
+          concerts: curr.concerts.filter(c => c.id !== id),
+          artist_concerts: curr.artist_concerts.filter(ac => ac.id_concert !== id),
+          instrument_concerts: curr.instrument_concerts.filter(ic => ic.id_concert !== id),
+          loge_concerts: curr.loge_concerts.filter(lc => lc.id_concert !== id),
+          transport_concerts: curr.transport_concerts.filter(tc => tc.id_concert !== id),
+        }));
+        return true;
       })
     );
   }

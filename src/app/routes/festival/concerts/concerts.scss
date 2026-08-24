@@ -1,0 +1,47 @@
+.filter-panel {
+  background-color: var(--mat-sys-surface-container-low, #f8fafc);
+  border: 1px solid var(--mat-sys-outline-variant, #e2e8f0);
+  border-radius: 8px;
+}
+
+.filter-item-search {
+  width: 240px;
+}
+
+.filter-item {
+  width: 220px;
+}
+
+.stacked-cell {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  width: 100% !important;
+}
+
+.artist-chip {
+  height: 24px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.tech-rider-panel {
+  padding: 16px;
+  background-color: var(--mat-sys-surface-container-lowest, #fff);
+  border: 1px solid var(--mat-sys-outline-variant, #e2e8f0);
+  border-radius: 8px;
+}
+
+.tech-badge {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--mat-sys-on-surface-variant, #334155);
+  background-color: var(--mat-sys-surface-container-high, #e2e8f0);
+  border-radius: 12px;
+}
