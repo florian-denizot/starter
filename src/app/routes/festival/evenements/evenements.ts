@@ -137,6 +137,7 @@ export class EvenementsComponent implements OnInit {
       field: 'actions',
       pinned: 'right',
       width: '110px',
+      disabled: true,
     },
   ];
 
