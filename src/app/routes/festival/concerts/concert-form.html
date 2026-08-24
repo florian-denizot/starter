@@ -804,10 +804,6 @@
               @if (evt.date_fin) { - {{ evt.date_fin | date: 'HH:mm' }} }
             </span>
           </div>
-          <div class="detail-row">
-            <mat-icon class="detail-icon">place</mat-icon>
-            <span><strong>Lieu :</strong> {{ evt.lieu?.nom || '-' }}</span>
-          </div>
           @if (getManagers(evt).length > 0) {
             <div class="detail-row">
               <mat-icon class="detail-icon">star</mat-icon>

@@ -97,8 +97,6 @@
           [columnSortable]="true"
           [columnResizable]="true"
           [showColumnMenuButton]="true"
-          [expandable]="true"
-          [expansionTemplate]="expansionTpl"
           [showPaginator]="true"
           [pageSize]="10"
           [pageSizeOptions]="[5, 10, 20]"
@@ -107,7 +105,25 @@
             date: dateTpl,
             lieu: lieuTpl,
             artists: artistsTpl,
-            regie: regieTpl,
+            formation: formationTpl,
+            sceneMontage: sceneMontageTpl,
+            sceneDemontage: sceneDemontageTpl,
+            sonVerification: sonVerificationTpl,
+            eclairageMontage: eclairageMontageTpl,
+            eclairageDemontage: eclairageDemontageTpl,
+            eclairageVerification: eclairageVerificationTpl,
+            repetition: repetitionTpl,
+            porteOuverture: porteOuvertureTpl,
+            porteFermeture: porteFermetureTpl,
+            bistroMontage: bistroMontageTpl,
+            bistroDemontage: bistroDemontageTpl,
+            cocktailInstallation: cocktailInstallationTpl,
+            cocktailRangement: cocktailRangementTpl,
+            marchandiseMontage: marchandiseMontageTpl,
+            marchandiseDemontage: marchandiseDemontageTpl,
+            instrumentsEvents: instrumentsEventsTpl,
+            logesEvents: logesEventsTpl,
+            transportsEvents: transportsEventsTpl,
             actions: actionsTpl
           }"
         />
@@ -141,8 +157,7 @@
 
 <!-- Lieu -->
 <ng-template #lieuTpl let-row>
-  <div class="d-flex align-items-center gap-4 py-4">
-    <mat-icon style="font-size: 16px; width: 16px; height: 16px" color="primary">place</mat-icon>
+  <div class="py-4">
     <span class="font-weight-medium">{{ row.lieu?.nom || '-' }}</span>
   </div>
 </ng-template>
@@ -161,33 +176,255 @@
   </div>
 </ng-template>
 
-<!-- Régie Summary -->
-<ng-template #regieTpl let-row>
-  <div class="d-flex flex-wrap gap-4 py-4">
-    @if (row.sceneMontage || row.id_scene_montage) {
-      <span class="tech-badge" [matTooltip]="'Montage scène configuré'">
-        <mat-icon style="font-size: 14px; width: 14px; height: 14px">handyman</mat-icon> Scène
-      </span>
+<!-- Formation -->
+<ng-template #formationTpl let-row>
+  <div class="py-4" style="max-width: 240px">
+    @if (row.formation) {
+      <div [innerHTML]="row.formation | safeHtml"></div>
+    } @else {
+      <span class="text-muted">-</span>
     }
-    @if (row.sonVerification || row.id_son_verification) {
-      <span class="tech-badge" [matTooltip]="'Balances son configurées'">
-        <mat-icon style="font-size: 14px; width: 14px; height: 14px">mic</mat-icon> Son
-      </span>
+  </div>
+</ng-template>
+
+<!-- Reusable Event Cell Template (Venue removed) -->
+<ng-template #eventCell let-evt="evt">
+  @if (evt) {
+    <div class="event-column-cell py-4">
+      <div class="event-time-badge font-weight-bold">
+        <mat-icon style="font-size: 13px; width: 13px; height: 13px; vertical-align: middle;">schedule</mat-icon>
+        {{ evt.date_debut | date: 'dd/MM HH:mm' }}
+        @if (evt.date_fin) {
+          <span> - {{ evt.date_fin | date: 'HH:mm' }}</span>
+        }
+      </div>
+      @if (evt.commentaires_prod) {
+        <div class="prod-notes-snippet mt-4" [innerHTML]="evt.commentaires_prod | safeHtml"></div>
+      }
+    </div>
+  } @else {
+    <span class="text-muted">-</span>
+  }
+</ng-template>
+
+<!-- Event Specific Templates -->
+<ng-template #sceneMontageTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.sceneMontage }" />
+</ng-template>
+
+<ng-template #sceneDemontageTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.sceneDemontage }" />
+</ng-template>
+
+<ng-template #sonVerificationTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.sonVerification }" />
+</ng-template>
+
+<ng-template #eclairageMontageTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.eclairageMontage }" />
+</ng-template>
+
+<ng-template #eclairageDemontageTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.eclairageDemontage }" />
+</ng-template>
+
+<ng-template #eclairageVerificationTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.eclairageVerification }" />
+</ng-template>
+
+<ng-template #repetitionTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.repetition }" />
+</ng-template>
+
+<ng-template #porteOuvertureTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.porteOuverture }" />
+</ng-template>
+
+<ng-template #porteFermetureTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.porteFermeture }" />
+</ng-template>
+
+<ng-template #bistroMontageTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.bistroMontage }" />
+</ng-template>
+
+<ng-template #bistroDemontageTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.bistroDemontage }" />
+</ng-template>
+
+<ng-template #cocktailInstallationTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.cocktailInstallation }" />
+</ng-template>
+
+<ng-template #cocktailRangementTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.cocktailRangement }" />
+</ng-template>
+
+<ng-template #marchandiseMontageTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.marchandiseMontage }" />
+</ng-template>
+
+<ng-template #marchandiseDemontageTpl let-row>
+  <ng-container *ngTemplateOutlet="eventCell; context: { evt: row.marchandiseDemontage }" />
+</ng-template>
+
+<!-- Instruments Events Cell: Vertically stacked instruments, horizontally side-by-side sub-events -->
+<ng-template #instrumentsEventsTpl let-row>
+  <div class="inst-container">
+    @for (inst of row.instruments; track inst.id) {
+      <div class="inst-row-card">
+        <!-- Instrument Name -->
+        <div class="inst-col-name d-flex flex-column justify-content-center p-4">
+          <strong style="font-size: 13px">{{ inst.name }}</strong>
+        </div>
+
+        <!-- Livraison Event Sub-cell -->
+        <div class="inst-col-event flex-1 p-4">
+          <span class="badge-label d-block text-primary mb-2">Livraison</span>
+          @if (inst.livraison) {
+            <div class="event-time-badge font-weight-bold">
+              <mat-icon style="font-size: 12px; width: 12px; height: 12px; vertical-align: middle;">schedule</mat-icon>
+              {{ inst.livraison.date_debut | date: 'dd/MM HH:mm' }}
+              @if (inst.livraison.date_fin) {
+                <span> - {{ inst.livraison.date_fin | date: 'HH:mm' }}</span>
+              }
+            </div>
+            @if (inst.livraison.commentaires_prod) {
+              <div class="prod-notes-snippet mt-2" [innerHTML]="inst.livraison.commentaires_prod | safeHtml"></div>
+            }
+          } @else {
+            <span class="text-muted" style="font-size: 11px;">-</span>
+          }
+        </div>
+
+        <!-- Accordage Event Sub-cell -->
+        <div class="inst-col-event flex-1 p-4">
+          <span class="badge-label d-block text-primary mb-2">Accordage</span>
+          @if (inst.accordage) {
+            <div class="event-time-badge font-weight-bold">
+              <mat-icon style="font-size: 12px; width: 12px; height: 12px; vertical-align: middle;">schedule</mat-icon>
+              {{ inst.accordage.date_debut | date: 'dd/MM HH:mm' }}
+              @if (inst.accordage.date_fin) {
+                <span> - {{ inst.accordage.date_fin | date: 'HH:mm' }}</span>
+              }
+            </div>
+            @if (inst.accordage.commentaires_prod) {
+              <div class="prod-notes-snippet mt-2" [innerHTML]="inst.accordage.commentaires_prod | safeHtml"></div>
+            }
+          } @else {
+            <span class="text-muted" style="font-size: 11px;">-</span>
+          }
+        </div>
+
+        <!-- Ramassage Event Sub-cell -->
+        <div class="inst-col-event flex-1 p-4">
+          <span class="badge-label d-block text-primary mb-2">Ramassage</span>
+          @if (inst.ramassage) {
+            <div class="event-time-badge font-weight-bold">
+              <mat-icon style="font-size: 12px; width: 12px; height: 12px; vertical-align: middle;">schedule</mat-icon>
+              {{ inst.ramassage.date_debut | date: 'dd/MM HH:mm' }}
+              @if (inst.ramassage.date_fin) {
+                <span> - {{ inst.ramassage.date_fin | date: 'HH:mm' }}</span>
+              }
+            </div>
+            @if (inst.ramassage.commentaires_prod) {
+              <div class="prod-notes-snippet mt-2" [innerHTML]="inst.ramassage.commentaires_prod | safeHtml"></div>
+            }
+          } @else {
+            <span class="text-muted" style="font-size: 11px;">-</span>
+          }
+        </div>
+      </div>
     }
-    @if (row.eclairageMontage || row.id_eclairage_montage) {
-      <span class="tech-badge" [matTooltip]="'Éclairage configuré'">
-        <mat-icon style="font-size: 14px; width: 14px; height: 14px">lightbulb</mat-icon> Éclairage
-      </span>
+    @if (!row.instruments || row.instruments.length === 0) {
+      <span class="text-muted">-</span>
     }
-    @if (row.instruments?.length > 0) {
-      <span class="tech-badge" [matTooltip]="row.instruments.length + ' instrument(s)'">
-        <mat-icon style="font-size: 14px; width: 14px; height: 14px">piano</mat-icon> {{ row.instruments.length }} inst.
-      </span>
+  </div>
+</ng-template>
+
+<!-- Loges Events Cell: Vertically stacked loges, horizontally side-by-side sub-events -->
+<ng-template #logesEventsTpl let-row>
+  <div class="loge-container">
+    @for (loge of row.loges; track loge.id) {
+      <div class="loge-row-card">
+        <!-- Loge Name -->
+        <div class="loge-col-name d-flex flex-column justify-content-center p-4">
+          <strong style="font-size: 13px">{{ loge.nom }}</strong>
+        </div>
+
+        <!-- Installation Event Sub-cell -->
+        <div class="loge-col-event flex-1 p-4">
+          <span class="badge-label d-block text-primary mb-2">Installation</span>
+          @if (loge.installation) {
+            <div class="event-time-badge font-weight-bold">
+              <mat-icon style="font-size: 12px; width: 12px; height: 12px; vertical-align: middle;">schedule</mat-icon>
+              {{ loge.installation.date_debut | date: 'dd/MM HH:mm' }}
+              @if (loge.installation.date_fin) {
+                <span> - {{ loge.installation.date_fin | date: 'HH:mm' }}</span>
+              }
+            </div>
+            @if (loge.installation.commentaires_prod) {
+              <div class="prod-notes-snippet mt-2" [innerHTML]="loge.installation.commentaires_prod | safeHtml"></div>
+            }
+          } @else {
+            <span class="text-muted" style="font-size: 11px;">-</span>
+          }
+        </div>
+
+        <!-- Rangement Event Sub-cell -->
+        <div class="loge-col-event flex-1 p-4">
+          <span class="badge-label d-block text-primary mb-2">Rangement</span>
+          @if (loge.rangement) {
+            <div class="event-time-badge font-weight-bold">
+              <mat-icon style="font-size: 12px; width: 12px; height: 12px; vertical-align: middle;">schedule</mat-icon>
+              {{ loge.rangement.date_debut | date: 'dd/MM HH:mm' }}
+              @if (loge.rangement.date_fin) {
+                <span> - {{ loge.rangement.date_fin | date: 'HH:mm' }}</span>
+              }
+            </div>
+            @if (loge.rangement.commentaires_prod) {
+              <div class="prod-notes-snippet mt-2" [innerHTML]="loge.rangement.commentaires_prod | safeHtml"></div>
+            }
+          } @else {
+            <span class="text-muted" style="font-size: 11px;">-</span>
+          }
+        </div>
+      </div>
     }
-    @if (row.loges?.length > 0) {
-      <span class="tech-badge" [matTooltip]="row.loges.length + ' loge(s)'">
-        <mat-icon style="font-size: 14px; width: 14px; height: 14px">meeting_room</mat-icon> {{ row.loges.length }} loge(s)
-      </span>
+    @if (!row.loges || row.loges.length === 0) {
+      <span class="text-muted">-</span>
+    }
+  </div>
+</ng-template>
+
+<!-- Transports Events Cell: Vertically stacked transports, horizontally side-by-side details -->
+<ng-template #transportsEventsTpl let-row>
+  <div class="trans-container">
+    @for (trans of row.transports; track trans.id) {
+      <div class="trans-row-card">
+        <!-- Transport Title -->
+        <div class="trans-col-info d-flex flex-column justify-content-center p-4">
+          <strong style="font-size: 13px">{{ trans.summary }}</strong>
+        </div>
+
+        <!-- Trajet: Date & Time + Production Notes -->
+        <div class="trans-col-trajet flex-1 p-4">
+          <span class="badge-label d-block text-primary mb-2">Trajet</span>
+          <div class="event-time-badge font-weight-bold">
+            <mat-icon style="font-size: 12px; width: 12px; height: 12px; vertical-align: middle;">schedule</mat-icon>
+            {{ trans.date_debut | date: 'dd/MM HH:mm' }}
+            @if (trans.date_fin) {
+              <span> - {{ trans.date_fin | date: 'HH:mm' }}</span>
+            }
+          </div>
+          @if (trans.commentaires_prod) {
+            <div class="prod-notes-snippet mt-2" [innerHTML]="trans.commentaires_prod | safeHtml"></div>
+          }
+        </div>
+      </div>
+    }
+    @if (!row.transports || row.transports.length === 0) {
+      <span class="text-muted">-</span>
     }
   </div>
 </ng-template>
@@ -211,88 +448,5 @@
     >
       <mat-icon>delete</mat-icon>
     </button>
-  </div>
-</ng-template>
-
-<!-- Expandable Technical Rider & Conducteur Detail View -->
-<ng-template #expansionTpl let-row>
-  <div class="tech-rider-panel my-8">
-    <h3 class="mb-12 d-flex align-items-center gap-8 text-primary font-weight-bold">
-      <mat-icon>receipt_long</mat-icon>
-      <span>Fiche Technique & Conducteur : {{ row.nom }}</span>
-    </h3>
-
-    <div class="row">
-      <!-- Scène & Son -->
-      <div class="col-md-4 mb-16">
-        <div class="p-12 border rounded bg-surface-container-low h-100">
-          <strong class="d-block mb-8 text-primary font-weight-bold">
-            <mat-icon style="font-size: 16px; vertical-align: middle;">handyman</mat-icon> Scène & Plateau
-          </strong>
-          <p class="mb-4" style="font-size: 12px;"><strong>Besoins :</strong> {{ row.scene_besoin || '-' }}</p>
-          <p class="mb-4" style="font-size: 12px;"><strong>Plan :</strong> {{ row.scene_plan || '-' }}</p>
-          <p class="mb-4" style="font-size: 12px;"><strong>Commentaires :</strong> {{ row.scene_commentaires || '-' }}</p>
-        </div>
-      </div>
-
-      <!-- Éclairage -->
-      <div class="col-md-4 mb-16">
-        <div class="p-12 border rounded bg-surface-container-low h-100">
-          <strong class="d-block mb-8 text-primary font-weight-bold">
-            <mat-icon style="font-size: 16px; vertical-align: middle;">lightbulb</mat-icon> Éclairage
-          </strong>
-          <p class="mb-4" style="font-size: 12px;"><strong>Besoins :</strong> {{ row.eclairage_besoin || '-' }}</p>
-          <p class="mb-4" style="font-size: 12px;"><strong>Commentaires :</strong> {{ row.eclairage_commentaires || '-' }}</p>
-        </div>
-      </div>
-
-      <!-- Logistique & Accueil -->
-      <div class="col-md-4 mb-16">
-        <div class="p-12 border rounded bg-surface-container-low h-100">
-          <strong class="d-block mb-8 text-primary font-weight-bold">
-            <mat-icon style="font-size: 16px; vertical-align: middle;">room_service</mat-icon> Logistique & Accueil
-          </strong>
-          <p class="mb-4" style="font-size: 12px;"><strong>Logistique :</strong> {{ row.logistique || '-' }}</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Instruments du concert -->
-    @if (row.instruments?.length > 0) {
-      <div class="mt-8 mb-16">
-        <strong class="d-block mb-8">
-          <mat-icon style="font-size: 16px; vertical-align: middle;">piano</mat-icon> Instruments & Continuo ({{ row.instruments.length }})
-        </strong>
-        <div class="d-flex flex-wrap gap-8">
-          @for (inst of row.instruments; track inst.id) {
-            <div class="p-8 border rounded bg-surface-container-low" style="font-size: 12px;">
-              <strong>{{ inst.name }}</strong>
-              <div class="text-muted mt-2">
-                @if (inst.livraison) { <span>Livraison: {{ inst.livraison.date_debut | date: 'dd/MM HH:mm' }} | </span> }
-                @if (inst.accordage) { <span>Accordage: {{ inst.accordage.date_debut | date: 'dd/MM HH:mm' }} | </span> }
-                @if (inst.ramassage) { <span>Ramassage: {{ inst.ramassage.date_debut | date: 'dd/MM HH:mm' }}</span> }
-              </div>
-            </div>
-          }
-        </div>
-      </div>
-    }
-
-    <!-- Loges -->
-    @if (row.loges?.length > 0) {
-      <div class="mt-8">
-        <strong class="d-block mb-8">
-          <mat-icon style="font-size: 16px; vertical-align: middle;">meeting_room</mat-icon> Loges Artistes ({{ row.loges.length }})
-        </strong>
-        <div class="d-flex flex-wrap gap-8">
-          @for (loge of row.loges; track loge.id) {
-            <div class="p-8 border rounded bg-surface-container-low" style="font-size: 12px;">
-              <strong>{{ loge.nom }}</strong>
-              <span class="text-primary ml-4">({{ loge.artist?.name || 'Artiste' }})</span>
-            </div>
-          }
-        </div>
-      </div>
-    }
   </div>
 </ng-template>

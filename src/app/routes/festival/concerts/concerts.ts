@@ -15,7 +15,7 @@ import { FestivalDataService, HydratedConcert } from '@core/services/festival-da
 import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { MtxGridColumn, MtxGridModule } from '@ng-matero/extensions/grid';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { PageHeader } from '@shared';
+import { PageHeader, SafeHtmlPipe } from '@shared';
 
 @Component({
   selector: 'app-festival-concerts',
@@ -35,6 +35,7 @@ import { PageHeader } from '@shared';
     MatTooltipModule,
     MtxGridModule,
     PageHeader,
+    SafeHtmlPipe,
     TranslatePipe,
   ],
 })
@@ -65,27 +66,108 @@ export class ConcertsComponent implements OnInit {
       header: this.translate.stream('date'),
       field: 'date',
       sortable: true,
-      minWidth: 160,
+      minWidth: 150,
     },
     {
       header: this.translate.stream('festival.lieu'),
       field: 'lieu',
-      minWidth: 200,
-    },
-    {
-      header: this.translate.stream('festival.artists'),
-      field: 'artists',
-      minWidth: 220,
+      minWidth: 180,
     },
     {
       header: this.translate.stream('festival.formation'),
       field: 'formation',
-      minWidth: 220,
+      minWidth: 200,
+    },
+    // Event Columns
+    {
+      header: 'Montage Scène',
+      field: 'sceneMontage',
+      minWidth: 200,
     },
     {
-      header: this.translate.stream('festival.technical_rider'),
-      field: 'regie',
-      minWidth: 240,
+      header: 'Démontage Scène',
+      field: 'sceneDemontage',
+      minWidth: 200,
+    },
+    {
+      header: 'Balances Son',
+      field: 'sonVerification',
+      minWidth: 200,
+    },
+    {
+      header: 'Montage Éclairage',
+      field: 'eclairageMontage',
+      minWidth: 200,
+    },
+    {
+      header: 'Démontage Éclairage',
+      field: 'eclairageDemontage',
+      minWidth: 200,
+    },
+    {
+      header: 'Calage Éclairage',
+      field: 'eclairageVerification',
+      minWidth: 200,
+    },
+    {
+      header: 'Répétition Générale',
+      field: 'repetition',
+      minWidth: 200,
+    },
+    {
+      header: 'Ouverture Portes',
+      field: 'porteOuverture',
+      minWidth: 200,
+    },
+    {
+      header: 'Fermeture Portes',
+      field: 'porteFermeture',
+      minWidth: 200,
+    },
+    {
+      header: 'Montage Bistro',
+      field: 'bistroMontage',
+      minWidth: 200,
+    },
+    {
+      header: 'Démontage Bistro',
+      field: 'bistroDemontage',
+      minWidth: 200,
+    },
+    {
+      header: 'Installation Cocktail VIP',
+      field: 'cocktailInstallation',
+      minWidth: 200,
+    },
+    {
+      header: 'Rangement Cocktail VIP',
+      field: 'cocktailRangement',
+      minWidth: 200,
+    },
+    {
+      header: 'Montage Stand / Disques',
+      field: 'marchandiseMontage',
+      minWidth: 200,
+    },
+    {
+      header: 'Démontage Stand / Disques',
+      field: 'marchandiseDemontage',
+      minWidth: 200,
+    },
+    {
+      header: 'Instruments (Événements)',
+      field: 'instrumentsEvents',
+      minWidth: 880,
+    },
+    {
+      header: 'Loges (Événements)',
+      field: 'logesEvents',
+      minWidth: 650,
+    },
+    {
+      header: 'Transports & Navettes',
+      field: 'transportsEvents',
+      minWidth: 520,
     },
     {
       header: 'ID',
@@ -149,15 +231,17 @@ export class ConcertsComponent implements OnInit {
     this.filterList();
   }
 
-  getFestivalYear(festivalId?: number): string {
-    if (!festivalId) return '2026';
-    const fest = this.festivals.find(f => f.id === festivalId);
-    return fest ? fest.year : '2026';
+  getFestivalYear(idFestival?: number): string | number {
+    if (!idFestival) return '';
+    const fest = this.festivals.find(f => f.id === idFestival);
+    return fest ? fest.year : idFestival;
   }
 
   deleteConcert(concert: HydratedConcert) {
     this.mtxDialog.confirm(this.translate.instant('confirm_delete'), concert.nom, () => {
-      this.festivalSrv.deleteConcert(concert.id).subscribe(() => this.loadData());
+      this.festivalSrv.deleteConcert(concert.id).subscribe(() => {
+        this.loadData();
+      });
     });
   }
 }
