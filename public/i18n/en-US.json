@@ -2,6 +2,7 @@
   "menu": {
     "dashboard": "Dashboard",
     "festival": "Festival Management",
+    "festival.festivals": "Festival Editions",
     "festival.lieux": "Venues & Halls",
     "festival.utilisateurs": "Users & Roles",
     "festival.artistes": "Artists & Ensembles",
