@@ -92,16 +92,11 @@ export class EvenementsComponent implements OnInit {
 
   columns: MtxGridColumn[] = [
     {
-      header: 'ID',
-      field: 'id',
-      sortable: true,
-      width: '65px',
-    },
-    {
       header: this.translate.stream('festival.summary'),
       field: 'summary',
       sortable: true,
-      minWidth: 220,
+      minWidth: 240,
+      pinned: 'left',
     },
     {
       header: this.translate.stream('festival.type'),
@@ -139,6 +134,12 @@ export class EvenementsComponent implements OnInit {
       header: this.translate.stream('festival.commentaires_prod'),
       field: 'commentaires_prod',
       minWidth: 180,
+    },
+    {
+      header: 'ID',
+      field: 'id',
+      sortable: true,
+      width: '65px',
     },
     {
       header: this.translate.stream('actions'),
