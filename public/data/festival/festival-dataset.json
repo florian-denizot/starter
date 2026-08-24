@@ -1,0 +1,740 @@
+{
+  "users": [
+    { "id": 1, "prenom": "François", "nom": "Gagnon", "email": "f.gagnon@bachmontreal.com" },
+    { "id": 2, "prenom": "Geneviève", "nom": "Tremblay", "email": "g.tremblay@bachmontreal.com" },
+    { "id": 3, "prenom": "Mathieu", "nom": "Bouchard", "email": "m.bouchard@scenedirect.ca" },
+    { "id": 4, "prenom": "Étienne", "nom": "Lavigne", "email": "e.lavigne@eclairage-spectacle.ca" },
+    { "id": 5, "prenom": "Jean-Luc", "nom": "Belhumeur", "email": "jl.belhumeur@clavecin-orgue.qc.ca" },
+    { "id": 6, "prenom": "Pierre", "nom": "Desrochers", "email": "p.desrochers@transport-instruments-mtl.ca" },
+    { "id": 7, "prenom": "Marc-André", "nom": "Côté", "email": "ma.cote@navettes-vip-mtl.ca" },
+    { "id": 8, "prenom": "Simon", "nom": "Beaulieu", "email": "s.beaulieu@navettes-vip-mtl.ca" },
+    { "id": 9, "prenom": "Véronique", "nom": "Lavoie", "email": "v.lavoie@bachmontreal.com" },
+    { "id": 10, "prenom": "Charles", "nom": "Archambault", "email": "charles@terroir-traiteur-mtl.ca" },
+    { "id": 11, "prenom": "Stéphanie", "nom": "Roy", "email": "stephanie@photos-classique.ca" },
+    { "id": 12, "prenom": "Guillaume", "nom": "Morin", "email": "g.morin@benevole-fbm.ca" },
+    { "id": 13, "prenom": "Catherine", "nom": "Dufour", "email": "c.dufour@benevole-fbm.ca" },
+    { "id": 14, "prenom": "Jean-Guihen", "nom": "Queyras", "email": "mgmt@queyras-violoncelle.com" },
+    { "id": 15, "prenom": "Masaaki", "nom": "Suzuki", "email": "office@bachcollegiumjapan.org" },
+    { "id": 16, "prenom": "Olivier", "nom": "Latry", "email": "latry.organist@notredame-paris.fr" },
+    { "id": 17, "prenom": "Isabelle", "nom": "Fortin", "email": "i.fortin@bachmontreal.com" },
+    { "id": 18, "prenom": "Maxime", "nom": "Pelletier", "email": "m.pelletier@bachmontreal.com" },
+    { "id": 19, "prenom": "Chantal", "nom": "Lafond", "email": "c.lafond@bachmontreal.com" },
+    { "id": 20, "prenom": "Marc", "nom": "Boucher", "email": "m.boucher@bachmontreal.com" }
+  ],
+  "user_roles": [
+    { "id_utilisateur": 1, "role": "directeur_production" },
+    { "id_utilisateur": 2, "role": "coordinateur_logistique" },
+    { "id_utilisateur": 3, "role": "fournisseur_scene" },
+    { "id_utilisateur": 3, "role": "referant_technique" },
+    { "id_utilisateur": 4, "role": "fournisseur_lumiere" },
+    { "id_utilisateur": 5, "role": "accordeur" },
+    { "id_utilisateur": 6, "role": "location_instrument" },
+    { "id_utilisateur": 6, "role": "transporteur_instrument" },
+    { "id_utilisateur": 7, "role": "chauffeur" },
+    { "id_utilisateur": 8, "role": "chauffeur" },
+    { "id_utilisateur": 9, "role": "referant_salle" },
+    { "id_utilisateur": 10, "role": "traiteur" },
+    { "id_utilisateur": 11, "role": "photographe" },
+    { "id_utilisateur": 12, "role": "bénévole" },
+    { "id_utilisateur": 13, "role": "bénévole" },
+    { "id_utilisateur": 14, "role": "artiste" },
+    { "id_utilisateur": 15, "role": "artiste" },
+    { "id_utilisateur": 16, "role": "artiste" },
+    { "id_utilisateur": 17, "role": "responsable_billetterie" },
+    { "id_utilisateur": 18, "role": "responsable_marketing" },
+    { "id_utilisateur": 19, "role": "directeur_artistique" },
+    { "id_utilisateur": 20, "role": "directeur_excecutif" }
+  ],
+  "lieux": [
+    {
+      "id": 1,
+      "nom": "Maison symphonique de Montréal (Place des Arts)",
+      "gmap_lien": "https://maps.google.com/?q=Maison+symphonique+de+Montréal",
+      "gcal_id": "c_maison_symphonique@bachmontreal.com",
+      "type": "salle_concert"
+    },
+    {
+      "id": 2,
+      "nom": "Église Saint-Jean-Baptiste (Grand Orgue Casavant)",
+      "gmap_lien": "https://maps.google.com/?q=Eglise+Saint-Jean-Baptiste+Montreal",
+      "gcal_id": "c_st_jean_baptiste@bachmontreal.com",
+      "type": "salle_concert"
+    },
+    {
+      "id": 3,
+      "nom": "Chapelle Notre-Dame-de-Bon-Secours (Vieux-Montréal)",
+      "gmap_lien": "https://maps.google.com/?q=Chapelle+Notre-Dame-de-Bon-Secours+Montreal",
+      "gcal_id": "c_bon_secours@bachmontreal.com",
+      "type": "salle_concert"
+    },
+    {
+      "id": 4,
+      "nom": "Hôtel Fairmont Le Reine Élizabeth",
+      "gmap_lien": "https://maps.google.com/?q=Fairmont+The+Queen+Elizabeth+Montreal",
+      "gcal_id": "c_fairmont_mtl@bachmontreal.com",
+      "type": "hotel"
+    },
+    {
+      "id": 5,
+      "nom": "Aéroport International Montréal-Trudeau (YUL)",
+      "gmap_lien": "https://maps.google.com/?q=Aeroport+Montreal-Trudeau+YUL",
+      "gcal_id": "c_yul_airport@bachmontreal.com",
+      "type": "aeroport"
+    },
+    {
+      "id": 6,
+      "nom": "Gare Centrale de Montréal (VIA Rail)",
+      "gmap_lien": "https://maps.google.com/?q=Gare+Centrale+Montreal",
+      "gcal_id": "c_gare_centrale@bachmontreal.com",
+      "type": "gare"
+    },
+    {
+      "id": 7,
+      "nom": "Foyer d'honneur & Bistro Bach (Place des Arts)",
+      "gmap_lien": "https://maps.google.com/?q=Place+des+Arts+Montreal",
+      "gcal_id": "c_foyer_pda@bachmontreal.com",
+      "type": "autre"
+    },
+    {
+      "id": 8,
+      "nom": "Loges des Maîtres - Maison symphonique",
+      "gmap_lien": "https://maps.google.com/?q=Maison+symphonique+Loges",
+      "gcal_id": "c_loges_ms@bachmontreal.com",
+      "type": "autre"
+    }
+  ],
+  "artists": [
+    { "id": 1, "name": "Bach Collegium Japan (Dir. Masaaki Suzuki)" },
+    { "id": 2, "name": "Jean-Guihen Queyras (Violoncelle baroque)" },
+    { "id": 3, "name": "Olivier Latry (Grand Orgue)" },
+    { "id": 4, "name": "Ensemble Caprice & Chœur du Festival Bach" }
+  ],
+  "evenements": [
+    {
+      "id": 101,
+      "type": "transport",
+      "date_debut": "2026-11-20T14:15:00",
+      "date_fin": "2026-11-20T15:30:00",
+      "commentaires": "Arrivée vol Tokyo-Montréal AC006 : Accueil Maestro Masaaki Suzuki & solistes (6 pers.)",
+      "commentaires_prod": "Chauffeur Marc-André Côté. Sprinter VIP FIBM. Dépose directe à l'Hôtel Fairmont Le Reine Élizabeth.",
+      "gcal_id": "evt_101_gcal",
+      "id_lieu": 5
+    },
+    {
+      "id": 102,
+      "type": "transport",
+      "date_debut": "2026-11-21T13:30:00",
+      "date_fin": "2026-11-21T14:00:00",
+      "commentaires": "Transfert Fairmont -> Maison symphonique (Maestro Suzuki & Chœur)",
+      "commentaires_prod": "Accès quai de déchargement rue Saint-Urbain.",
+      "gcal_id": "evt_102_gcal",
+      "id_lieu": 4
+    },
+    {
+      "id": 103,
+      "type": "instrument_livraison",
+      "date_debut": "2026-11-21T08:00:00",
+      "date_fin": "2026-11-21T09:30:00",
+      "commentaires": "Livraison Clavecin flamand double clavier (copie Ruckers) & Orgue positif de continuo",
+      "commentaires_prod": "Transporteur Pierre Desrochers. Contrôle hygrométrie à 45% dans la salle.",
+      "gcal_id": "evt_103_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 104,
+      "type": "instrument_accordage",
+      "date_debut": "2026-11-21T12:00:00",
+      "date_fin": "2026-11-21T14:00:00",
+      "commentaires": "Accordage clavecin et positif baroque au diapason La = 415 Hz (Tempérament Valotti)",
+      "commentaires_prod": "Accordeur spécialiste Jean-Luc Belhumeur. Silence total exigé sur le plateau.",
+      "gcal_id": "evt_104_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 105,
+      "type": "scene_montage",
+      "date_debut": "2026-11-21T07:30:00",
+      "date_fin": "2026-11-21T11:30:00",
+      "commentaires": "Mise en place estrade chœur 4 niveaux, pupitres baroques en bois et chaises d'orchestre",
+      "commentaires_prod": "Régisseur Mathieu Bouchard. 32 pupitres avec lampes LED à température chaude 2700K.",
+      "gcal_id": "evt_105_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 106,
+      "type": "eclairage_montage",
+      "date_debut": "2026-11-21T08:30:00",
+      "date_fin": "2026-11-21T12:30:00",
+      "commentaires": "Installation découpes solistes, éclairage feutré boiseries et projecteurs d'ambiance chœur",
+      "commentaires_prod": "Éclairagiste Étienne Lavigne. Respecter la charte visuelle sobre du Festival Bach.",
+      "gcal_id": "evt_106_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 107,
+      "type": "son_verification",
+      "date_debut": "2026-11-21T15:00:00",
+      "date_fin": "2026-11-21T16:30:00",
+      "commentaires": "Raccord acoustique & balances micros pour captation Radio-Canada / Mezzo",
+      "commentaires_prod": "Couple stéréo DPA suspendu + micros d'appoint solistes voix et trompette naturelle.",
+      "gcal_id": "evt_107_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 108,
+      "type": "eclairage_verification",
+      "date_debut": "2026-11-21T16:30:00",
+      "date_fin": "2026-11-21T17:15:00",
+      "commentaires": "Vérification des niveaux lumineux sur les partitions de continuo et solistes",
+      "commentaires_prod": "Validation avec Maestro Suzuki lors de la répétition générale.",
+      "gcal_id": "evt_108_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 109,
+      "type": "loge_installation",
+      "date_debut": "2026-11-21T11:00:00",
+      "date_fin": "2026-11-21T12:30:00",
+      "commentaires": "Préparation Loge Maestro Suzuki : thé vert Sencha, fruits frais, bouteilles d'eau Eska, miroir en pied",
+      "commentaires_prod": "Geneviève Tremblay. Repassage frac et chemises de concert.",
+      "gcal_id": "evt_109_gcal",
+      "id_lieu": 8
+    },
+    {
+      "id": 110,
+      "type": "billeterie_installation",
+      "date_debut": "2026-11-21T17:00:00",
+      "date_fin": "2026-11-21T18:00:00",
+      "commentaires": "Ouverture du comptoir festivalier, retrait billets abonnés et gestion des invitations VIP",
+      "commentaires_prod": "Isabelle Fortin. 4 postes de scan billets PDA.",
+      "gcal_id": "evt_110_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 111,
+      "type": "bistro_montage",
+      "date_debut": "2026-11-21T16:00:00",
+      "date_fin": "2026-11-21T18:00:00",
+      "commentaires": "Mise en place bar Foyer d'honneur : Vins d'Alsace & d'Allemagne, cidres du Québec et eau minérale",
+      "commentaires_prod": "Équipe bénévoles + responsable F&B FIBM.",
+      "gcal_id": "evt_111_gcal",
+      "id_lieu": 7
+    },
+    {
+      "id": 112,
+      "type": "cocktail_installation",
+      "date_debut": "2026-11-21T17:30:00",
+      "date_fin": "2026-11-21T18:45:00",
+      "commentaires": "Mise en place cocktail d'honneur Grands Donateurs & Conseil d'Administration du Festival",
+      "commentaires_prod": "Traiteur Terroir Montréal Charles Archambault (150 convives). Bouchées fines du Québec.",
+      "gcal_id": "evt_112_gcal",
+      "id_lieu": 7
+    },
+    {
+      "id": 113,
+      "type": "portes_ouverture",
+      "date_debut": "2026-11-21T19:00:00",
+      "date_fin": "2026-11-21T19:30:00",
+      "commentaires": "Ouverture des portes de la Maison symphonique au public",
+      "commentaires_prod": "Distribution des programmes de salle FIBM 2026 par les bénévoles.",
+      "gcal_id": "evt_113_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 114,
+      "type": "portes_fermeture",
+      "date_debut": "2026-11-21T22:45:00",
+      "date_fin": "2026-11-21T23:30:00",
+      "commentaires": "Clôture de la salle après les rappels et évacuation du public",
+      "commentaires_prod": "Coordination accueil salle Véronique Lavoie.",
+      "gcal_id": "evt_114_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 115,
+      "type": "scene_demontage",
+      "date_debut": "2026-11-21T22:30:00",
+      "date_fin": "2026-11-22T00:30:00",
+      "commentaires": "Démontage des gradins chœur, rangement pupitres et houssage des instruments à clavier",
+      "commentaires_prod": "Mathieu Bouchard. Température de la salle maintenue pour la nuit.",
+      "gcal_id": "evt_105_dem_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 116,
+      "type": "eclairage_demontage",
+      "date_debut": "2026-11-21T23:00:00",
+      "date_fin": "2026-11-22T01:00:00",
+      "commentaires": "Descente des découpes d'appoint et rangement des câblages",
+      "commentaires_prod": "Étienne Lavigne.",
+      "gcal_id": "evt_116_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 117,
+      "type": "cocktail_rangement",
+      "date_debut": "2026-11-21T22:45:00",
+      "date_fin": "2026-11-21T23:45:00",
+      "commentaires": "Nettoyage du Foyer d'honneur et reprise du matériel traiteur",
+      "commentaires_prod": "Charles Archambault Traiteur.",
+      "gcal_id": "evt_117_gcal",
+      "id_lieu": 7
+    },
+    {
+      "id": 118,
+      "type": "bistro_demontage",
+      "date_debut": "2026-11-21T23:00:00",
+      "date_fin": "2026-11-22T00:15:00",
+      "commentaires": "Fermeture du bar et inventaire des caisses boissons",
+      "commentaires_prod": "Bénévoles FIBM.",
+      "gcal_id": "evt_118_gcal",
+      "id_lieu": 7
+    },
+    {
+      "id": 119,
+      "type": "loge_rangement",
+      "date_debut": "2026-11-21T23:15:00",
+      "date_fin": "2026-11-22T00:00:00",
+      "commentaires": "Fermeture et vérification des loges des maîtres après dédicaces",
+      "commentaires_prod": "Geneviève Tremblay.",
+      "gcal_id": "evt_119_gcal",
+      "id_lieu": 8
+    },
+    {
+      "id": 120,
+      "type": "instrument_ramassage",
+      "date_debut": "2026-11-22T08:30:00",
+      "date_fin": "2026-11-22T10:00:00",
+      "commentaires": "Reprise et transport sous couverture thermique du clavecin et du positif",
+      "commentaires_prod": "Pierre Desrochers / Transport Spécialisé Montréal.",
+      "gcal_id": "evt_120_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 121,
+      "type": "reunion",
+      "date_debut": "2026-11-21T17:00:00",
+      "date_fin": "2026-11-21T18:00:00",
+      "commentaires": "Répétition générale solistes & chœur pour la Messe en si mineur BWV 232",
+      "commentaires_prod": "Présence de la directrice artistique Chantal Lafond.",
+      "gcal_id": "evt_121_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 122,
+      "type": "marchandise_montage",
+      "date_debut": "2026-11-21T16:30:00",
+      "date_fin": "2026-11-21T18:00:00",
+      "commentaires": "Mise en place de la boutique FIBM : Intégrale Bach Suzuki (CDs BIS), livres du festival et vinyles",
+      "commentaires_prod": "Maxime Pelletier / Responsable Marketing.",
+      "gcal_id": "evt_122_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 123,
+      "type": "marchandise_demontage",
+      "date_debut": "2026-11-21T22:45:00",
+      "date_fin": "2026-11-21T23:45:00",
+      "commentaires": "Clôture de la boutique, inventaire des ventes de disques et mise sous clé",
+      "commentaires_prod": "Maxime Pelletier.",
+      "gcal_id": "evt_123_gcal",
+      "id_lieu": 1
+    },
+    {
+      "id": 201,
+      "type": "transport",
+      "date_debut": "2026-11-22T13:00:00",
+      "date_fin": "2026-11-22T13:30:00",
+      "commentaires": "Accueil Jean-Guihen Queyras à la Gare Centrale VIA Rail (en provenance de Québec)",
+      "commentaires_prod": "Chauffeur Simon Beaulieu. Berline VIP FIBM avec espace sécurisé violoncelle.",
+      "gcal_id": "evt_201_gcal",
+      "id_lieu": 6
+    },
+    {
+      "id": 202,
+      "type": "instrument_livraison",
+      "date_debut": "2026-11-22T10:00:00",
+      "date_fin": "2026-11-22T11:00:00",
+      "commentaires": "Livraison pupitre soliste ancien en chêne et estrade en bois d'harmonie",
+      "commentaires_prod": "Installation dans le chœur de la Chapelle Notre-Dame-de-Bon-Secours.",
+      "gcal_id": "evt_202_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 203,
+      "type": "instrument_accordage",
+      "date_debut": "2026-11-22T14:30:00",
+      "date_fin": "2026-11-22T15:30:00",
+      "commentaires": "Stabilisation hygrométrique et vérification de l'archet baroque & cordes boyaux",
+      "commentaires_prod": "Contrôle de l'humidité relative dans la chapelle (maintien à 50%).",
+      "gcal_id": "evt_203_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 204,
+      "type": "son_verification",
+      "date_debut": "2026-11-22T16:00:00",
+      "date_fin": "2026-11-22T17:15:00",
+      "commentaires": "Essais acoustiques Suites pour violoncelle seul dans la nef de Bon-Secours",
+      "commentaires_prod": "Test réverbération naturelle pour diffusion live Radio-Classique.",
+      "gcal_id": "evt_204_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 205,
+      "type": "scene_montage",
+      "date_debut": "2026-11-22T09:00:00",
+      "date_fin": "2026-11-22T12:00:00",
+      "commentaires": "Installation podium soliste et tapis acoustique sous le violoncelle",
+      "commentaires_prod": "Mathieu Bouchard. Aucun câble visible dans l'axe de la nef.",
+      "gcal_id": "evt_205_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 206,
+      "type": "scene_demontage",
+      "date_debut": "2026-11-22T22:30:00",
+      "date_fin": "2026-11-22T23:45:00",
+      "commentaires": "Démontage estrade soliste et remise en état des lieux de culte",
+      "commentaires_prod": "Équipe FIBM.",
+      "gcal_id": "evt_206_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 207,
+      "type": "eclairage_montage",
+      "date_debut": "2026-11-22T10:00:00",
+      "date_fin": "2026-11-22T13:00:00",
+      "commentaires": "Mise en valeur de la voûte et éclairage doux à la bougie LED pour récital nocturne",
+      "commentaires_prod": "Étienne Lavigne. Projecteurs autonomes sans fils sur batterie.",
+      "gcal_id": "evt_207_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 208,
+      "type": "eclairage_demontage",
+      "date_debut": "2026-11-22T22:45:00",
+      "date_fin": "2026-11-23T00:00:00",
+      "commentaires": "Démontage des projecteurs autonomes et rangement flight-cases",
+      "commentaires_prod": "Étienne Lavigne.",
+      "gcal_id": "evt_208_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 209,
+      "type": "eclairage_verification",
+      "date_debut": "2026-11-22T17:30:00",
+      "date_fin": "2026-11-22T18:15:00",
+      "commentaires": "Calage des intensités pour la pénombre de la chapelle",
+      "commentaires_prod": "Accord avec Jean-Guihen Queyras.",
+      "gcal_id": "evt_209_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 210,
+      "type": "reunion",
+      "date_debut": "2026-11-22T15:30:00",
+      "date_fin": "2026-11-22T16:00:00",
+      "commentaires": "Raccord partition Suites BWV 1007, 1008 et 1011",
+      "commentaires_prod": "Artiste seul en répétition acoustique.",
+      "gcal_id": "evt_210_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 211,
+      "type": "portes_ouverture",
+      "date_debut": "2026-11-22T19:30:00",
+      "date_fin": "2026-11-22T20:00:00",
+      "commentaires": "Accueil du public à la Chapelle Bon-Secours dans le Vieux-Montréal",
+      "commentaires_prod": "Placement par rangées numérotées.",
+      "gcal_id": "evt_211_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 212,
+      "type": "portes_fermeture",
+      "date_debut": "2026-11-22T22:15:00",
+      "date_fin": "2026-11-22T22:45:00",
+      "commentaires": "Fermeture des portes de la chapelle après séance de dédicaces",
+      "commentaires_prod": "Véronique Lavoie.",
+      "gcal_id": "evt_212_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 213,
+      "type": "cocktail_installation",
+      "date_debut": "2026-11-22T18:00:00",
+      "date_fin": "2026-11-22T19:15:00",
+      "commentaires": "Installation vin chaud aux épices et tisanes bio sous les voûtes de la crypte",
+      "commentaires_prod": "Charles Archambault Traiteur (80 convives).",
+      "gcal_id": "evt_213_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 214,
+      "type": "cocktail_rangement",
+      "date_debut": "2026-11-22T22:00:00",
+      "date_fin": "2026-11-22T23:00:00",
+      "commentaires": "Rangement espace crypte",
+      "commentaires_prod": "Charles Archambault.",
+      "gcal_id": "evt_214_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 215,
+      "type": "marchandise_montage",
+      "date_debut": "2026-11-22T17:30:00",
+      "date_fin": "2026-11-22T18:45:00",
+      "commentaires": "Mise en place table dédicaces & intégrale des Suites chez Harmonia Mundi",
+      "commentaires_prod": "Bénévoles Guillaume & Catherine.",
+      "gcal_id": "evt_215_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 216,
+      "type": "marchandise_demontage",
+      "date_debut": "2026-11-22T22:15:00",
+      "date_fin": "2026-11-22T23:00:00",
+      "commentaires": "Comptage recettes et clôture boutique éphémère",
+      "commentaires_prod": "Isabelle Fortin.",
+      "gcal_id": "evt_216_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 217,
+      "type": "bistro_montage",
+      "date_debut": "2026-11-22T16:30:00",
+      "date_fin": "2026-11-22T18:30:00",
+      "commentaires": "Installation point rafraîchissement d'entracte",
+      "commentaires_prod": "Équipe FIBM.",
+      "gcal_id": "evt_217_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 218,
+      "type": "bistro_demontage",
+      "date_debut": "2026-11-22T22:00:00",
+      "date_fin": "2026-11-22T23:00:00",
+      "commentaires": "Rangement point rafraîchissement",
+      "commentaires_prod": "Équipe FIBM.",
+      "gcal_id": "evt_218_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 219,
+      "type": "loge_installation",
+      "date_debut": "2026-11-22T14:00:00",
+      "date_fin": "2026-11-22T15:00:00",
+      "commentaires": "Aménagement sacristie en loge d'artiste : fauteuil confortable, humidificateur d'air, thé au gingembre",
+      "commentaires_prod": "Geneviève Tremblay.",
+      "gcal_id": "evt_219_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 220,
+      "type": "loge_rangement",
+      "date_debut": "2026-11-22T22:30:00",
+      "date_fin": "2026-11-22T23:15:00",
+      "commentaires": "Remise en état de la sacristie",
+      "commentaires_prod": "Geneviève Tremblay.",
+      "gcal_id": "evt_220_gcal",
+      "id_lieu": 3
+    },
+    {
+      "id": 221,
+      "type": "instrument_ramassage",
+      "date_debut": "2026-11-23T09:00:00",
+      "date_fin": "2026-11-23T10:00:00",
+      "commentaires": "Reprise du pupitre d'art et du matériel d'estrade",
+      "commentaires_prod": "Pierre Desrochers.",
+      "gcal_id": "evt_221_gcal",
+      "id_lieu": 3
+    }
+  ],
+  "evenement_transferts": [
+    {
+      "id_evenement": 101,
+      "id_lieu_destination": 4,
+      "duree": "00:45:00"
+    },
+    {
+      "id_evenement": 102,
+      "id_lieu_destination": 1,
+      "duree": "00:15:00"
+    },
+    {
+      "id_evenement": 201,
+      "id_lieu_destination": 4,
+      "duree": "00:20:00"
+    }
+  ],
+  "participants": [
+    { "id_utilisateur": 7, "id_evenement": 101, "manager": true },
+    { "id_utilisateur": 15, "id_evenement": 101, "manager": false },
+    { "id_utilisateur": 8, "id_evenement": 102, "manager": true },
+    { "id_utilisateur": 15, "id_evenement": 102, "manager": false },
+    { "id_utilisateur": 6, "id_evenement": 103, "manager": true },
+    { "id_utilisateur": 3, "id_evenement": 103, "manager": false },
+    { "id_utilisateur": 5, "id_evenement": 104, "manager": true },
+    { "id_utilisateur": 3, "id_evenement": 105, "manager": true },
+    { "id_utilisateur": 12, "id_evenement": 105, "manager": false },
+    { "id_utilisateur": 4, "id_evenement": 106, "manager": true },
+    { "id_utilisateur": 3, "id_evenement": 107, "manager": true },
+    { "id_utilisateur": 15, "id_evenement": 107, "manager": false },
+    { "id_utilisateur": 4, "id_evenement": 108, "manager": true },
+    { "id_utilisateur": 2, "id_evenement": 109, "manager": true },
+    { "id_utilisateur": 13, "id_evenement": 109, "manager": false },
+    { "id_utilisateur": 17, "id_evenement": 110, "manager": true },
+    { "id_utilisateur": 12, "id_evenement": 110, "manager": false },
+    { "id_utilisateur": 2, "id_evenement": 111, "manager": true },
+    { "id_utilisateur": 10, "id_evenement": 112, "manager": true },
+    { "id_utilisateur": 9, "id_evenement": 113, "manager": true },
+    { "id_utilisateur": 1, "id_evenement": 113, "manager": false },
+    { "id_utilisateur": 9, "id_evenement": 114, "manager": true },
+    { "id_utilisateur": 3, "id_evenement": 115, "manager": true },
+    { "id_utilisateur": 4, "id_evenement": 116, "manager": true },
+    { "id_utilisateur": 10, "id_evenement": 117, "manager": true },
+    { "id_utilisateur": 2, "id_evenement": 118, "manager": true },
+    { "id_utilisateur": 2, "id_evenement": 119, "manager": true },
+    { "id_utilisateur": 6, "id_evenement": 120, "manager": true },
+    { "id_utilisateur": 15, "id_evenement": 121, "manager": true },
+    { "id_utilisateur": 18, "id_evenement": 122, "manager": true },
+    { "id_utilisateur": 18, "id_evenement": 123, "manager": true },
+    { "id_utilisateur": 8, "id_evenement": 201, "manager": true },
+    { "id_utilisateur": 14, "id_evenement": 201, "manager": false },
+    { "id_utilisateur": 6, "id_evenement": 202, "manager": true },
+    { "id_utilisateur": 5, "id_evenement": 203, "manager": true },
+    { "id_utilisateur": 3, "id_evenement": 204, "manager": true },
+    { "id_utilisateur": 14, "id_evenement": 204, "manager": false },
+    { "id_utilisateur": 3, "id_evenement": 205, "manager": true },
+    { "id_utilisateur": 3, "id_evenement": 206, "manager": true },
+    { "id_utilisateur": 4, "id_evenement": 207, "manager": true },
+    { "id_utilisateur": 4, "id_evenement": 208, "manager": true },
+    { "id_utilisateur": 4, "id_evenement": 209, "manager": true },
+    { "id_utilisateur": 14, "id_evenement": 210, "manager": true },
+    { "id_utilisateur": 9, "id_evenement": 211, "manager": true },
+    { "id_utilisateur": 9, "id_evenement": 212, "manager": true },
+    { "id_utilisateur": 10, "id_evenement": 213, "manager": true },
+    { "id_utilisateur": 10, "id_evenement": 214, "manager": true },
+    { "id_utilisateur": 18, "id_evenement": 215, "manager": true },
+    { "id_utilisateur": 17, "id_evenement": 216, "manager": true },
+    { "id_utilisateur": 2, "id_evenement": 217, "manager": true },
+    { "id_utilisateur": 2, "id_evenement": 218, "manager": true },
+    { "id_utilisateur": 2, "id_evenement": 219, "manager": true },
+    { "id_utilisateur": 2, "id_evenement": 220, "manager": true },
+    { "id_utilisateur": 6, "id_evenement": 221, "manager": true }
+  ],
+  "concerts": [
+    {
+      "id": 1,
+      "nom": "Messe en si mineur BWV 232 - Bach Collegium Japan & Masaaki Suzuki",
+      "date": "2026-11-21T19:30:00",
+      "duree": "02:15:00",
+      "id_lieu": 1,
+      "formation": "Masaaki Suzuki (Direction & Clavecin), Bach Collegium Japan (Orchestre baroque 28 musiciens & Chœur 20 chanteurs), 4 solistes vocaux internationaux",
+      "scene_besoin": "Estrade chœur 4 gradins, 32 pupitres en bois avec lampes chaudes LED autonomes, 2 clavecins flamands (ou 1 clavecin + 1 orgue positif au centre de l'orchestre), accord baroque à 415 Hz.",
+      "scene_plan": "Orchestre baroque sur instruments d'époque à l'avant-scène en fer à cheval. Chœur en gradins au centre-arrière. Solistes placés entre le chef et le premier rang de cordes.",
+      "scene_commentaires": "Accès direct plateau pour le maestro depuis la loge d'honneur. Climatisation stable obligatoire pour la tenue d'accord des instruments en boyaux.",
+      "id_scene_montage": 105,
+      "id_scene_demontage": 115,
+      "id_son_verification": 107,
+      "eclairage_besoin": "Éclairage chaleureux et sobre mettant en valeur les boiseries de la Maison symphonique. Intensité modérée sans éblouissement pour les partitions du chœur.",
+      "eclairage_commentaires": "Pas de changement d'intensité brusque entre les mouvements de l'œuvre.",
+      "id_eclairage_montage": 106,
+      "id_eclairage_demontage": 116,
+      "id_eclairage_verification": 108,
+      "logistique": "4 bouteilles d'eau Eska à température ambiante sur les pupitres des solistes, mouchoirs en soie en coulisse, serviettes noires.",
+      "id_repetition": 121,
+      "id_porte_ouverture": 113,
+      "id_porte_fermeture": 114,
+      "id_cocktail_installation": 112,
+      "id_cocktail_rangement": 117,
+      "id_marchandise_montage": 122,
+      "id_marchandise_demontage": 123,
+      "id_bistro_montage": 111,
+      "id_bistro_demontage": 118
+    },
+    {
+      "id": 2,
+      "nom": "L'Intégrale des Suites pour violoncelle seul (Vol. 1) - Jean-Guihen Queyras",
+      "date": "2026-11-22T20:00:00",
+      "duree": "01:35:00",
+      "id_lieu": 3,
+      "formation": "Jean-Guihen Queyras (Violoncelle Gioffredo Cappa 1696 & archet baroque)",
+      "scene_besoin": "Silence total dans la nef de la chapelle, estrade en bois d'harmonie 2x2m au centre du chœur, pupitre d'art en chêne massif, température maintenue à 21°C et 50% d'humidité.",
+      "scene_plan": "Violoncelle seul au cœur de la Chapelle Notre-Dame-de-Bon-Secours, tourné vers la nef avec résonance naturelle sous la voûte historique.",
+      "scene_commentaires": "Couper la ventilation et cloches de la chapelle 15 min avant le début du concert.",
+      "id_scene_montage": 205,
+      "id_scene_demontage": 206,
+      "id_son_verification": 204,
+      "eclairage_besoin": "Éclairage à la bougie LED dans la nef, mise en valeur des statues et découpe douce et dorée sur le violoncelliste.",
+      "eclairage_commentaires": "Ambiance nocturne et méditative.",
+      "id_eclairage_montage": 207,
+      "id_eclairage_demontage": 208,
+      "id_eclairage_verification": 209,
+      "logistique": "Miroir et fer à repasser dans la sacristie, eau chaude avec miel et citron à disposition.",
+      "id_repetition": 210,
+      "id_porte_ouverture": 211,
+      "id_porte_fermeture": 212,
+      "id_cocktail_installation": 213,
+      "id_cocktail_rangement": 214,
+      "id_marchandise_montage": 215,
+      "id_marchandise_demontage": 216,
+      "id_bistro_montage": 217,
+      "id_bistro_demontage": 218
+    }
+  ],
+  "artist_concerts": [
+    { "id_artist": 1, "id_concert": 1 },
+    { "id_artist": 2, "id_concert": 2 }
+  ],
+  "instrument_concerts": [
+    {
+      "id": 1,
+      "id_concert": 1,
+      "name": "Clavecin flamand à deux claviers (Copie Ruckers / Taskin)",
+      "id_instrument_livraison": 103,
+      "id_instrument_ramassage": 120,
+      "id_instrument_accordage": 104
+    },
+    {
+      "id": 2,
+      "id_concert": 1,
+      "name": "Orgue positif de chambre (Continuo 4 jeux)",
+      "id_instrument_livraison": 103,
+      "id_instrument_ramassage": 120,
+      "id_instrument_accordage": 104
+    },
+    {
+      "id": 3,
+      "id_concert": 2,
+      "name": "Pupitre soliste baroque d'époque et estrade en bois d'harmonie",
+      "id_instrument_livraison": 202,
+      "id_instrument_ramassage": 221,
+      "id_instrument_accordage": 203
+    }
+  ],
+  "loge_concerts": [
+    {
+      "id": 1,
+      "id_concert": 1,
+      "id_artist": 1,
+      "nom": "Loge d'Honneur des Maîtres (Masaaki Suzuki & Solistes)",
+      "id_loge_installation": 109,
+      "id_loge_rangement": 119
+    },
+    {
+      "id": 2,
+      "id_concert": 2,
+      "id_artist": 2,
+      "nom": "Loge Sacristie Artiste (Jean-Guihen Queyras)",
+      "id_loge_installation": 219,
+      "id_loge_rangement": 220
+    }
+  ],
+  "transport_concerts": [
+    { "id_concert": 1, "id_transport": 101 },
+    { "id_concert": 1, "id_transport": 102 },
+    { "id_concert": 2, "id_transport": 201 }
+  ]
+}
