@@ -1,49 +1,215 @@
 {
   "users": [
-    { "id": 1, "prenom": "François", "nom": "Gagnon", "email": "f.gagnon@bachmontreal.com" },
-    { "id": 2, "prenom": "Geneviève", "nom": "Tremblay", "email": "g.tremblay@bachmontreal.com" },
-    { "id": 3, "prenom": "Mathieu", "nom": "Bouchard", "email": "m.bouchard@scenedirect.ca" },
-    { "id": 4, "prenom": "Étienne", "nom": "Lavigne", "email": "e.lavigne@eclairage-spectacle.ca" },
-    { "id": 5, "prenom": "Jean-Luc", "nom": "Belhumeur", "email": "jl.belhumeur@clavecin-orgue.qc.ca" },
-    { "id": 6, "prenom": "Pierre", "nom": "Desrochers", "email": "p.desrochers@transport-instruments-mtl.ca" },
-    { "id": 7, "prenom": "Marc-André", "nom": "Côté", "email": "ma.cote@navettes-vip-mtl.ca" },
-    { "id": 8, "prenom": "Simon", "nom": "Beaulieu", "email": "s.beaulieu@navettes-vip-mtl.ca" },
-    { "id": 9, "prenom": "Véronique", "nom": "Lavoie", "email": "v.lavoie@bachmontreal.com" },
-    { "id": 10, "prenom": "Charles", "nom": "Archambault", "email": "charles@terroir-traiteur-mtl.ca" },
-    { "id": 11, "prenom": "Stéphanie", "nom": "Roy", "email": "stephanie@photos-classique.ca" },
-    { "id": 12, "prenom": "Guillaume", "nom": "Morin", "email": "g.morin@benevole-fbm.ca" },
-    { "id": 13, "prenom": "Catherine", "nom": "Dufour", "email": "c.dufour@benevole-fbm.ca" },
-    { "id": 14, "prenom": "Jean-Guihen", "nom": "Queyras", "email": "mgmt@queyras-violoncelle.com" },
-    { "id": 15, "prenom": "Masaaki", "nom": "Suzuki", "email": "office@bachcollegiumjapan.org" },
-    { "id": 16, "prenom": "Olivier", "nom": "Latry", "email": "latry.organist@notredame-paris.fr" },
-    { "id": 17, "prenom": "Isabelle", "nom": "Fortin", "email": "i.fortin@bachmontreal.com" },
-    { "id": 18, "prenom": "Maxime", "nom": "Pelletier", "email": "m.pelletier@bachmontreal.com" },
-    { "id": 19, "prenom": "Chantal", "nom": "Lafond", "email": "c.lafond@bachmontreal.com" },
-    { "id": 20, "prenom": "Marc", "nom": "Boucher", "email": "m.boucher@bachmontreal.com" }
+    {
+      "id": 1,
+      "prenom": "François",
+      "nom": "Gagnon",
+      "email": "f.gagnon@bachmontreal.com"
+    },
+    {
+      "id": 2,
+      "prenom": "Geneviève",
+      "nom": "Tremblay",
+      "email": "g.tremblay@bachmontreal.com"
+    },
+    {
+      "id": 3,
+      "prenom": "Mathieu",
+      "nom": "Bouchard",
+      "email": "m.bouchard@scenedirect.ca"
+    },
+    {
+      "id": 4,
+      "prenom": "Étienne",
+      "nom": "Lavigne",
+      "email": "e.lavigne@eclairage-spectacle.ca"
+    },
+    {
+      "id": 5,
+      "prenom": "Jean-Luc",
+      "nom": "Belhumeur",
+      "email": "jl.belhumeur@clavecin-orgue.qc.ca"
+    },
+    {
+      "id": 6,
+      "prenom": "Pierre",
+      "nom": "Desrochers",
+      "email": "p.desrochers@transport-instruments-mtl.ca"
+    },
+    {
+      "id": 7,
+      "prenom": "Marc-André",
+      "nom": "Côté",
+      "email": "ma.cote@navettes-vip-mtl.ca"
+    },
+    {
+      "id": 8,
+      "prenom": "Simon",
+      "nom": "Beaulieu",
+      "email": "s.beaulieu@navettes-vip-mtl.ca"
+    },
+    {
+      "id": 9,
+      "prenom": "Véronique",
+      "nom": "Lavoie",
+      "email": "v.lavoie@bachmontreal.com"
+    },
+    {
+      "id": 10,
+      "prenom": "Charles",
+      "nom": "Archambault",
+      "email": "charles@terroir-traiteur-mtl.ca"
+    },
+    {
+      "id": 11,
+      "prenom": "Stéphanie",
+      "nom": "Roy",
+      "email": "stephanie@photos-classique.ca"
+    },
+    {
+      "id": 12,
+      "prenom": "Guillaume",
+      "nom": "Morin",
+      "email": "g.morin@benevole-fbm.ca"
+    },
+    {
+      "id": 13,
+      "prenom": "Catherine",
+      "nom": "Dufour",
+      "email": "c.dufour@benevole-fbm.ca"
+    },
+    {
+      "id": 14,
+      "prenom": "Jean-Guihen",
+      "nom": "Queyras",
+      "email": "mgmt@queyras-violoncelle.com"
+    },
+    {
+      "id": 15,
+      "prenom": "Masaaki",
+      "nom": "Suzuki",
+      "email": "office@bachcollegiumjapan.org"
+    },
+    {
+      "id": 16,
+      "prenom": "Olivier",
+      "nom": "Latry",
+      "email": "latry.organist@notredame-paris.fr"
+    },
+    {
+      "id": 17,
+      "prenom": "Isabelle",
+      "nom": "Fortin",
+      "email": "i.fortin@bachmontreal.com"
+    },
+    {
+      "id": 18,
+      "prenom": "Maxime",
+      "nom": "Pelletier",
+      "email": "m.pelletier@bachmontreal.com"
+    },
+    {
+      "id": 19,
+      "prenom": "Chantal",
+      "nom": "Lafond",
+      "email": "c.lafond@bachmontreal.com"
+    },
+    {
+      "id": 20,
+      "prenom": "Marc",
+      "nom": "Boucher",
+      "email": "m.boucher@bachmontreal.com"
+    }
   ],
   "user_roles": [
-    { "id_utilisateur": 1, "role": "directeur_production" },
-    { "id_utilisateur": 2, "role": "coordinateur_logistique" },
-    { "id_utilisateur": 3, "role": "fournisseur_scene" },
-    { "id_utilisateur": 3, "role": "referant_technique" },
-    { "id_utilisateur": 4, "role": "fournisseur_lumiere" },
-    { "id_utilisateur": 5, "role": "accordeur" },
-    { "id_utilisateur": 6, "role": "location_instrument" },
-    { "id_utilisateur": 6, "role": "transporteur_instrument" },
-    { "id_utilisateur": 7, "role": "chauffeur" },
-    { "id_utilisateur": 8, "role": "chauffeur" },
-    { "id_utilisateur": 9, "role": "referant_salle" },
-    { "id_utilisateur": 10, "role": "traiteur" },
-    { "id_utilisateur": 11, "role": "photographe" },
-    { "id_utilisateur": 12, "role": "bénévole" },
-    { "id_utilisateur": 13, "role": "bénévole" },
-    { "id_utilisateur": 14, "role": "artiste" },
-    { "id_utilisateur": 15, "role": "artiste" },
-    { "id_utilisateur": 16, "role": "artiste" },
-    { "id_utilisateur": 17, "role": "responsable_billetterie" },
-    { "id_utilisateur": 18, "role": "responsable_marketing" },
-    { "id_utilisateur": 19, "role": "directeur_artistique" },
-    { "id_utilisateur": 20, "role": "directeur_excecutif" }
+    {
+      "id_utilisateur": 1,
+      "role": "directeur_production"
+    },
+    {
+      "id_utilisateur": 2,
+      "role": "coordinateur_logistique"
+    },
+    {
+      "id_utilisateur": 3,
+      "role": "fournisseur_scene"
+    },
+    {
+      "id_utilisateur": 3,
+      "role": "referant_technique"
+    },
+    {
+      "id_utilisateur": 4,
+      "role": "fournisseur_lumiere"
+    },
+    {
+      "id_utilisateur": 5,
+      "role": "accordeur"
+    },
+    {
+      "id_utilisateur": 6,
+      "role": "location_instrument"
+    },
+    {
+      "id_utilisateur": 6,
+      "role": "transporteur_instrument"
+    },
+    {
+      "id_utilisateur": 7,
+      "role": "chauffeur"
+    },
+    {
+      "id_utilisateur": 8,
+      "role": "chauffeur"
+    },
+    {
+      "id_utilisateur": 9,
+      "role": "referant_salle"
+    },
+    {
+      "id_utilisateur": 10,
+      "role": "traiteur"
+    },
+    {
+      "id_utilisateur": 11,
+      "role": "photographe"
+    },
+    {
+      "id_utilisateur": 12,
+      "role": "bénévole"
+    },
+    {
+      "id_utilisateur": 13,
+      "role": "bénévole"
+    },
+    {
+      "id_utilisateur": 14,
+      "role": "artiste"
+    },
+    {
+      "id_utilisateur": 15,
+      "role": "artiste"
+    },
+    {
+      "id_utilisateur": 16,
+      "role": "artiste"
+    },
+    {
+      "id_utilisateur": 17,
+      "role": "responsable_billetterie"
+    },
+    {
+      "id_utilisateur": 18,
+      "role": "responsable_marketing"
+    },
+    {
+      "id_utilisateur": 19,
+      "role": "directeur_artistique"
+    },
+    {
+      "id_utilisateur": 20,
+      "role": "directeur_excecutif"
+    }
   ],
   "lieux": [
     {
@@ -104,10 +270,22 @@
     }
   ],
   "artists": [
-    { "id": 1, "name": "Bach Collegium Japan (Dir. Masaaki Suzuki)" },
-    { "id": 2, "name": "Jean-Guihen Queyras (Violoncelle baroque)" },
-    { "id": 3, "name": "Olivier Latry (Grand Orgue)" },
-    { "id": 4, "name": "Ensemble Caprice & Chœur du Festival Bach" }
+    {
+      "id": 1,
+      "name": "Bach Collegium Japan (Dir. Masaaki Suzuki)"
+    },
+    {
+      "id": 2,
+      "name": "Jean-Guihen Queyras (Violoncelle baroque)"
+    },
+    {
+      "id": 3,
+      "name": "Olivier Latry (Grand Orgue)"
+    },
+    {
+      "id": 4,
+      "name": "Ensemble Caprice & Chœur du Festival Bach"
+    }
   ],
   "evenements": [
     {
@@ -118,7 +296,9 @@
       "commentaires": "Arrivée vol Tokyo-Montréal AC006 : Accueil Maestro Masaaki Suzuki & solistes (6 pers.)",
       "commentaires_prod": "Chauffeur Marc-André Côté. Sprinter VIP FIBM. Dépose directe à l'Hôtel Fairmont Le Reine Élizabeth.",
       "gcal_id": "evt_101_gcal",
-      "id_lieu": 5
+      "id_lieu": 5,
+      "id_festival": 1,
+      "summary": "Accueil aéroport VIP Masaaki Suzuki (AC006)"
     },
     {
       "id": 102,
@@ -128,7 +308,9 @@
       "commentaires": "Transfert Fairmont -> Maison symphonique (Maestro Suzuki & Chœur)",
       "commentaires_prod": "Accès quai de déchargement rue Saint-Urbain.",
       "gcal_id": "evt_102_gcal",
-      "id_lieu": 4
+      "id_lieu": 4,
+      "id_festival": 1,
+      "summary": "Navette Fairmont -> Maison symphonique"
     },
     {
       "id": 103,
@@ -138,7 +320,9 @@
       "commentaires": "Livraison Clavecin flamand double clavier (copie Ruckers) & Orgue positif de continuo",
       "commentaires_prod": "Transporteur Pierre Desrochers. Contrôle hygrométrie à 45% dans la salle.",
       "gcal_id": "evt_103_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Livraison clavecin Ruckers & orgue positif"
     },
     {
       "id": 104,
@@ -148,7 +332,9 @@
       "commentaires": "Accordage clavecin et positif baroque au diapason La = 415 Hz (Tempérament Valotti)",
       "commentaires_prod": "Accordeur spécialiste Jean-Luc Belhumeur. Silence total exigé sur le plateau.",
       "gcal_id": "evt_104_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Accordage clavecin et positif (La = 415 Hz)"
     },
     {
       "id": 105,
@@ -158,7 +344,9 @@
       "commentaires": "Mise en place estrade chœur 4 niveaux, pupitres baroques en bois et chaises d'orchestre",
       "commentaires_prod": "Régisseur Mathieu Bouchard. 32 pupitres avec lampes LED à température chaude 2700K.",
       "gcal_id": "evt_105_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Montage estrade chœur & pupitres baroques"
     },
     {
       "id": 106,
@@ -168,7 +356,9 @@
       "commentaires": "Installation découpes solistes, éclairage feutré boiseries et projecteurs d'ambiance chœur",
       "commentaires_prod": "Éclairagiste Étienne Lavigne. Respecter la charte visuelle sobre du Festival Bach.",
       "gcal_id": "evt_106_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Installation découpes & éclairage chœur"
     },
     {
       "id": 107,
@@ -178,7 +368,9 @@
       "commentaires": "Raccord acoustique & balances micros pour captation Radio-Canada / Mezzo",
       "commentaires_prod": "Couple stéréo DPA suspendu + micros d'appoint solistes voix et trompette naturelle.",
       "gcal_id": "evt_107_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Balances acoustiques & captation Radio-Canada"
     },
     {
       "id": 108,
@@ -188,7 +380,9 @@
       "commentaires": "Vérification des niveaux lumineux sur les partitions de continuo et solistes",
       "commentaires_prod": "Validation avec Maestro Suzuki lors de la répétition générale.",
       "gcal_id": "evt_108_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Répétition générale Messe en si mineur"
     },
     {
       "id": 109,
@@ -198,7 +392,9 @@
       "commentaires": "Préparation Loge Maestro Suzuki : thé vert Sencha, fruits frais, bouteilles d'eau Eska, miroir en pied",
       "commentaires_prod": "Geneviève Tremblay. Repassage frac et chemises de concert.",
       "gcal_id": "evt_109_gcal",
-      "id_lieu": 8
+      "id_lieu": 8,
+      "id_festival": 1,
+      "summary": "Préparation Loge d Honneur Maestro Suzuki"
     },
     {
       "id": 110,
@@ -208,7 +404,9 @@
       "commentaires": "Ouverture du comptoir festivalier, retrait billets abonnés et gestion des invitations VIP",
       "commentaires_prod": "Isabelle Fortin. 4 postes de scan billets PDA.",
       "gcal_id": "evt_110_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Ouverture des portes & contrôle billets"
     },
     {
       "id": 111,
@@ -218,7 +416,9 @@
       "commentaires": "Mise en place bar Foyer d'honneur : Vins d'Alsace & d'Allemagne, cidres du Québec et eau minérale",
       "commentaires_prod": "Équipe bénévoles + responsable F&B FIBM.",
       "gcal_id": "evt_111_gcal",
-      "id_lieu": 7
+      "id_lieu": 7,
+      "id_festival": 1,
+      "summary": "Mise en place bar & champagne d accueil"
     },
     {
       "id": 112,
@@ -228,7 +428,9 @@
       "commentaires": "Mise en place cocktail d'honneur Grands Donateurs & Conseil d'Administration du Festival",
       "commentaires_prod": "Traiteur Terroir Montréal Charles Archambault (150 convives). Bouchées fines du Québec.",
       "gcal_id": "evt_112_gcal",
-      "id_lieu": 7
+      "id_lieu": 7,
+      "id_festival": 1,
+      "summary": "Service cocktail VIP donateurs & mécènes"
     },
     {
       "id": 113,
@@ -238,7 +440,9 @@
       "commentaires": "Ouverture des portes de la Maison symphonique au public",
       "commentaires_prod": "Distribution des programmes de salle FIBM 2026 par les bénévoles.",
       "gcal_id": "evt_113_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Fermeture des portes & fin de soirée"
     },
     {
       "id": 114,
@@ -248,7 +452,9 @@
       "commentaires": "Clôture de la salle après les rappels et évacuation du public",
       "commentaires_prod": "Coordination accueil salle Véronique Lavoie.",
       "gcal_id": "evt_114_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Démontage structure & estrades chœur"
     },
     {
       "id": 115,
@@ -258,7 +464,9 @@
       "commentaires": "Démontage des gradins chœur, rangement pupitres et houssage des instruments à clavier",
       "commentaires_prod": "Mathieu Bouchard. Température de la salle maintenue pour la nuit.",
       "gcal_id": "evt_105_dem_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Démontage projecteurs & découpes scéniques"
     },
     {
       "id": 116,
@@ -268,7 +476,9 @@
       "commentaires": "Descente des découpes d'appoint et rangement des câblages",
       "commentaires_prod": "Étienne Lavigne.",
       "gcal_id": "evt_116_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Nettoyage et rangement loges des maîtres"
     },
     {
       "id": 117,
@@ -278,7 +488,9 @@
       "commentaires": "Nettoyage du Foyer d'honneur et reprise du matériel traiteur",
       "commentaires_prod": "Charles Archambault Traiteur.",
       "gcal_id": "evt_117_gcal",
-      "id_lieu": 7
+      "id_lieu": 7,
+      "id_festival": 1,
+      "summary": "Rangement et débarrassage traiteur VIP"
     },
     {
       "id": 118,
@@ -288,7 +500,9 @@
       "commentaires": "Fermeture du bar et inventaire des caisses boissons",
       "commentaires_prod": "Bénévoles FIBM.",
       "gcal_id": "evt_118_gcal",
-      "id_lieu": 7
+      "id_lieu": 7,
+      "id_festival": 1,
+      "summary": "Clôture et inventaire caisse bistro"
     },
     {
       "id": 119,
@@ -298,7 +512,9 @@
       "commentaires": "Fermeture et vérification des loges des maîtres après dédicaces",
       "commentaires_prod": "Geneviève Tremblay.",
       "gcal_id": "evt_119_gcal",
-      "id_lieu": 8
+      "id_lieu": 8,
+      "id_festival": 1,
+      "summary": "Rangement loges artistes solistes"
     },
     {
       "id": 120,
@@ -308,7 +524,9 @@
       "commentaires": "Reprise et transport sous couverture thermique du clavecin et du positif",
       "commentaires_prod": "Pierre Desrochers / Transport Spécialisé Montréal.",
       "gcal_id": "evt_120_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Ramassage et transport clavecin flamand"
     },
     {
       "id": 121,
@@ -318,7 +536,9 @@
       "commentaires": "Répétition générale solistes & chœur pour la Messe en si mineur BWV 232",
       "commentaires_prod": "Présence de la directrice artistique Chantal Lafond.",
       "gcal_id": "evt_121_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Inventaire retour matériel d orchestre"
     },
     {
       "id": 122,
@@ -328,7 +548,9 @@
       "commentaires": "Mise en place de la boutique FIBM : Intégrale Bach Suzuki (CDs BIS), livres du festival et vinyles",
       "commentaires_prod": "Maxime Pelletier / Responsable Marketing.",
       "gcal_id": "evt_122_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Mise en place stand disques & programmes"
     },
     {
       "id": 123,
@@ -338,7 +560,9 @@
       "commentaires": "Clôture de la boutique, inventaire des ventes de disques et mise sous clé",
       "commentaires_prod": "Maxime Pelletier.",
       "gcal_id": "evt_123_gcal",
-      "id_lieu": 1
+      "id_lieu": 1,
+      "id_festival": 1,
+      "summary": "Inventaire et fermeture stand disques"
     },
     {
       "id": 201,
@@ -348,7 +572,9 @@
       "commentaires": "Accueil Jean-Guihen Queyras à la Gare Centrale VIA Rail (en provenance de Québec)",
       "commentaires_prod": "Chauffeur Simon Beaulieu. Berline VIP FIBM avec espace sécurisé violoncelle.",
       "gcal_id": "evt_201_gcal",
-      "id_lieu": 6
+      "id_lieu": 6,
+      "id_festival": 1,
+      "summary": "Accueil gare VIP Jean-Guihen Queyras"
     },
     {
       "id": 202,
@@ -358,7 +584,9 @@
       "commentaires": "Livraison pupitre soliste ancien en chêne et estrade en bois d'harmonie",
       "commentaires_prod": "Installation dans le chœur de la Chapelle Notre-Dame-de-Bon-Secours.",
       "gcal_id": "evt_202_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Livraison pupitre soliste d époque"
     },
     {
       "id": 203,
@@ -368,7 +596,9 @@
       "commentaires": "Stabilisation hygrométrique et vérification de l'archet baroque & cordes boyaux",
       "commentaires_prod": "Contrôle de l'humidité relative dans la chapelle (maintien à 50%).",
       "gcal_id": "evt_203_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Accordage et mise en température violoncelle"
     },
     {
       "id": 204,
@@ -378,7 +608,9 @@
       "commentaires": "Essais acoustiques Suites pour violoncelle seul dans la nef de Bon-Secours",
       "commentaires_prod": "Test réverbération naturelle pour diffusion live Radio-Classique.",
       "gcal_id": "evt_204_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Balances acoustiques Chapelle Bon-Secours"
     },
     {
       "id": 205,
@@ -388,7 +620,9 @@
       "commentaires": "Installation podium soliste et tapis acoustique sous le violoncelle",
       "commentaires_prod": "Mathieu Bouchard. Aucun câble visible dans l'axe de la nef.",
       "gcal_id": "evt_205_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Installation estrade bois harmonie 2x2m"
     },
     {
       "id": 206,
@@ -398,7 +632,9 @@
       "commentaires": "Démontage estrade soliste et remise en état des lieux de culte",
       "commentaires_prod": "Équipe FIBM.",
       "gcal_id": "evt_206_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Démontage estrade et remise en état nef"
     },
     {
       "id": 207,
@@ -408,7 +644,9 @@
       "commentaires": "Mise en valeur de la voûte et éclairage doux à la bougie LED pour récital nocturne",
       "commentaires_prod": "Étienne Lavigne. Projecteurs autonomes sans fils sur batterie.",
       "gcal_id": "evt_207_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Installation bougies LED & découpe dorée"
     },
     {
       "id": 208,
@@ -418,7 +656,9 @@
       "commentaires": "Démontage des projecteurs autonomes et rangement flight-cases",
       "commentaires_prod": "Étienne Lavigne.",
       "gcal_id": "evt_208_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Démontage projecteurs chapelle"
     },
     {
       "id": 209,
@@ -428,7 +668,9 @@
       "commentaires": "Calage des intensités pour la pénombre de la chapelle",
       "commentaires_prod": "Accord avec Jean-Guihen Queyras.",
       "gcal_id": "evt_209_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Calage éclairage nocturne soliste"
     },
     {
       "id": 210,
@@ -438,7 +680,9 @@
       "commentaires": "Raccord partition Suites BWV 1007, 1008 et 1011",
       "commentaires_prod": "Artiste seul en répétition acoustique.",
       "gcal_id": "evt_210_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Répétition acoustique Suites violoncelle"
     },
     {
       "id": 211,
@@ -448,7 +692,9 @@
       "commentaires": "Accueil du public à la Chapelle Bon-Secours dans le Vieux-Montréal",
       "commentaires_prod": "Placement par rangées numérotées.",
       "gcal_id": "evt_211_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Ouverture chapelle & placement public"
     },
     {
       "id": 212,
@@ -458,7 +704,9 @@
       "commentaires": "Fermeture des portes de la chapelle après séance de dédicaces",
       "commentaires_prod": "Véronique Lavoie.",
       "gcal_id": "evt_212_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Fermeture des portes & extinction nef"
     },
     {
       "id": 213,
@@ -468,7 +716,9 @@
       "commentaires": "Installation vin chaud aux épices et tisanes bio sous les voûtes de la crypte",
       "commentaires_prod": "Charles Archambault Traiteur (80 convives).",
       "gcal_id": "evt_213_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Installation vin d honneur sacristie"
     },
     {
       "id": 214,
@@ -478,7 +728,9 @@
       "commentaires": "Rangement espace crypte",
       "commentaires_prod": "Charles Archambault.",
       "gcal_id": "evt_214_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Rangement et nettoyage sacristie"
     },
     {
       "id": 215,
@@ -488,7 +740,9 @@
       "commentaires": "Mise en place table dédicaces & intégrale des Suites chez Harmonia Mundi",
       "commentaires_prod": "Bénévoles Guillaume & Catherine.",
       "gcal_id": "evt_215_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Mise en place vente intégrale CD violoncelle"
     },
     {
       "id": 216,
@@ -498,7 +752,9 @@
       "commentaires": "Comptage recettes et clôture boutique éphémère",
       "commentaires_prod": "Isabelle Fortin.",
       "gcal_id": "evt_216_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Rangement stand disques CD violoncelle"
     },
     {
       "id": 217,
@@ -508,7 +764,9 @@
       "commentaires": "Installation point rafraîchissement d'entracte",
       "commentaires_prod": "Équipe FIBM.",
       "gcal_id": "evt_217_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Installation buffet convivial bénévoles"
     },
     {
       "id": 218,
@@ -518,7 +776,9 @@
       "commentaires": "Rangement point rafraîchissement",
       "commentaires_prod": "Équipe FIBM.",
       "gcal_id": "evt_218_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Rangement buffet bénévoles"
     },
     {
       "id": 219,
@@ -528,7 +788,9 @@
       "commentaires": "Aménagement sacristie en loge d'artiste : fauteuil confortable, humidificateur d'air, thé au gingembre",
       "commentaires_prod": "Geneviève Tremblay.",
       "gcal_id": "evt_219_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Préparation loge sacristie violoncelliste"
     },
     {
       "id": 220,
@@ -538,7 +800,9 @@
       "commentaires": "Remise en état de la sacristie",
       "commentaires_prod": "Geneviève Tremblay.",
       "gcal_id": "evt_220_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Rangement loge sacristie violoncelliste"
     },
     {
       "id": 221,
@@ -548,7 +812,9 @@
       "commentaires": "Reprise du pupitre d'art et du matériel d'estrade",
       "commentaires_prod": "Pierre Desrochers.",
       "gcal_id": "evt_221_gcal",
-      "id_lieu": 3
+      "id_lieu": 3,
+      "id_festival": 1,
+      "summary": "Ramassage pupitre d époque & estrade"
     }
   ],
   "evenement_transferts": [
@@ -569,60 +835,276 @@
     }
   ],
   "participants": [
-    { "id_utilisateur": 7, "id_evenement": 101, "manager": true },
-    { "id_utilisateur": 15, "id_evenement": 101, "manager": false },
-    { "id_utilisateur": 8, "id_evenement": 102, "manager": true },
-    { "id_utilisateur": 15, "id_evenement": 102, "manager": false },
-    { "id_utilisateur": 6, "id_evenement": 103, "manager": true },
-    { "id_utilisateur": 3, "id_evenement": 103, "manager": false },
-    { "id_utilisateur": 5, "id_evenement": 104, "manager": true },
-    { "id_utilisateur": 3, "id_evenement": 105, "manager": true },
-    { "id_utilisateur": 12, "id_evenement": 105, "manager": false },
-    { "id_utilisateur": 4, "id_evenement": 106, "manager": true },
-    { "id_utilisateur": 3, "id_evenement": 107, "manager": true },
-    { "id_utilisateur": 15, "id_evenement": 107, "manager": false },
-    { "id_utilisateur": 4, "id_evenement": 108, "manager": true },
-    { "id_utilisateur": 2, "id_evenement": 109, "manager": true },
-    { "id_utilisateur": 13, "id_evenement": 109, "manager": false },
-    { "id_utilisateur": 17, "id_evenement": 110, "manager": true },
-    { "id_utilisateur": 12, "id_evenement": 110, "manager": false },
-    { "id_utilisateur": 2, "id_evenement": 111, "manager": true },
-    { "id_utilisateur": 10, "id_evenement": 112, "manager": true },
-    { "id_utilisateur": 9, "id_evenement": 113, "manager": true },
-    { "id_utilisateur": 1, "id_evenement": 113, "manager": false },
-    { "id_utilisateur": 9, "id_evenement": 114, "manager": true },
-    { "id_utilisateur": 3, "id_evenement": 115, "manager": true },
-    { "id_utilisateur": 4, "id_evenement": 116, "manager": true },
-    { "id_utilisateur": 10, "id_evenement": 117, "manager": true },
-    { "id_utilisateur": 2, "id_evenement": 118, "manager": true },
-    { "id_utilisateur": 2, "id_evenement": 119, "manager": true },
-    { "id_utilisateur": 6, "id_evenement": 120, "manager": true },
-    { "id_utilisateur": 15, "id_evenement": 121, "manager": true },
-    { "id_utilisateur": 18, "id_evenement": 122, "manager": true },
-    { "id_utilisateur": 18, "id_evenement": 123, "manager": true },
-    { "id_utilisateur": 8, "id_evenement": 201, "manager": true },
-    { "id_utilisateur": 14, "id_evenement": 201, "manager": false },
-    { "id_utilisateur": 6, "id_evenement": 202, "manager": true },
-    { "id_utilisateur": 5, "id_evenement": 203, "manager": true },
-    { "id_utilisateur": 3, "id_evenement": 204, "manager": true },
-    { "id_utilisateur": 14, "id_evenement": 204, "manager": false },
-    { "id_utilisateur": 3, "id_evenement": 205, "manager": true },
-    { "id_utilisateur": 3, "id_evenement": 206, "manager": true },
-    { "id_utilisateur": 4, "id_evenement": 207, "manager": true },
-    { "id_utilisateur": 4, "id_evenement": 208, "manager": true },
-    { "id_utilisateur": 4, "id_evenement": 209, "manager": true },
-    { "id_utilisateur": 14, "id_evenement": 210, "manager": true },
-    { "id_utilisateur": 9, "id_evenement": 211, "manager": true },
-    { "id_utilisateur": 9, "id_evenement": 212, "manager": true },
-    { "id_utilisateur": 10, "id_evenement": 213, "manager": true },
-    { "id_utilisateur": 10, "id_evenement": 214, "manager": true },
-    { "id_utilisateur": 18, "id_evenement": 215, "manager": true },
-    { "id_utilisateur": 17, "id_evenement": 216, "manager": true },
-    { "id_utilisateur": 2, "id_evenement": 217, "manager": true },
-    { "id_utilisateur": 2, "id_evenement": 218, "manager": true },
-    { "id_utilisateur": 2, "id_evenement": 219, "manager": true },
-    { "id_utilisateur": 2, "id_evenement": 220, "manager": true },
-    { "id_utilisateur": 6, "id_evenement": 221, "manager": true }
+    {
+      "id_utilisateur": 7,
+      "id_evenement": 101,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 15,
+      "id_evenement": 101,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 8,
+      "id_evenement": 102,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 15,
+      "id_evenement": 102,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 6,
+      "id_evenement": 103,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 3,
+      "id_evenement": 103,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 5,
+      "id_evenement": 104,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 3,
+      "id_evenement": 105,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 12,
+      "id_evenement": 105,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 4,
+      "id_evenement": 106,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 3,
+      "id_evenement": 107,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 15,
+      "id_evenement": 107,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 4,
+      "id_evenement": 108,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 2,
+      "id_evenement": 109,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 13,
+      "id_evenement": 109,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 17,
+      "id_evenement": 110,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 12,
+      "id_evenement": 110,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 2,
+      "id_evenement": 111,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 10,
+      "id_evenement": 112,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 9,
+      "id_evenement": 113,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 1,
+      "id_evenement": 113,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 9,
+      "id_evenement": 114,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 3,
+      "id_evenement": 115,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 4,
+      "id_evenement": 116,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 10,
+      "id_evenement": 117,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 2,
+      "id_evenement": 118,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 2,
+      "id_evenement": 119,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 6,
+      "id_evenement": 120,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 15,
+      "id_evenement": 121,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 18,
+      "id_evenement": 122,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 18,
+      "id_evenement": 123,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 8,
+      "id_evenement": 201,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 14,
+      "id_evenement": 201,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 6,
+      "id_evenement": 202,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 5,
+      "id_evenement": 203,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 3,
+      "id_evenement": 204,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 14,
+      "id_evenement": 204,
+      "manager": false
+    },
+    {
+      "id_utilisateur": 3,
+      "id_evenement": 205,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 3,
+      "id_evenement": 206,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 4,
+      "id_evenement": 207,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 4,
+      "id_evenement": 208,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 4,
+      "id_evenement": 209,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 14,
+      "id_evenement": 210,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 9,
+      "id_evenement": 211,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 9,
+      "id_evenement": 212,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 10,
+      "id_evenement": 213,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 10,
+      "id_evenement": 214,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 18,
+      "id_evenement": 215,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 17,
+      "id_evenement": 216,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 2,
+      "id_evenement": 217,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 2,
+      "id_evenement": 218,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 2,
+      "id_evenement": 219,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 2,
+      "id_evenement": 220,
+      "manager": true
+    },
+    {
+      "id_utilisateur": 6,
+      "id_evenement": 221,
+      "manager": true
+    }
   ],
   "concerts": [
     {
@@ -652,7 +1134,8 @@
       "id_marchandise_montage": 122,
       "id_marchandise_demontage": 123,
       "id_bistro_montage": 111,
-      "id_bistro_demontage": 118
+      "id_bistro_demontage": 118,
+      "id_festival": 1
     },
     {
       "id": 2,
@@ -681,12 +1164,19 @@
       "id_marchandise_montage": 215,
       "id_marchandise_demontage": 216,
       "id_bistro_montage": 217,
-      "id_bistro_demontage": 218
+      "id_bistro_demontage": 218,
+      "id_festival": 1
     }
   ],
   "artist_concerts": [
-    { "id_artist": 1, "id_concert": 1 },
-    { "id_artist": 2, "id_concert": 2 }
+    {
+      "id_artist": 1,
+      "id_concert": 1
+    },
+    {
+      "id_artist": 2,
+      "id_concert": 2
+    }
   ],
   "instrument_concerts": [
     {
@@ -733,8 +1223,31 @@
     }
   ],
   "transport_concerts": [
-    { "id_concert": 1, "id_transport": 101 },
-    { "id_concert": 1, "id_transport": 102 },
-    { "id_concert": 2, "id_transport": 201 }
+    {
+      "id_concert": 1,
+      "id_transport": 101
+    },
+    {
+      "id_concert": 1,
+      "id_transport": 102
+    },
+    {
+      "id_concert": 2,
+      "id_transport": 201
+    }
+  ],
+  "festivals": [
+    {
+      "id": 1,
+      "year": "2026"
+    },
+    {
+      "id": 2,
+      "year": "2025"
+    },
+    {
+      "id": 3,
+      "year": "2024"
+    }
   ]
 }

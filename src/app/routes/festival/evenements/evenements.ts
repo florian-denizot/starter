@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { EvenementType, Participant, User } from '@core/models/festival.model';
+import { EvenementType, Festival, Participant, User } from '@core/models/festival.model';
 import { FestivalDataService, HydratedEvenement } from '@core/services/festival-data.service';
 import { MtxDialog } from '@ng-matero/extensions/dialog';
 import { MtxGridColumn, MtxGridModule } from '@ng-matero/extensions/grid';
@@ -48,12 +48,14 @@ export class EvenementsComponent implements OnInit {
   list: HydratedEvenement[] = [];
   filteredList: HydratedEvenement[] = [];
   users: User[] = [];
+  festivals: Festival[] = [];
   isLoading = true;
 
   // Filters
   searchQuery = '';
   selectedType: EvenementType | '' = '';
   selectedUserId: number | null = null;
+  selectedFestivalId: number | null = null;
   dateFrom = '';
   dateTo = '';
 
@@ -94,6 +96,12 @@ export class EvenementsComponent implements OnInit {
       field: 'id',
       sortable: true,
       width: '65px',
+    },
+    {
+      header: this.translate.stream('festival.summary'),
+      field: 'summary',
+      sortable: true,
+      minWidth: 220,
     },
     {
       header: this.translate.stream('festival.type'),
@@ -143,6 +151,7 @@ export class EvenementsComponent implements OnInit {
 
   ngOnInit() {
     this.festivalSrv.getUsers().subscribe(u => (this.users = u));
+    this.festivalSrv.getFestivals().subscribe(f => (this.festivals = f));
     this.loadData();
   }
 
@@ -161,9 +170,10 @@ export class EvenementsComponent implements OnInit {
     const q = this.searchQuery.trim().toLowerCase();
 
     this.filteredList = this.list.filter(evt => {
-      // 1. Text Search
+      // 1. Text Search (summary, type, comments, prod comments, lieu name, destination, participants)
       let matchQuery = true;
       if (q) {
+        const summaryMatch = evt.summary?.toLowerCase().includes(q);
         const typeMatch = evt.type.toLowerCase().includes(q);
         const commentsMatch = evt.commentaires?.toLowerCase().includes(q);
         const commentsProdMatch = evt.commentaires_prod?.toLowerCase().includes(q);
@@ -173,6 +183,7 @@ export class EvenementsComponent implements OnInit {
           p => p.user?.prenom.toLowerCase().includes(q) || p.user?.nom.toLowerCase().includes(q)
         );
         matchQuery = !!(
+          summaryMatch ||
           typeMatch ||
           commentsMatch ||
           commentsProdMatch ||
@@ -185,12 +196,15 @@ export class EvenementsComponent implements OnInit {
       // 2. Type Filter
       const matchType = !this.selectedType || evt.type === this.selectedType;
 
-      // 3. User Filter
+      // 3. Festival Filter
+      const matchFestival = !this.selectedFestivalId || evt.id_festival === this.selectedFestivalId;
+
+      // 4. User Filter
       const matchUser =
         !this.selectedUserId ||
         evt.participantsList.some(p => p.id_utilisateur === this.selectedUserId);
 
-      // 4. Date From Filter
+      // 5. Date From Filter
       let matchDateFrom = true;
       if (this.dateFrom) {
         const fromDate = new Date(this.dateFrom).setHours(0, 0, 0, 0);
@@ -198,7 +212,7 @@ export class EvenementsComponent implements OnInit {
         matchDateFrom = evtDate >= fromDate;
       }
 
-      // 5. Date To Filter
+      // 6. Date To Filter
       let matchDateTo = true;
       if (this.dateTo) {
         const toDate = new Date(this.dateTo).setHours(23, 59, 59, 999);
@@ -207,7 +221,7 @@ export class EvenementsComponent implements OnInit {
         matchDateTo = evtDate <= toDate;
       }
 
-      return matchQuery && matchType && matchUser && matchDateFrom && matchDateTo;
+      return matchQuery && matchType && matchFestival && matchUser && matchDateFrom && matchDateTo;
     });
   }
 
@@ -215,6 +229,7 @@ export class EvenementsComponent implements OnInit {
     return !!(
       this.searchQuery.trim() ||
       this.selectedType ||
+      this.selectedFestivalId ||
       this.selectedUserId ||
       this.dateFrom ||
       this.dateTo
@@ -224,6 +239,7 @@ export class EvenementsComponent implements OnInit {
   resetFilters() {
     this.searchQuery = '';
     this.selectedType = '';
+    this.selectedFestivalId = null;
     this.selectedUserId = null;
     this.dateFrom = '';
     this.dateTo = '';
@@ -287,12 +303,10 @@ export class EvenementsComponent implements OnInit {
   }
 
   deleteEvenement(evt: HydratedEvenement) {
-    this.mtxDialog.confirm(
-      this.translate.instant('confirm_delete'),
-      `#${evt.id} - ${this.translate.instant('festival.event_types.' + evt.type)}`,
-      () => {
-        this.festivalSrv.deleteEvenement(evt.id).subscribe(() => this.loadData());
-      }
-    );
+    const title =
+      evt.summary || `#${evt.id} - ${this.translate.instant('festival.event_types.' + evt.type)}`;
+    this.mtxDialog.confirm(this.translate.instant('confirm_delete'), title, () => {
+      this.festivalSrv.deleteEvenement(evt.id).subscribe(() => this.loadData());
+    });
   }
 }

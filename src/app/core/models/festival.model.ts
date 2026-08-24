@@ -51,6 +51,11 @@ export type EvenementType =
 
 export type LieuType = 'aeroport' | 'gare' | 'salle_concert' | 'hotel' | 'autre';
 
+export interface Festival {
+  id: number;
+  year: string;
+}
+
 export interface User {
   id: number;
   prenom: string;
@@ -79,7 +84,9 @@ export interface Lieu {
 
 export interface Evenement {
   id: number;
+  summary?: string;
   type: EvenementType;
+  id_festival?: number;
   date_debut: string; // ISO 8601 string or YYYY-MM-DDTHH:mm:ss
   date_fin: string;
   commentaires: string;
@@ -106,6 +113,7 @@ export interface ArtistConcert {
 
 export interface Concert {
   id: number;
+  id_festival?: number;
   nom: string;
   date: string;
   duree: string;
@@ -158,6 +166,7 @@ export interface TransportConcert {
 }
 
 export interface FestivalDataset {
+  festivals: Festival[];
   users: User[];
   user_roles: UserRoleRecord[];
   lieux: Lieu[];

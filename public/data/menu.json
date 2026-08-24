@@ -25,6 +25,12 @@
       "icon": "music_note"
     },
     {
+      "route": "festival/festivals",
+      "name": "festival.festivals",
+      "type": "link",
+      "icon": "celebration"
+    },
+    {
       "route": "festival/evenements",
       "name": "festival.evenements",
       "type": "link",

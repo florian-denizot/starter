@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { EvenementType, Lieu, User } from '@core/models/festival.model';
+import { EvenementType, Festival, Lieu, User } from '@core/models/festival.model';
 import { FestivalDataService, HydratedEvenement } from '@core/services/festival-data.service';
 import { TranslatePipe } from '@ngx-translate/core';
 import { QuillEditorComponent } from 'ngx-quill';
@@ -27,6 +27,33 @@ export interface EvenementEditDialogData {
     </h2>
     <mat-dialog-content>
       <form [formGroup]="form" class="dialog-form pt-8">
+        <!-- Summary Field -->
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'festival.summary' | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="summary"
+            placeholder="Ex: Accueil aéroport VIP Maestro Suzuki"
+          />
+          @if (form.get('summary')?.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Festival Edition Select -->
+        <mat-form-field appearance="outline">
+          <mat-label>{{ 'festival.festival' | translate }}</mat-label>
+          <mat-select formControlName="id_festival">
+            @for (f of festivals; track f.id) {
+              <mat-option [value]="f.id">Édition {{ f.year }}</mat-option>
+            }
+          </mat-select>
+          @if (form.get('id_festival')?.hasError('required')) {
+            <mat-error>{{ 'validation.required' | translate }}</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Event Type -->
         <mat-form-field appearance="outline">
           <mat-label>{{ 'festival.type' | translate }}</mat-label>
           <mat-select formControlName="type">
@@ -41,6 +68,7 @@ export interface EvenementEditDialogData {
           }
         </mat-form-field>
 
+        <!-- Start Datetime -->
         <mat-form-field appearance="outline">
           <mat-label>{{ 'festival.date_debut' | translate }}</mat-label>
           <input matInput type="datetime-local" formControlName="date_debut" />
@@ -56,6 +84,7 @@ export interface EvenementEditDialogData {
           </mat-checkbox>
         </div>
 
+        <!-- End Datetime -->
         <mat-form-field appearance="outline">
           <mat-label>{{ 'festival.date_fin' | translate }}</mat-label>
           <input matInput type="datetime-local" formControlName="date_fin" />
@@ -64,6 +93,7 @@ export interface EvenementEditDialogData {
           }
         </mat-form-field>
 
+        <!-- Venue / Location -->
         <mat-form-field appearance="outline">
           <mat-label>{{ 'festival.lieu' | translate }}</mat-label>
           <mat-select formControlName="id_lieu">
@@ -76,6 +106,7 @@ export interface EvenementEditDialogData {
           }
         </mat-form-field>
 
+        <!-- Transfer Specific Fields -->
         @if (form.get('type')?.value === 'transport') {
           <mat-form-field appearance="outline">
             <mat-label>{{ 'festival.destination' | translate }}</mat-label>
@@ -92,6 +123,7 @@ export interface EvenementEditDialogData {
           </mat-form-field>
         }
 
+        <!-- Managers -->
         <mat-form-field appearance="outline">
           <mat-label>{{ 'festival.managers' | translate }}</mat-label>
           <mat-select formControlName="manager_ids" multiple>
@@ -101,6 +133,7 @@ export interface EvenementEditDialogData {
           </mat-select>
         </mat-form-field>
 
+        <!-- Participants -->
         <mat-form-field appearance="outline">
           <mat-label>{{ 'festival.participants' | translate }}</mat-label>
           <mat-select formControlName="participant_ids" multiple>
@@ -197,6 +230,7 @@ export class EvenementEditDialog implements OnInit {
 
   lieux: Lieu[] = [];
   users: User[] = [];
+  festivals: Festival[] = [];
 
   quillModules = {
     toolbar: [
@@ -239,6 +273,8 @@ export class EvenementEditDialog implements OnInit {
   ];
 
   form = this.fb.group({
+    summary: [this.data.evenement?.summary || '', [Validators.required]],
+    id_festival: [this.data.evenement?.id_festival || 1, [Validators.required]],
     type: [this.data.evenement?.type || 'scene_montage', [Validators.required]],
     date_debut: [
       this.formatDateForInput(this.data.evenement?.date_debut || new Date().toISOString()),
@@ -266,6 +302,12 @@ export class EvenementEditDialog implements OnInit {
   ngOnInit() {
     this.festivalSrv.getLieux().subscribe(l => (this.lieux = l));
     this.festivalSrv.getUsers().subscribe(u => (this.users = u));
+    this.festivalSrv.getFestivals().subscribe(f => {
+      this.festivals = f;
+      if (!this.form.get('id_festival')?.value && f.length > 0) {
+        this.form.patchValue({ id_festival: f[0].id });
+      }
+    });
 
     // Handle no_end_date toggle
     this.form.get('no_end_date')?.valueChanges.subscribe(noEnd => {
@@ -318,6 +360,8 @@ export class EvenementEditDialog implements OnInit {
 
       this.dialogRef.close({
         evenement: {
+          summary: val.summary?.trim() || '',
+          id_festival: Number(val.id_festival),
           type: val.type as EvenementType,
           date_debut: val.date_debut,
           date_fin: val.no_end_date ? '' : val.date_fin || '',

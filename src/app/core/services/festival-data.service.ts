@@ -6,6 +6,7 @@ import {
   Concert,
   Evenement,
   EvenementTransfert,
+  Festival,
   FestivalDataset,
   InstrumentConcert,
   Lieu,
@@ -18,6 +19,7 @@ import {
 
 export interface HydratedEvenement extends Evenement {
   lieu?: Lieu;
+  festival?: Festival;
   transfert?: EvenementTransfert & { destination?: Lieu };
   participantsList: (Participant & { user?: User })[];
 }
@@ -100,6 +102,57 @@ export class FestivalDataService {
     const updated = updater(current);
     this.state$.next(updated);
     this.datasetSignal.set(updated);
+  }
+
+  // ==========================================
+  // FESTIVALS CRUD
+  // ==========================================
+
+  getFestivals(): Observable<Festival[]> {
+    return this.getDataset().pipe(map(d => [...(d.festivals || [])]));
+  }
+
+  getFestivalById(id: number): Observable<Festival | undefined> {
+    return this.getDataset().pipe(map(d => (d.festivals || []).find(f => f.id === id)));
+  }
+
+  addFestival(festival: Omit<Festival, 'id'>): Observable<Festival> {
+    return this.getDataset().pipe(
+      map(data => {
+        const festivals = data.festivals || [];
+        const nextId = Math.max(0, ...festivals.map(f => f.id)) + 1;
+        const newFest: Festival = { ...festival, id: nextId };
+        this.updateState(curr => ({
+          ...curr,
+          festivals: [...(curr.festivals || []), newFest],
+        }));
+        return newFest;
+      })
+    );
+  }
+
+  updateFestival(festival: Festival): Observable<Festival> {
+    return this.getDataset().pipe(
+      map(() => {
+        this.updateState(curr => ({
+          ...curr,
+          festivals: (curr.festivals || []).map(f => (f.id === festival.id ? { ...festival } : f)),
+        }));
+        return festival;
+      })
+    );
+  }
+
+  deleteFestival(id: number): Observable<boolean> {
+    return this.getDataset().pipe(
+      map(() => {
+        this.updateState(curr => ({
+          ...curr,
+          festivals: (curr.festivals || []).filter(f => f.id !== id),
+        }));
+        return true;
+      })
+    );
   }
 
   // ==========================================
@@ -421,6 +474,7 @@ export class FestivalDataService {
       map(data => {
         const userMap = new Map(data.users.map(u => [u.id, u]));
         const lieuMap = new Map(data.lieux.map(l => [l.id, l]));
+        const festivalMap = new Map((data.festivals || []).map(f => [f.id, f]));
         const transfertMap = new Map(data.evenement_transferts.map(t => [t.id_evenement, t]));
 
         return data.evenements.map(evt => {
@@ -435,6 +489,7 @@ export class FestivalDataService {
           return {
             ...evt,
             lieu: lieuMap.get(evt.id_lieu),
+            festival: evt.id_festival ? festivalMap.get(evt.id_festival) : undefined,
             transfert: trans
               ? {
                   ...trans,

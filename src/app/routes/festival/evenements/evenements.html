@@ -40,15 +40,27 @@
                 placeholder="{{ 'please_enter' | translate }}..."
               />
               @if (searchQuery) {
-              <button
-                matSuffix
-                mat-icon-button
-                aria-label="Clear"
-                (click)="searchQuery = ''; filterList()"
-              >
-                <mat-icon>close</mat-icon>
-              </button>
+                <button
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="searchQuery = ''; filterList()"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
               }
+            </mat-form-field>
+
+            <!-- Festival Edition Filter -->
+            <mat-form-field appearance="outline" class="filter-item" subscriptSizing="dynamic">
+              <mat-icon matPrefix class="mr-8">celebration</mat-icon>
+              <mat-label>{{ 'festival.filter_by_festival' | translate }}</mat-label>
+              <mat-select [(ngModel)]="selectedFestivalId" (ngModelChange)="filterList()">
+                <mat-option [value]="null">{{ 'festival.all_festivals' | translate }}</mat-option>
+                @for (f of festivals; track f.id) {
+                  <mat-option [value]="f.id">Édition {{ f.year }}</mat-option>
+                }
+              </mat-select>
             </mat-form-field>
 
             <!-- Event Type Filter -->
@@ -58,7 +70,7 @@
               <mat-select [(ngModel)]="selectedType" (ngModelChange)="filterList()">
                 <mat-option value="">{{ 'festival.all_event_types' | translate }}</mat-option>
                 @for (t of eventTypes; track t) {
-                <mat-option [value]="t"> {{ 'festival.event_types.' + t | translate }} </mat-option>
+                  <mat-option [value]="t"> {{ 'festival.event_types.' + t | translate }} </mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -70,7 +82,7 @@
               <mat-select [(ngModel)]="selectedUserId" (ngModelChange)="filterList()">
                 <mat-option [value]="null">{{ 'festival.all_users' | translate }}</mat-option>
                 @for (u of users; track u.id) {
-                <mat-option [value]="u.id">{{ u.prenom }} {{ u.nom }}</mat-option>
+                  <mat-option [value]="u.id">{{ u.prenom }} {{ u.nom }}</mat-option>
                 }
               </mat-select>
             </mat-form-field>
@@ -91,10 +103,10 @@
 
             <!-- Reset Button -->
             @if (hasActiveFilters()) {
-            <button mat-stroked-button color="warn" (click)="resetFilters()">
-              <mat-icon>filter_alt_off</mat-icon>
-              {{ 'festival.reset_filters' | translate }}
-            </button>
+              <button mat-stroked-button color="warn" (click)="resetFilters()">
+                <mat-icon>filter_alt_off</mat-icon>
+                {{ 'festival.reset_filters' | translate }}
+              </button>
             }
           </div>
         </div>
@@ -115,6 +127,7 @@
           [pageSize]="10"
           [pageSizeOptions]="[5, 10, 20, 50]"
           [cellTemplate]="{
+            summary: summaryTpl,
             type: typeTpl,
             date_debut: horairesTpl,
             lieu: lieuTpl,
@@ -129,6 +142,16 @@
     </mat-card>
   </div>
 </div>
+
+<!-- Summary Column -->
+<ng-template #summaryTpl let-row>
+  <div class="d-flex flex-column py-4">
+    <span class="font-weight-bold" style="font-size: 13px">{{ row.summary || '-' }}</span>
+    @if (row.festival) {
+      <small class="text-muted">Édition {{ row.festival.year }}</small>
+    }
+  </div>
+</ng-template>
 
 <ng-template #typeTpl let-row>
   <div class="d-flex flex-column gap-2 py-4">
@@ -173,12 +196,12 @@
 <ng-template #managersTpl let-row>
   <div class="d-flex flex-wrap gap-4 py-4">
     @for (p of getManagers(row); track p.id_utilisateur) {
-    <div class="manager-badge">
-      <mat-icon class="manager-icon">star</mat-icon>
-      <span>{{ p.user?.prenom }} {{ p.user?.nom }}</span>
-    </div>
+      <div class="manager-badge">
+        <mat-icon class="manager-icon">star</mat-icon>
+        <span>{{ p.user?.prenom }} {{ p.user?.nom }}</span>
+      </div>
     } @if (getManagers(row).length === 0) {
-    <span class="text-muted font-italic">-</span>
+      <span class="text-muted font-italic">-</span>
     }
   </div>
 </ng-template>
@@ -187,11 +210,11 @@
 <ng-template #participantsTpl let-row>
   <div class="d-flex flex-wrap gap-4 py-4">
     @for (p of getNonManagers(row); track p.id_utilisateur) {
-    <div class="participant-badge">
-      <span>{{ p.user?.prenom }} {{ p.user?.nom }}</span>
-    </div>
+      <div class="participant-badge">
+        <span>{{ p.user?.prenom }} {{ p.user?.nom }}</span>
+      </div>
     } @if (getNonManagers(row).length === 0) {
-    <span class="text-muted font-italic">-</span>
+      <span class="text-muted font-italic">-</span>
     }
   </div>
 </ng-template>

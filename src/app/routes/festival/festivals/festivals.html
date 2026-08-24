@@ -1,0 +1,108 @@
+<page-header
+  title="{{ 'festival.festivals_title' | translate }}"
+  subtitle="{{ 'festival.festivals_subtitle' | translate }}"
+/>
+
+<div class="row">
+  <div class="col-12">
+    <mat-card>
+      <mat-card-header class="d-flex justify-content-between align-items-center mb-16">
+        <mat-card-title>
+          <div class="d-flex align-items-center gap-8">
+            <mat-icon color="primary">celebration</mat-icon>
+            <span>{{ 'festival.festivals_title' | translate }}</span>
+            <mat-chip highlighted color="accent" class="ml-8">
+              {{ filteredList.length }} / {{ list.length }}
+            </mat-chip>
+          </div>
+        </mat-card-title>
+        <button mat-flat-button color="primary" (click)="openAddDialog()">
+          <mat-icon>add</mat-icon>
+          {{ 'festival.add_festival' | translate }}
+        </button>
+      </mat-card-header>
+
+      <mat-card-content>
+        <!-- Filter Bar -->
+        <div class="filter-panel p-16 mb-16 rounded bg-surface-container-low border">
+          <div class="d-flex flex-wrap gap-12 align-items-center">
+            <mat-form-field
+              appearance="outline"
+              class="filter-item-search"
+              subscriptSizing="dynamic"
+            >
+              <mat-icon matPrefix class="mr-8">search</mat-icon>
+              <input
+                matInput
+                [(ngModel)]="searchQuery"
+                (ngModelChange)="filterList()"
+                placeholder="{{ 'please_enter' | translate }}..."
+              />
+              @if (searchQuery) {
+                <button
+                  matSuffix
+                  mat-icon-button
+                  aria-label="Clear"
+                  (click)="searchQuery = ''; filterList()"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              }
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- MtxGrid Table -->
+        <mtx-grid
+          [data]="filteredList"
+          [columns]="columns"
+          [loading]="isLoading"
+          [showToolbar]="true"
+          [columnHideable]="true"
+          [columnHideableChecked]="'show'"
+          [columnPinnable]="true"
+          [columnSortable]="true"
+          [columnResizable]="true"
+          [showColumnMenuButton]="true"
+          [showPaginator]="true"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+          [cellTemplate]="{
+            year: yearTpl,
+            actions: actionsTpl
+          }"
+        />
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<ng-template #yearTpl let-row>
+  <div class="py-4">
+    <span class="year-badge">
+      <mat-icon class="year-icon">calendar_month</mat-icon>
+      <span>Édition {{ row.year }}</span>
+    </span>
+  </div>
+</ng-template>
+
+<ng-template #actionsTpl let-row>
+  <div class="d-flex align-items-center gap-4">
+    <button
+      mat-icon-button
+      color="primary"
+      (click)="openEditDialog(row)"
+      [matTooltip]="'edit' | translate"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      color="warn"
+      (click)="deleteFestival(row)"
+      [matTooltip]="'delete' | translate"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</ng-template>
