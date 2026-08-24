@@ -550,7 +550,7 @@
                 </button>
               </div>
 
-              <div class="d-flex flex-column gap-12 mb-16">
+              <div class="transports-list mb-16">
                 @for (tId of form.get('transport_event_ids')?.value; track tId) {
                   @if (getEvent(tId); as transEvt) {
                     <div class="event-card-insert">
@@ -575,10 +575,16 @@
                       </div>
 
                       <div class="event-card-details">
+                        <!-- Schedule -->
                         <div class="detail-row">
                           <mat-icon class="detail-icon">schedule</mat-icon>
-                          <span><strong>Départ :</strong> {{ transEvt.date_debut | date: 'dd/MM/yyyy HH:mm' }}</span>
+                          <span>
+                            <strong>Horaires :</strong> {{ transEvt.date_debut | date: 'dd/MM/yyyy HH:mm' }}
+                            @if (transEvt.date_fin) { - {{ transEvt.date_fin | date: 'HH:mm' }} }
+                          </span>
                         </div>
+
+                        <!-- Route -->
                         <div class="detail-row">
                           <mat-icon class="detail-icon">place</mat-icon>
                           <span>
@@ -589,6 +595,8 @@
                             }
                           </span>
                         </div>
+
+                        <!-- Managers / Drivers -->
                         @if (getManagers(transEvt).length > 0) {
                           <div class="detail-row">
                             <mat-icon class="detail-icon">star</mat-icon>
@@ -603,6 +611,8 @@
                             </div>
                           </div>
                         }
+
+                        <!-- Participants / Passengers -->
                         @if (getNonManagers(transEvt).length > 0) {
                           <div class="detail-row">
                             <mat-icon class="detail-icon">people</mat-icon>
@@ -616,12 +626,25 @@
                             </div>
                           </div>
                         }
+
+                        <!-- Public comments -->
                         @if (transEvt.commentaires) {
                           <div class="detail-row mt-4">
                             <mat-icon class="detail-icon">chat</mat-icon>
                             <div class="w-100">
-                              <strong>Notes :</strong>
+                              <strong>Commentaires publics :</strong>
                               <div class="event-comments-box mt-2" [innerHTML]="transEvt.commentaires | safeHtml"></div>
+                            </div>
+                          </div>
+                        }
+
+                        <!-- Production notes -->
+                        @if (transEvt.commentaires_prod) {
+                          <div class="detail-row mt-4">
+                            <mat-icon class="detail-icon" color="primary">description</mat-icon>
+                            <div class="w-100">
+                              <strong class="text-primary">Notes de production :</strong>
+                              <div class="event-comments-box mt-2" [innerHTML]="transEvt.commentaires_prod | safeHtml"></div>
                             </div>
                           </div>
                         }
@@ -630,7 +653,7 @@
                   }
                 }
                 @if (!form.get('transport_event_ids')?.value?.length) {
-                  <div class="p-24 text-center text-muted border rounded bg-surface-container-low">
+                  <div class="p-24 text-center text-muted border rounded bg-surface-container-low mb-16">
                     Aucune navette ou transport associé à ce concert.
                   </div>
                 }
